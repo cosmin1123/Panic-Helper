@@ -9,5 +9,12 @@
             android:layout_height="wrap_content"
             android:text="Hello World, MainActivity"
             />
+    <Button
+            android:layout_width="150dip"
+            android:id="@+id/button1"
+            android:layout_height="50dip"
+            android:text="Click to say"
+            android:layout_marginRight="10dip">
+    </Button>
 </LinearLayout>
 
