@@ -10,7 +10,12 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.speech.RecognitionService" />
             </intent-filter>
+            <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
         </activity>
+
+        <service android:enabled="true" android:name="detectors.Accelerometer"/>
     </application>
+
 </manifest>
