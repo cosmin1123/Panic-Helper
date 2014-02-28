@@ -10,6 +10,7 @@ import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.util.Log;
 import ninja.PanicHelper.MainActivity;
+import safety.measures.MainAlarm;
 
 public class Accelerometer extends Service implements SensorEventListener{
     private float mAccel; // acceleration apart from gravity
@@ -77,10 +78,7 @@ public class Accelerometer extends Service implements SensorEventListener{
 
             if(mAccel > 1 ) {
 
-                if(!MainActivity.running)
-                    startMainActivity();
-
-
+                startSafetyMeasures();
                 // add here to start safety measures
 
             }
@@ -96,14 +94,7 @@ public class Accelerometer extends Service implements SensorEventListener{
 
     }
 
-    private void startMainActivity(){
-        Intent dialogIntent = new Intent(getBaseContext(), MainActivity.class);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getApplication().startActivity(dialogIntent);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getApplication().startActivity(dialogIntent);
-        MainActivity.running = true;
-    }
+
 
     public static Boolean isServiceRunning() {
         return accelerometerRunning;
@@ -121,5 +112,28 @@ public class Accelerometer extends Service implements SensorEventListener{
         return accelerationService;
     }
 
+    private void startSafetyMeasures() {
+        if(!MainActivity.running)
+            startMainActivity();
+        startAlarm();
+    }
+
+    private void startAlarm() {
+        Intent dialogIntent = new Intent(MainActivity.getAppContext(), MainAlarm.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplication().startActivity(dialogIntent);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplication().startActivity(dialogIntent);
+        MainActivity.running = true;
+    }
+
+    private void startMainActivity(){
+        Intent dialogIntent = new Intent(getBaseContext(), MainActivity.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplication().startActivity(dialogIntent);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplication().startActivity(dialogIntent);
+        MainActivity.running = true;
+    }
 
 }

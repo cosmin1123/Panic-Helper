@@ -1,5 +1,6 @@
 package ninja.PanicHelper;
 
+import android.widget.ImageButton;
 import detectors.Accelerometer;
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import safety.measures.MainAlarm;
 
 public class MainActivity extends Activity {
     /**
@@ -19,17 +21,17 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.main_screen);
 
         c = super.getApplicationContext();
 
         if(Accelerometer.isAccelerationServiceNull())
             Accelerometer.setAccelerationService(new Intent(this, Accelerometer.class));
 
-        Button buttonOne = (Button) findViewById(R.id.button1);
+       ImageButton buttonOne = (ImageButton) findViewById(R.id.imageButton);
         buttonOne.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                toggleService();
+                onHelp();
             }
         });
 
@@ -59,6 +61,14 @@ public class MainActivity extends Activity {
         else{
             stopService(Accelerometer.getAccelerationService());
         }
+    }
+
+    public void onHelp() {
+        Intent dialogIntent = new Intent(MainActivity.getAppContext(), MainAlarm.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplication().startActivity(dialogIntent);
+
+        MainActivity.running = true;
     }
 
 }
