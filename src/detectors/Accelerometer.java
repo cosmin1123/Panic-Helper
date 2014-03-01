@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.util.Log;
 import ninja.PanicHelper.MainActivity;
 import safety.measures.MainAlarm;
+import voice.control.VoiceSay;
 
 public class Accelerometer extends Service implements SensorEventListener{
     private float mAccel; // acceleration apart from gravity
@@ -18,6 +19,8 @@ public class Accelerometer extends Service implements SensorEventListener{
     private float mAccelLast; // last acceleration including gravity
     private static boolean accelerometerRunning = false;
     private static Intent accelerationService = null;
+    private static VoiceSay voice = new VoiceSay();
+    public static boolean fired = false;
 
     boolean flag=false;
     public static final String TAG = "Acceleration";
@@ -113,6 +116,8 @@ public class Accelerometer extends Service implements SensorEventListener{
     }
 
     private void startSafetyMeasures() {
+        voice.speakWords("Panic alarm will start in 30 seconds, please press on the screen or say stop to cancel.");
+        fired = true;
         if(!MainActivity.running)
             startMainActivity();
         startAlarm();
@@ -124,7 +129,6 @@ public class Accelerometer extends Service implements SensorEventListener{
         getApplication().startActivity(dialogIntent);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplication().startActivity(dialogIntent);
-        MainActivity.running = true;
     }
 
     private void startMainActivity(){

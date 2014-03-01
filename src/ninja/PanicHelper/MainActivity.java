@@ -1,6 +1,7 @@
 package ninja.PanicHelper;
 
 import android.widget.ImageButton;
+import configurations.Configurations;
 import detectors.Accelerometer;
 import android.app.Activity;
 import android.content.Context;
@@ -35,6 +36,14 @@ public class MainActivity extends Activity {
             }
         });
 
+        /*
+        ImageButton buttonTwo = (ImageButton) findViewById(R.id.imageButton2);
+        buttonTwo.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                toggleService();
+            }
+        });
+        */
 
     }
 
@@ -47,12 +56,15 @@ public class MainActivity extends Activity {
     public void onStart() {
         super.onStart();
         running = true;
+
+        Configurations.load();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         running = false;
+        Configurations.save();
     }
 
     public void toggleService() {

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import detectors.Accelerometer;
 import ninja.PanicHelper.R;
 
 import java.util.ArrayList;
@@ -42,7 +43,8 @@ public class MainAlarm extends Activity {
 
             public void onTick(long millisUntilFinished) {
                 secondsView.setText("seconds remaining: " + millisUntilFinished / 1000);
-                if((millisUntilFinished / 1000) == 23)
+
+                if((millisUntilFinished / 1000) == 23 && Accelerometer.fired)
                     voiceRecognitionStart();
             }
 
@@ -81,6 +83,12 @@ public class MainAlarm extends Activity {
         }
     }
 
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Accelerometer.fired = false;
+    }
 
 
 
