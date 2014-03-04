@@ -10,6 +10,8 @@ import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.util.Log;
 import ninja.PanicHelper.MainActivity;
+import safety.measures.MainAlarm;
+import voice.control.VoiceSay;
 
 public class Accelerometer extends Service implements SensorEventListener{
     private float mAccel; // acceleration apart from gravity
@@ -17,6 +19,8 @@ public class Accelerometer extends Service implements SensorEventListener{
     private float mAccelLast; // last acceleration including gravity
     private static boolean accelerometerRunning = false;
     private static Intent accelerationService = null;
+    private static VoiceSay voice = new VoiceSay();
+    public static boolean fired = false;
 
     boolean flag=false;
     public static final String TAG = "Acceleration";
@@ -77,10 +81,7 @@ public class Accelerometer extends Service implements SensorEventListener{
 
             if(mAccel > 1 ) {
 
-                if(!MainActivity.running)
-                    startMainActivity();
-
-
+                startSafetyMeasures();
                 // add here to start safety measures
 
             }
@@ -96,14 +97,7 @@ public class Accelerometer extends Service implements SensorEventListener{
 
     }
 
-    private void startMainActivity(){
-        Intent dialogIntent = new Intent(getBaseContext(), MainActivity.class);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getApplication().startActivity(dialogIntent);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getApplication().startActivity(dialogIntent);
-        MainActivity.running = true;
-    }
+
 
     public static Boolean isServiceRunning() {
         return accelerometerRunning;
@@ -121,5 +115,29 @@ public class Accelerometer extends Service implements SensorEventListener{
         return accelerationService;
     }
 
+    private void startSafetyMeasures() {
+        voice.speakWords("Panic alarm will start in 30 seconds, please press on the screen or say stop to cancel.");
+        fired = true;
+        if(!MainActivity.running)
+            startMainActivity();
+        startAlarm();
+    }
+
+    private void startAlarm() {
+        Intent dialogIntent = new Intent(MainActivity.getAppContext(), MainAlarm.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplication().startActivity(dialogIntent);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplication().startActivity(dialogIntent);
+    }
+
+    private void startMainActivity(){
+        Intent dialogIntent = new Intent(getBaseContext(), MainActivity.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplication().startActivity(dialogIntent);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplication().startActivity(dialogIntent);
+        MainActivity.running = true;
+    }
 
 }

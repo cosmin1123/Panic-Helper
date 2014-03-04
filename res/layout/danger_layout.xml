@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent" android:background="@drawable/danger_background"
+              android:id="@+id/dangerLayout">
+
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:text="Danger Detected!"
+            android:id="@+id/danger_title" android:singleLine="false" android:gravity="center_vertical|center_horizontal"
+            android:textSize="50dp" android:textColor="#ffff" android:layout_weight=".30"/>
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:text="The notification system will start in "
+            android:id="@+id/textView" android:layout_weight=".15" android:textColor="#ffff" android:textSize="20dp"
+            android:gravity="center_vertical|center_horizontal"/>
+    <TextView android:layout_width="fill_parent" android:layout_height="0dp"
+              android:text="30 seconds" android:id="@+id/seconds_textView"
+              android:layout_weight=".15" android:textColor="#ffff" android:textSize="20dp"
+              android:gravity="center_horizontal"/>
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:text='Touch the screen or say "Stop" to disable alarm.'
+            android:id="@+id/textView1" android:layout_weight=".30" android:textColor="#ffff" android:textSize="25dp"
+            android:gravity="center_vertical|center_horizontal"/>
+</LinearLayout>
