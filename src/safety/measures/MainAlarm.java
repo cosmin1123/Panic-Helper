@@ -35,7 +35,7 @@ public class MainAlarm extends Activity {
         colorChanged = false;
         secondsRemaining = 30;
 
-        layout.setBackgroundResource(R.drawable.background_animation);
+        layout.setBackgroundResource(R.drawable.danger_background_animation);
         AnimationDrawable animationDrawable = (AnimationDrawable) layout.getBackground();
         animationDrawable.start();
 
