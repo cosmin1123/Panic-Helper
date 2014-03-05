@@ -2,16 +2,19 @@ package ninja.PanicHelper;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.preference.PreferenceActivity;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import configurations.Configurations;
 import detectors.Accelerometer;
 import android.app.Activity;
 import android.content.Context;
@@ -20,6 +23,8 @@ import android.view.View;
 import ninja.PanicHelper.adapter.NavDrawerItem;
 import ninja.PanicHelper.adapter.NavDrawerListAdapter;
 import ninja.PanicHelper.adapter.SettingsFragment;
+import safety.measures.GPSTracker;
+import safety.measures.MainAlarm;
 
 import java.util.ArrayList;
 
@@ -100,8 +105,53 @@ public class MainActivity extends Activity {
             // on first time display view for Home fragment
             displayView(0);
         }
+
+        // initialise and add listeners
+
+
+        initialise();
+
+
+
     }
 
+
+    public void initialise() {
+        c = super.getApplicationContext();
+
+        if(Accelerometer.isAccelerationServiceNull())
+            Accelerometer.setAccelerationService(new Intent(this, Accelerometer.class));
+    }
+
+    public void addListeners() {
+        ImageButton buttonOne = (ImageButton) HomeFragment.getViewById(R.id.imageButton);
+
+        buttonOne.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                onHelp();
+            }
+        });
+
+
+        final GPSTracker gps = new GPSTracker(getAppContext());
+        Button buttonTwo = (Button) HomeFragment.getViewById(R.id.button);
+        buttonTwo.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("GPSTRACK", GPSTracker.getLatitude() + " Latitude");
+                Log.d("GPSTRACK", GPSTracker.getLocationLink() + " Longitude");
+
+            }
+        });
+
+    }
+
+    public void  onHelp() {
+        Intent dialogIntent = new Intent(MainActivity.getAppContext(), MainAlarm.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplication().startActivity(dialogIntent);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplication().startActivity(dialogIntent);
+    }
     /**
      * Slide menu item click listener
      * */
@@ -163,6 +213,7 @@ public class MainActivity extends Activity {
         } else {
             Log.e("MainActivity", "Error in creating fragment");
         }
+
     }
 
     @Override
@@ -199,12 +250,15 @@ public class MainActivity extends Activity {
     public void onStart() {
         super.onStart();
         running = true;
+        Configurations.load();
+        addListeners();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         running = false;
+        Configurations.save();
     }
 
     public void toggleService() {
@@ -214,5 +268,6 @@ public class MainActivity extends Activity {
             stopService(Accelerometer.getAccelerationService());
         }
     }
+
 
 }
