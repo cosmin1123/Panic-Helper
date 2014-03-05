@@ -144,7 +144,7 @@ public class MainActivity extends Activity {
         Button buttonThree = (Button) HomeFragment.getViewById(R.id.button2);
         buttonThree.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                Light.ledon();
+                Light.toggleLed();
 
 
             }
