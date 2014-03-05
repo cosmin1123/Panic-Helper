@@ -6,19 +6,81 @@ import android.util.Log;
 import java.io.*;
 
 public class Configurations implements Serializable{
+
+    private int soundType = 0;
+    private int lightType = 0;
+
     private float gravity = 2.0f;
+    private float buttonAlarmTimer = 30.0f;
+    private float acceleratorAlarmTimer = 30.0f;
+    private float holdAlarmTimer = 2.0f;
+
+
+    private boolean isServiceActivated = false;
+    private boolean sendGPS = false;
+    private boolean silentAlarmButton = false;
+    private boolean lightAlarmButton = false;
+
+    private String buttonMessage = "Mesaj buton";
+    private String acceleratorMessage = "Mesaj accelerometru";
 
     private static Configurations configInstance;
-
 
     public static void setGravity(float newGravity) {
         configInstance.gravity = newGravity;
     }
 
+    public static void setSoundType(int soundType) {
+        configInstance.soundType = soundType;
+    }
+
+    public static void setLightType(int lightType) {
+        configInstance.lightType = lightType;
+    }
+
+    public static void setButtonAlarmTimer(float buttonAlarmTimer) {
+        configInstance.buttonAlarmTimer = buttonAlarmTimer;
+    }
+
+    public static void setAcceleratorAlarmTimer(float acceleratorAlarmTimer) {
+        configInstance.acceleratorAlarmTimer = acceleratorAlarmTimer;
+    }
+
+    public static void setHoldAlarmTimer(float holdAlarmTimer) {
+        configInstance.holdAlarmTimer = holdAlarmTimer;
+    }
+
+    public static void setServiceActivated(boolean isServiceActivated) {
+        configInstance.isServiceActivated = isServiceActivated;
+    }
+
+    public static void setSendGPS(boolean sendGPS) {
+        configInstance.sendGPS = sendGPS;
+    }
+
+    public static void setSilentAlarmButton(boolean silentAlarmButton) {
+        configInstance.silentAlarmButton = silentAlarmButton;
+    }
+
+    public static void setLightAlarmButton(boolean lightAlarmButton) {
+        configInstance.lightAlarmButton = lightAlarmButton;
+    }
+
+    public static void setButtonMessage(String buttonMessage) {
+        configInstance.buttonMessage = buttonMessage;
+    }
+
+    public static void setAcceleratorMessage(String acceleratorMessage) {
+        configInstance.acceleratorMessage = acceleratorMessage;
+    }
+
+    public static void setConfigInstance(Configurations configInstance) {
+        Configurations.configInstance = configInstance;
+    }
+
     public static boolean isAccident(float currentGravity) {
         return currentGravity >= configInstance.gravity;
     }
-
 
     public static void save()
     {
