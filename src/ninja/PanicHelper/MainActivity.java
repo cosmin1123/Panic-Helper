@@ -8,7 +8,8 @@ import android.content.res.TypedArray;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -18,8 +19,10 @@ import detectors.Accelerometer;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 import ninja.PanicHelper.adapter.NavDrawerItem;
 import ninja.PanicHelper.adapter.NavDrawerListAdapter;
+import ninja.PanicHelper.adapter.SettingsFragment;
 import safety.measures.GPSTracker;
 import safety.measures.Light;
 import safety.measures.MainAlarm;
@@ -201,7 +204,9 @@ public class MainActivity extends Activity {
             case 0:
                 fragment = new HomeFragment();
                 break;
-
+            case 1:
+                fragment = new SettingsFragment();
+                break;
             default:
                 break;
         }
