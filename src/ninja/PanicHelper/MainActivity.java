@@ -24,12 +24,23 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_screen);
 
+        initialise();
+        addListeners();
+
+
+
+
+    }
+
+    public void initialise() {
         c = super.getApplicationContext();
 
         if(Accelerometer.isAccelerationServiceNull())
             Accelerometer.setAccelerationService(new Intent(this, Accelerometer.class));
+    }
 
-       ImageButton buttonOne = (ImageButton) findViewById(R.id.imageButton);
+    public void addListeners() {
+        ImageButton buttonOne = (ImageButton) findViewById(R.id.imageButton);
         buttonOne.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 onHelp();
@@ -44,7 +55,6 @@ public class MainActivity extends Activity {
             }
         });
         */
-
     }
 
     public static Context getAppContext() {
