@@ -30,7 +30,7 @@
                 android:id="@+id/imageButton"
                 android:scaleType="fitCenter"
                 android:background="@drawable/button_emergency"
-                />
+                android:cropToPadding="true"/>
     </LinearLayout>
     <TextView
             android:layout_width="fill_parent"

@@ -1,4 +1,4 @@
-package com.the_four_amigos.panic_helper.gps_location_helper;
+package safety.measures;
 
 import android.app.AlertDialog;
 import android.app.Service;
@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
+import ninja.PanicHelper.MainActivity;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,6 +28,7 @@ public class GPSTracker extends Service implements LocationListener {
 
     // flag for GPS status
     boolean isGPSEnabled = false;
+    private static GPSTracker gps = new GPSTracker(MainActivity.getAppContext());
 
     // flag for network status
     boolean isNetworkEnabled = false;
@@ -124,25 +126,30 @@ public class GPSTracker extends Service implements LocationListener {
     /**
      * Function to get latitude
      * */
-    public double getLatitude(){
-        if(location != null){
-            latitude = location.getLatitude();
+    public static double getLatitude(){
+        if(gps.location != null){
+            gps.latitude = gps.location.getLatitude();
         }
 
         // return latitude
-        return latitude;
+        return gps.latitude;
     }
 
     /**
      * Function to get longitude
      * */
-    public double getLongitude(){
-        if(location != null){
-            longitude = location.getLongitude();
+    public static double getLongitude(){
+        if(gps.location != null){
+            gps.longitude = gps.location.getLongitude();
         }
 
         // return longitude
-        return longitude;
+        return gps.longitude;
+    }
+
+    public static String getLocationLink() {
+        return  "https://maps.google.ro/maps?q=" + getLatitude() + "," + getLongitude() + "&z=16";
+
     }
 
     /**
