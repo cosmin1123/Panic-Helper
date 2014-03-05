@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+            android:title = "Car crash service">
+        <CheckBoxPreference
+                android:title = "Service activated" />
+        <SeekBarPreference
+                android:progress="30"
+                android:title="Waiting time "
+                android:key="seekBar"
+                android:max="45">
+        </SeekBarPreference>
+        <EditTextPreference
+                android:title="Car crash message">
+                </EditTextPreference>
+        <CheckBoxPreference
+                android:title = "Include Yell! service" />
+        <CheckBoxPreference
+                android:title = "Include Light service" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title = "Help button settings">
+        <SeekBarPreference
+                android:progress="30"
+                android:title="Waiting time "
+                android:key="seekBar"
+                android:max="45">
+        </SeekBarPreference>
+        <SeekBarPreference
+                android:progress="5"
+                android:title="Hold time"
+                android:key="seekBar"
+                android:max="15">
+        </SeekBarPreference>
+        <EditTextPreference
+                android:title="Help button message">
+        </EditTextPreference>
+        <CheckBoxPreference
+                android:title = "Include Yell! service" />
+        <CheckBoxPreference
+                android:title = "Include Light service" />
+        <CheckBoxPreference
+                android:title = "Send GPS coordinates" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

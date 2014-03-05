@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.preference.PreferenceActivity;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.view.View;
 import ninja.PanicHelper.adapter.NavDrawerItem;
 import ninja.PanicHelper.adapter.NavDrawerListAdapter;
+import ninja.PanicHelper.adapter.SettingsFragment;
 
 import java.util.ArrayList;
 
@@ -141,7 +143,9 @@ public class MainActivity extends Activity {
             case 0:
                 fragment = new HomeFragment();
                 break;
-
+            case 1:
+                fragment = new SettingsFragment();
+                break;
             default:
                 break;
         }
