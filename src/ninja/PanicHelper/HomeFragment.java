@@ -18,12 +18,10 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
-        Log.d("HAHAHA", "HEREE" + fragmentView);
         return fragmentView;
     }
 
     public static View getViewById(int target) {
-        Log.d("HAHAHA", "HEREeee " + fragmentView);
         return fragmentView.findViewById(target);
     }
 
