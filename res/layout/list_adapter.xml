@@ -1,0 +1,23 @@
+<LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/contactNr" android:layout_weight="1" android:gravity="center"/>
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/contactName" android:layout_weight="6" android:gravity="center"/>
+    <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/editButton" android:layout_weight="1.5" android:src="@drawable/ic_edit"
+            android:scaleType="fitCenter"/>
+    <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/deleteButton" android:layout_weight="1.5" android:src="@drawable/ic_delete"
+            android:scaleType="fitCenter"/>
+</LinearLayout>

@@ -1,4 +1,4 @@
-package ninja.PanicHelper.adapter;
+package ninja.PanicHelper;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;

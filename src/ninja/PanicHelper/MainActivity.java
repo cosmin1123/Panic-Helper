@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.view.View;
 import ninja.PanicHelper.adapter.NavDrawerItem;
 import ninja.PanicHelper.adapter.NavDrawerListAdapter;
-import ninja.PanicHelper.adapter.SettingsFragment;
 import safety.measures.GPSTracker;
 import safety.measures.MainAlarm;
 
@@ -195,6 +194,9 @@ public class MainActivity extends Activity {
                 break;
             case 1:
                 fragment = new SettingsFragment();
+                break;
+            case 2:
+                fragment = new EmergencyContactsFragment();
                 break;
             default:
                 break;

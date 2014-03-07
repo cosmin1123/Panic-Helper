@@ -18,6 +18,11 @@
                   android:launchMode="singleTask"
                   android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
         </activity>
+        <activity android:name=".ContactActivity"
+                  android:label="Create Contact"
+                  android:launchMode="singleTask"
+                  android:theme="@style/PanicHelperTheme">
+        </activity>
 
         <service android:enabled="true" android:name="detectors.Accelerometer"/>
     </application>
