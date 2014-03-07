@@ -11,8 +11,8 @@ public class Configurations implements Serializable{
     private int lightType = 0;
 
     private float gravity = 2.0f;
-    private float buttonAlarmTimer = 30.0f;
-    private float acceleratorAlarmTimer = 30.0f;
+    private int buttonAlarmTimer = 30;
+    private int acceleratorAlarmTimer = 30;
     private float holdAlarmTimer = 2.0f;
 
 
@@ -38,12 +38,20 @@ public class Configurations implements Serializable{
         configInstance.lightType = lightType;
     }
 
-    public static void setButtonAlarmTimer(float buttonAlarmTimer) {
+    public static void setButtonAlarmTimer(int buttonAlarmTimer) {
         configInstance.buttonAlarmTimer = buttonAlarmTimer;
     }
 
-    public static void setAcceleratorAlarmTimer(float acceleratorAlarmTimer) {
+    public static int getButtonAlarmTimer() {
+        return configInstance.buttonAlarmTimer;
+    }
+
+    public static void setAcceleratorAlarmTimer(int acceleratorAlarmTimer) {
         configInstance.acceleratorAlarmTimer = acceleratorAlarmTimer;
+    }
+
+    public static int getAcceleratorAlarmTimer() {
+        return configInstance.acceleratorAlarmTimer;
     }
 
     public static void setHoldAlarmTimer(float holdAlarmTimer) {
@@ -53,6 +61,11 @@ public class Configurations implements Serializable{
     public static void setServiceActivated(boolean isServiceActivated) {
         configInstance.isServiceActivated = isServiceActivated;
     }
+
+    public static boolean isServiceActive() {
+        return configInstance.isServiceActivated;
+    }
+
 
     public static void setSendGPS(boolean sendGPS) {
         configInstance.sendGPS = sendGPS;
@@ -108,6 +121,10 @@ public class Configurations implements Serializable{
 
             configInstance = (Configurations)os.readObject();
             os.close();
+
+            if(configInstance == null)
+                configInstance = new Configurations();
+
             Log.d("Write", "Load success");
         } catch (FileNotFoundException e) {
            configInstance = new Configurations();

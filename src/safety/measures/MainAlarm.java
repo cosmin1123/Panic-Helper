@@ -12,8 +12,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import configurations.Configurations;
 import detectors.Accelerometer;
 import ninja.PanicHelper.R;
+import voice.control.VoiceSay;
 
 import java.util.ArrayList;
 
@@ -33,19 +35,24 @@ public class MainAlarm extends Activity {
         secondsView = (TextView) findViewById(R.id.seconds_textView);
         titleView = (TextView) findViewById(R.id.danger_title);
         colorChanged = false;
-        secondsRemaining = 30;
 
         layout.setBackgroundResource(R.drawable.danger_background_animation);
         AnimationDrawable animationDrawable = (AnimationDrawable) layout.getBackground();
         animationDrawable.start();
 
-        new CountDownTimer(30000, 1000) {
+        if(Accelerometer.fired)
+            secondsRemaining = Configurations.getAcceleratorAlarmTimer();
+        else
+            secondsRemaining = Configurations.getButtonAlarmTimer();
+
+        new CountDownTimer(secondsRemaining * 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 secondsView.setText("seconds remaining: " + millisUntilFinished / 1000);
 
-                if((millisUntilFinished / 1000) == 23 && Accelerometer.fired)
-                    voiceRecognitionStart();
+                if((millisUntilFinished / 1000) == 23 && Accelerometer.fired) {
+                    startPanicMeasures();
+                }
             }
 
             public void onFinish() {
@@ -90,6 +97,8 @@ public class MainAlarm extends Activity {
         Accelerometer.fired = false;
     }
 
-
-
+    public void startPanicMeasures() {
+        voiceRecognitionStart();
+        VoiceSay.defaultSafetyScreenMessage();
+    }
 }

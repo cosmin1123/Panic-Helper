@@ -26,6 +26,7 @@ import ninja.PanicHelper.adapter.SettingsFragment;
 import safety.measures.GPSTracker;
 import safety.measures.Light;
 import safety.measures.MainAlarm;
+import voice.control.VoiceSay;
 
 import java.util.ArrayList;
 
@@ -122,6 +123,9 @@ public class MainActivity extends Activity {
 
         if(Accelerometer.isAccelerationServiceNull())
             Accelerometer.setAccelerationService(new Intent(this, Accelerometer.class));
+
+        Configurations.load();
+        VoiceSay.speakWords("");
     }
 
     public void addListeners() {
@@ -138,8 +142,7 @@ public class MainActivity extends Activity {
         Button buttonTwo = (Button) HomeFragment.getViewById(R.id.button);
         buttonTwo.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                Log.d("GPSTRACK", GPSTracker.getLatitude() + " Latitude");
-                Log.d("GPSTRACK", GPSTracker.getLocationLink() + " Longitude");
+                VoiceSay.defaultHelpMessage();
 
             }
         });
@@ -148,12 +151,8 @@ public class MainActivity extends Activity {
         buttonThree.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 Light.toggleLed();
-
-
             }
         });
-
-
     }
 
     public void  onHelp() {
@@ -261,8 +260,24 @@ public class MainActivity extends Activity {
     public void onStart() {
         super.onStart();
         running = true;
-        Configurations.load();
         addListeners();
+        initialiseConfigurations();
+    }
+
+    public void initialiseConfigurations() {
+
+        refreshAccelerationService();
+
+
+    }
+
+    public void refreshAccelerationService() {
+
+        if(Configurations.isServiceActive() && !Accelerometer.isServiceRunning())
+            startService(Accelerometer.getAccelerationService());
+
+        if(!Configurations.isServiceActive() && Accelerometer.isServiceRunning())
+            stopService(Accelerometer.getAccelerationService());
     }
 
     @Override
@@ -270,15 +285,7 @@ public class MainActivity extends Activity {
         super.onStop();
         running = false;
         Configurations.save();
+        VoiceSay.stop();
     }
-
-    public void toggleService() {
-        if(!Accelerometer.isServiceRunning())
-            startService(Accelerometer.getAccelerationService());
-        else{
-            stopService(Accelerometer.getAccelerationService());
-        }
-    }
-
 
 }

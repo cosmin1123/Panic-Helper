@@ -147,6 +147,27 @@ public class GPSTracker extends Service implements LocationListener {
         return gps.longitude;
     }
 
+    public static double getTwoDigitLatitude(){
+        if(gps.location != null){
+            gps.latitude = gps.location.getLatitude();
+        }
+
+        // return latitude
+        return Math.floor(gps.latitude * 100) / 100;
+    }
+
+    /**
+     * Function to get longitude
+     * */
+    public static double getTwoDigitLongitude(){
+        if(gps.location != null){
+            gps.longitude = gps.location.getLongitude();
+        }
+
+        // return longitude
+        return Math.floor(gps.longitude * 100) / 100;
+    }
+
     public static String getLocationLink() {
         return  "https://maps.google.ro/maps?q=" + getLatitude() + "," + getLongitude() + "&z=16";
 
