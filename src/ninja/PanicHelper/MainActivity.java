@@ -23,6 +23,7 @@ import android.view.View;
 import ninja.PanicHelper.adapter.NavDrawerItem;
 import ninja.PanicHelper.adapter.NavDrawerListAdapter;
 import safety.measures.GPSTracker;
+import safety.measures.Light;
 import safety.measures.MainAlarm;
 
 import java.util.ArrayList;
@@ -141,6 +142,16 @@ public class MainActivity extends Activity {
 
             }
         });
+
+        Button buttonThree = (Button) HomeFragment.getViewById(R.id.button2);
+        buttonThree.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                Light.toggleLed();
+
+
+            }
+        });
+
 
     }
 
