@@ -9,7 +9,7 @@ import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.widget.Toast;
 import ninja.PanicHelper.MainActivity;
-import safety.measures.GPSTracker;
+import ninja.PanicHelper.safetyMeasures.GPSTracker;
 
 
 public class VoiceSay implements TextToSpeech.OnInitListener

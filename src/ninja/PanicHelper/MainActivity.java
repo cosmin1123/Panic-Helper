@@ -18,11 +18,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import com.facebook.Request;
-import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.model.GraphUser;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.detectors.Accelerometer;
 import android.app.Activity;
@@ -35,7 +31,6 @@ import ninja.PanicHelper.safetyMeasures.GPSTracker;
 import ninja.PanicHelper.safetyMeasures.Light;
 import ninja.PanicHelper.safetyMeasures.MainAlarm;
 import ninja.PanicHelper.voice.control.VoiceSay;
-import ninja.PanicHelper.voice.control.FacebookAccountFragment;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -160,7 +155,7 @@ public class MainActivity extends Activity {
     }
 
     public void addListeners() {
-        ImageButton buttonOne = (ImageButton) HomeFragment.getViewById(R.id.imageButton);
+        ImageButton buttonOne = (ImageButton) HomeFragment.getViewById(R.id.help_button);
 
         buttonOne.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
@@ -188,8 +183,6 @@ public class MainActivity extends Activity {
 
     public void  onHelp() {
         Intent dialogIntent = new Intent(MainActivity.getAppContext(), MainAlarm.class);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getApplication().startActivity(dialogIntent);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplication().startActivity(dialogIntent);
     }

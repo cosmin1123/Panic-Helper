@@ -27,7 +27,7 @@
         <ImageButton
                 android:layout_width="230dp"
                 android:layout_height="230dp"
-                android:id="@+id/imageButton"
+                android:id="@+id/help_button"
                 android:scaleType="fitCenter"
                 android:background="@drawable/button_emergency"
                 android:cropToPadding="true"/>

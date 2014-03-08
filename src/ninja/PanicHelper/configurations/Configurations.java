@@ -15,6 +15,9 @@ public class Configurations implements Serializable{
     private int acceleratorAlarmTimer = 30;
     private float holdAlarmTimer = 2.0f;
 
+    /* Facebook data */
+    private boolean isLoggedIn = false;
+    private String accessToken = null;
 
     private boolean isServiceActivated = false;
     private boolean sendGPS = false;
@@ -135,5 +138,21 @@ public class Configurations implements Serializable{
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setLoggedIn(boolean isLoggedIn) {
+        this.isLoggedIn = isLoggedIn;
+    }
+
+    public boolean isLoggedIn(){
+        return isLoggedIn;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getAccessToken(){
+        return accessToken;
     }
 }
