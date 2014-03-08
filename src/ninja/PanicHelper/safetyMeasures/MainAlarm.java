@@ -18,6 +18,7 @@ import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.R;
 import org.json.JSONException;
 import org.json.JSONObject;
+import ninja.PanicHelper.voice.control.VoiceSay;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +47,7 @@ public class MainAlarm extends Activity {
         layout.setBackgroundResource(R.drawable.danger_background_animation);
         AnimationDrawable animationDrawable = (AnimationDrawable) layout.getBackground();
         animationDrawable.start();
-        postToWall();
+
         new CountDownTimer(30000, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -54,10 +55,19 @@ public class MainAlarm extends Activity {
 
                 if((millisUntilFinished / 1000) == 23 && Accelerometer.fired)
                     voiceRecognitionStart();
+                if((millisUntilFinished / 1000) == 29 && (Accelerometer.fired ||
+                        !Configurations.getSilentAlarmButton())) {
+
+                    VoiceSay.defaultSafetyScreenMessage();
+                }
+
+                if((millisUntilFinished / 1000) == 23)
+                    voiceRecognitionStart();
             }
 
             public void onFinish() {
                 secondsView.setText("done!");
+                startPanicMeasures();
             }
         }.start();
 
@@ -70,10 +80,12 @@ public class MainAlarm extends Activity {
     }
 
     public void voiceRecognitionStart() {
-        Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
+        Intent voiceRecognition = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        voiceRecognition.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
         try {
-            startActivityForResult(i, 1);
+            startActivityForResult(voiceRecognition, 1);
+
+
         } catch (Exception e) {
             Toast.makeText(this, "Error initializing speech to text engine.", Toast.LENGTH_LONG).show();
         }
@@ -96,6 +108,9 @@ public class MainAlarm extends Activity {
     public void onStop() {
         super.onStop();
         Accelerometer.fired = false;
+
+        VoiceSay.stop();
+        finishActivity(1);
     }
 
     private void postToWall() {
@@ -164,4 +179,7 @@ public class MainAlarm extends Activity {
         return true;
     }
 
+    public void startPanicMeasures() {
+
+    }
 }

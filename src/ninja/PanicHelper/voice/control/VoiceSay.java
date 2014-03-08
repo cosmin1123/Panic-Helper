@@ -16,9 +16,9 @@ public class VoiceSay implements TextToSpeech.OnInitListener
 {
     public TextToSpeech tts;
     private static VoiceSay voice = new VoiceSay();
-    private static String currentlyPlaying = null;
+    private static boolean currentlyPlaying = false;
     private static String defaultSafetyMessage =
-            "Panic alarm will start in 30 seconds, please press on the screen or say stop to cancel.";
+            "Panic alarm will start soon, please press on the screen or say stop to cancel.";
     private static String defaultHelpMessage =
             "Help me, I am at: " + GPSTracker.getTwoDigitLatitude() + " " +
                     "latitude and " + GPSTracker.getTwoDigitLongitude() + " longitude";
@@ -69,14 +69,18 @@ public class VoiceSay implements TextToSpeech.OnInitListener
 
     public static void stop(){
         voice.tts.stop();
-        currentlyPlaying = null;
+        currentlyPlaying = false;
     }
 
     public static void defaultSafetyScreenMessage() {
-        VoiceSay.speakWords(defaultSafetyMessage);
+        speakWords(defaultSafetyMessage);
     }
 
     public static void defaultHelpMessage() {
-        VoiceSay.continouslySpeakWords(defaultHelpMessage);
+        continouslySpeakWords(defaultHelpMessage);
+        if(currentlyPlaying)
+            stop();
+        else
+            currentlyPlaying = true;
     }
 }

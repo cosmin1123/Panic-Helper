@@ -18,6 +18,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import com.facebook.Request;
+import com.facebook.Response;
 import com.facebook.Session;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.detectors.Accelerometer;
@@ -154,35 +156,10 @@ public class MainActivity extends Activity {
         VoiceSay.speakWords("");
     }
 
-    public void addListeners() {
-        ImageButton buttonOne = (ImageButton) HomeFragment.getViewById(R.id.help_button);
-
-        buttonOne.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                onHelp();
-            }
-        });
-
-
-        final GPSTracker gps = new GPSTracker(getAppContext());
-        Button buttonTwo = (Button) HomeFragment.getViewById(R.id.button);
-        buttonTwo.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                VoiceSay.defaultHelpMessage();
-
-            }
-        });
-
-        Button buttonThree = (Button) HomeFragment.getViewById(R.id.button2);
-        buttonThree.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                Light.toggleLed();
-            }
-        });
-    }
-
     public void  onHelp() {
         Intent dialogIntent = new Intent(MainActivity.getAppContext(), MainAlarm.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplication().startActivity(dialogIntent);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplication().startActivity(dialogIntent);
     }
@@ -292,13 +269,33 @@ public class MainActivity extends Activity {
         running = true;
         Configurations.load();
         addListeners();
-        initialiseConfigurations();
-    }
-
-    public void initialiseConfigurations() {
-
         refreshAccelerationService();
 
+    }
+
+    public void addListeners() {
+        ImageButton buttonOne = (ImageButton) HomeFragment.getViewById(R.id.imageButton);
+
+        buttonOne.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                onHelp();
+            }
+        });
+;
+        Button buttonTwo = (Button) HomeFragment.getViewById(R.id.button);
+        buttonTwo.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                VoiceSay.defaultHelpMessage();
+
+            }
+        });
+
+        Button buttonThree = (Button) HomeFragment.getViewById(R.id.button2);
+        buttonThree.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                Light.toggleLed();
+            }
+        });
 
     }
 
