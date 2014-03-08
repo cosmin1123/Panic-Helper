@@ -9,7 +9,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.util.Log;
-import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.MainActivity;
 import ninja.PanicHelper.safetyMeasures.MainAlarm;
 import ninja.PanicHelper.voice.control.VoiceSay;

@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import configurations.Configurations;
 import configurations.Contact;
+import configurations.Configurations;
 
 /**
  * Created by Cataaa on 3/4/14.
@@ -23,7 +23,6 @@ public class HomeFragment extends Fragment {
 
         fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        //initialiseContactTable();
         return fragmentView;
     }
 

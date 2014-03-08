@@ -6,7 +6,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import ninja.PanicHelper.MainActivity;
-import voice.control.VoiceSay;
+import ninja.PanicHelper.voice.control.VoiceSay;
 
 /**
  * Created with IntelliJ IDEA.

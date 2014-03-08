@@ -1,4 +1,4 @@
-package ninja.PanicHelper.configurations;
+package configurations;
 
 import android.os.Environment;
 import android.util.Log;
