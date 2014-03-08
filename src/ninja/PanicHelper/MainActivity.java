@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.view.View;
 import ninja.PanicHelper.adapter.NavDrawerItem;
 import ninja.PanicHelper.adapter.NavDrawerListAdapter;
-import safety.measures.GPSTracker;
 import safety.measures.Light;
 import safety.measures.MainAlarm;
 import voice.control.VoiceSay;
@@ -123,35 +122,7 @@ public class MainActivity extends Activity {
         if(Accelerometer.isAccelerationServiceNull())
             Accelerometer.setAccelerationService(new Intent(this, Accelerometer.class));
 
-        Configurations.load();
         VoiceSay.speakWords("");
-    }
-
-    public void addListeners() {
-        ImageButton buttonOne = (ImageButton) HomeFragment.getViewById(R.id.imageButton);
-
-        buttonOne.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                onHelp();
-            }
-        });
-
-
-        final GPSTracker gps = new GPSTracker(getAppContext());
-        Button buttonTwo = (Button) HomeFragment.getViewById(R.id.button);
-        buttonTwo.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                VoiceSay.defaultHelpMessage();
-
-            }
-        });
-
-        Button buttonThree = (Button) HomeFragment.getViewById(R.id.button2);
-        buttonThree.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                Light.toggleLed();
-            }
-        });
     }
 
     public void  onHelp() {
@@ -263,13 +234,33 @@ public class MainActivity extends Activity {
         super.onStart();
         running = true;
         addListeners();
-        initialiseConfigurations();
-    }
-
-    public void initialiseConfigurations() {
-
         refreshAccelerationService();
 
+    }
+
+    public void addListeners() {
+        ImageButton buttonOne = (ImageButton) HomeFragment.getViewById(R.id.imageButton);
+
+        buttonOne.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                onHelp();
+            }
+        });
+;
+        Button buttonTwo = (Button) HomeFragment.getViewById(R.id.button);
+        buttonTwo.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                VoiceSay.defaultHelpMessage();
+
+            }
+        });
+
+        Button buttonThree = (Button) HomeFragment.getViewById(R.id.button2);
+        buttonThree.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                Light.toggleLed();
+            }
+        });
 
     }
 
@@ -287,7 +278,6 @@ public class MainActivity extends Activity {
         super.onStop();
         running = false;
         Configurations.save();
-        VoiceSay.stop();
     }
 
 }

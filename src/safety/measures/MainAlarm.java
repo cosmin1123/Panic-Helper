@@ -50,13 +50,19 @@ public class MainAlarm extends Activity {
             public void onTick(long millisUntilFinished) {
                 secondsView.setText("seconds remaining: " + millisUntilFinished / 1000);
 
-                if((millisUntilFinished / 1000) == 23 && Accelerometer.fired) {
-                    startPanicMeasures();
+                if((millisUntilFinished / 1000) == 29 && (Accelerometer.fired ||
+                        !Configurations.getSilentAlarmButton())) {
+
+                    VoiceSay.defaultSafetyScreenMessage();
                 }
+
+                if((millisUntilFinished / 1000) == 23)
+                    voiceRecognitionStart();
             }
 
             public void onFinish() {
                 secondsView.setText("done!");
+                startPanicMeasures();
             }
         }.start();
 
@@ -69,10 +75,12 @@ public class MainAlarm extends Activity {
     }
 
     public void voiceRecognitionStart() {
-        Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
+        Intent voiceRecognition = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        voiceRecognition.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
         try {
-            startActivityForResult(i, 1);
+            startActivityForResult(voiceRecognition, 1);
+
+
         } catch (Exception e) {
             Toast.makeText(this, "Error initializing speech to text engine.", Toast.LENGTH_LONG).show();
         }
@@ -95,10 +103,12 @@ public class MainAlarm extends Activity {
     public void onStop() {
         super.onStop();
         Accelerometer.fired = false;
+
+        VoiceSay.stop();
+        finishActivity(1);
     }
 
     public void startPanicMeasures() {
-        voiceRecognitionStart();
-        VoiceSay.defaultSafetyScreenMessage();
+
     }
 }
