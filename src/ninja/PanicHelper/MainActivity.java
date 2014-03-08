@@ -34,6 +34,7 @@ import ninja.PanicHelper.adapter.NavDrawerListAdapter;
 import ninja.PanicHelper.safetyMeasures.GPSTracker;
 import ninja.PanicHelper.safetyMeasures.Light;
 import ninja.PanicHelper.safetyMeasures.MainAlarm;
+import ninja.PanicHelper.voice.control.VoiceSay;
 import ninja.PanicHelper.voice.control.FacebookAccountFragment;
 
 import java.security.MessageDigest;
@@ -124,14 +125,12 @@ public class MainActivity extends Activity {
         initialise();
 
     }
-
     // Override onActivityResult to receive Facebook callback
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
     };
-
     // Debug function for hash key detection required for Facebook SDK
     private void printHashKey(){
         try {
@@ -155,6 +154,9 @@ public class MainActivity extends Activity {
 
         if(Accelerometer.isAccelerationServiceNull())
             Accelerometer.setAccelerationService(new Intent(this, Accelerometer.class));
+
+        Configurations.load();
+        VoiceSay.speakWords("");
     }
 
     public void addListeners() {
@@ -171,8 +173,7 @@ public class MainActivity extends Activity {
         Button buttonTwo = (Button) HomeFragment.getViewById(R.id.button);
         buttonTwo.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                Log.d("GPSTRACK", GPSTracker.getLatitude() + " Latitude");
-                Log.d("GPSTRACK", GPSTracker.getLocationLink() + " Longitude");
+                VoiceSay.defaultHelpMessage();
 
             }
         });
@@ -181,14 +182,8 @@ public class MainActivity extends Activity {
         buttonThree.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 Light.toggleLed();
-
-
             }
         });
-
-
-
-
     }
 
     public void  onHelp() {
@@ -304,6 +299,23 @@ public class MainActivity extends Activity {
         running = true;
         Configurations.load();
         addListeners();
+        initialiseConfigurations();
+    }
+
+    public void initialiseConfigurations() {
+
+        refreshAccelerationService();
+
+
+    }
+
+    public void refreshAccelerationService() {
+
+        if(Configurations.isServiceActive() && !Accelerometer.isServiceRunning())
+            startService(Accelerometer.getAccelerationService());
+
+        if(!Configurations.isServiceActive() && Accelerometer.isServiceRunning())
+            stopService(Accelerometer.getAccelerationService());
     }
 
     @Override
@@ -311,15 +323,7 @@ public class MainActivity extends Activity {
         super.onStop();
         running = false;
         Configurations.save();
+        VoiceSay.stop();
     }
-
-    public void toggleService() {
-        if(!Accelerometer.isServiceRunning())
-            startService(Accelerometer.getAccelerationService());
-        else{
-            stopService(Accelerometer.getAccelerationService());
-        }
-    }
-
 
 }

@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import ninja.PanicHelper.detectors.Accelerometer;
+import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.R;
 
 import java.util.ArrayList;
