@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import configurations.Contact;
-import configurations.Configurations;
+import ninja.PanicHelper.configurations.Contact;
+import ninja.PanicHelper.configurations.Configurations;
 
 /**
  * Created by Cataaa on 3/4/14.

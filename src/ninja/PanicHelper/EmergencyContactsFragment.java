@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import configurations.Configurations;
+import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.adapter.ListAdapter;
 
 /**

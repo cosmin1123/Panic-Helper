@@ -12,7 +12,7 @@ import android.widget.*;
 import ninja.PanicHelper.ContactActivity;
 import ninja.PanicHelper.EmergencyContactsFragment;
 import ninja.PanicHelper.R;
-import configurations.Configurations;
+import ninja.PanicHelper.configurations.Configurations;
 
 public class ListAdapter extends ArrayAdapter<String> {
     private final Context context;

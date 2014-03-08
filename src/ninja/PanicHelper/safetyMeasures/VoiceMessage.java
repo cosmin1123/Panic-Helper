@@ -1,4 +1,4 @@
-package safety.measures;
+package ninja.PanicHelper.safetyMeasures;
 
 import android.content.Intent;
 import android.net.Uri;

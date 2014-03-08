@@ -1,4 +1,4 @@
-package configurations;
+package ninja.PanicHelper.configurations;
 
 import java.io.Serializable;
 

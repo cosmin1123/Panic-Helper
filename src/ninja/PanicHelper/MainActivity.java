@@ -18,8 +18,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import com.facebook.Request;
-import com.facebook.Response;
 import com.facebook.Session;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.detectors.Accelerometer;
@@ -29,7 +27,6 @@ import android.os.Bundle;
 import android.view.View;
 import ninja.PanicHelper.adapter.NavDrawerItem;
 import ninja.PanicHelper.adapter.NavDrawerListAdapter;
-import ninja.PanicHelper.safetyMeasures.GPSTracker;
 import ninja.PanicHelper.safetyMeasures.Light;
 import ninja.PanicHelper.safetyMeasures.MainAlarm;
 import ninja.PanicHelper.voice.control.VoiceSay;
@@ -274,7 +271,7 @@ public class MainActivity extends Activity {
     }
 
     public void addListeners() {
-        ImageButton buttonOne = (ImageButton) HomeFragment.getViewById(R.id.imageButton);
+        ImageButton buttonOne = (ImageButton) HomeFragment.getViewById(R.id.help_button);
 
         buttonOne.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {

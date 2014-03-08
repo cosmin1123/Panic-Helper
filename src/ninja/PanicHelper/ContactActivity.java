@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
-import configurations.Configurations;
-import configurations.Contact;
+import ninja.PanicHelper.configurations.Configurations;
+import ninja.PanicHelper.configurations.Contact;
 
 /**
  * Created by Cataaa on 3/7/14.
