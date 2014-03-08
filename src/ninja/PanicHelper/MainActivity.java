@@ -3,10 +3,14 @@ package ninja.PanicHelper;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,18 +18,26 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import configurations.Configurations;
-import detectors.Accelerometer;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.model.GraphUser;
+import ninja.PanicHelper.configurations.Configurations;
+import ninja.PanicHelper.detectors.Accelerometer;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import ninja.PanicHelper.adapter.NavDrawerItem;
 import ninja.PanicHelper.adapter.NavDrawerListAdapter;
-import safety.measures.GPSTracker;
-import safety.measures.Light;
-import safety.measures.MainAlarm;
+import ninja.PanicHelper.safetyMeasures.GPSTracker;
+import ninja.PanicHelper.safetyMeasures.Light;
+import ninja.PanicHelper.safetyMeasures.MainAlarm;
+import ninja.PanicHelper.voice.control.FacebookAccountFragment;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
@@ -111,10 +123,32 @@ public class MainActivity extends Activity {
 
         initialise();
 
-
-
     }
 
+    // Override onActivityResult to receive Facebook callback
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+    };
+
+    // Debug function for hash key detection required for Facebook SDK
+    private void printHashKey(){
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "ninja.PanicHelper",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
+    }
 
     public void initialise() {
         c = super.getApplicationContext();
@@ -151,6 +185,8 @@ public class MainActivity extends Activity {
 
             }
         });
+
+
 
 
     }
@@ -208,6 +244,9 @@ public class MainActivity extends Activity {
                 break;
             case 2:
                 fragment = new EmergencyContactsFragment();
+                break;
+            case 3:
+                fragment = new FacebookAccountFragment();
                 break;
             default:
                 break;
