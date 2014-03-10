@@ -170,7 +170,6 @@ public class GPSTracker extends Service implements LocationListener {
 
     public static String getLocationLink() {
         return  "https://maps.google.ro/maps?q=" + getLatitude() + "," + getLongitude() + "&z=16";
-
     }
 
     /**

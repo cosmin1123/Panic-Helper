@@ -1,49 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:robobunny="http://robobunny.com"
                   android:layout_height="match_parent"
                   android:layout_width="match_parent">
     <PreferenceCategory
+            android:key="crashPref"
             android:title = "Car crash service">
         <CheckBoxPreference
+                android:key="crashService"
                 android:title = "Service activated" />
-        <SeekBarPreference
-                android:progress="30"
-                android:title="Waiting time "
-                android:key="seekBar"
-                android:max="45">
-        </SeekBarPreference>
+        <ninja.PanicHelper.configurations.SeekBarPreference
+                android:id="@+id/crashWaitingSeekBar"
+                android:key="crashWaitingTimeBar"
+                android:title="Waiting time"
+                android:summary="for alarm"
+                android:defaultValue="30"
+                android:max="45"
+                robobunny:min="5"
+                robobunny:unitsLeft=""
+                robobunny:unitsRight="s"
+                />
         <EditTextPreference
+                android:key="crashMessage"
                 android:title="Car crash message">
                 </EditTextPreference>
         <CheckBoxPreference
+                android:key="crashYellService"
                 android:title = "Include Yell! service" />
         <CheckBoxPreference
+                android:key="crashLightService"
                 android:title = "Include Light service" />
     </PreferenceCategory>
 
     <PreferenceCategory
             android:title = "Help button settings">
-        <SeekBarPreference
-                android:progress="30"
-                android:title="Waiting time "
-                android:key="seekBar"
-                android:max="45">
-        </SeekBarPreference>
-        <SeekBarPreference
-                android:progress="5"
+        <ninja.PanicHelper.configurations.SeekBarPreference
+                android:key="impactSensitivityBar"
+                android:title="Impact sensitivity"
+                android:summary="minimum speed"
+                android:defaultValue="50"
+                android:max="200"
+                robobunny:min="50"
+                robobunny:unitsLeft=""
+                robobunny:unitsRight="km/h"
+                />
+        <ninja.PanicHelper.configurations.SeekBarPreference
+                android:key="buttonWaitingTimeBar"
+                android:title="Waiting time"
+                android:summary="for alarm"
+                android:defaultValue="30"
+                android:max="45"
+                robobunny:min="5"
+                robobunny:unitsLeft=""
+                robobunny:unitsRight="s"
+                />
+        <ninja.PanicHelper.configurations.SeekBarPreference
+                android:key="holdTimeBar"
                 android:title="Hold time"
-                android:key="seekBar"
-                android:max="15">
-        </SeekBarPreference>
+                android:summary="for instant alarm"
+                android:defaultValue="5"
+                android:max="15"
+                robobunny:min="5"
+                robobunny:unitsLeft=""
+                robobunny:unitsRight="s"
+                />
         <EditTextPreference
+                android:key="buttonMessage"
                 android:title="Help button message">
         </EditTextPreference>
         <CheckBoxPreference
+                android:key="buttonYellService"
                 android:title = "Include Yell! service" />
         <CheckBoxPreference
+                android:key="buttonLightService"
                 android:title = "Include Light service" />
         <CheckBoxPreference
+                android:key="gpsService"
                 android:title = "Send GPS coordinates" />
     </PreferenceCategory>
 

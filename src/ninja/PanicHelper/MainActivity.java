@@ -298,10 +298,10 @@ public class MainActivity extends Activity {
 
     public void refreshAccelerationService() {
 
-        if(Configurations.isServiceActive() && !Accelerometer.isServiceRunning())
+        if(Configurations.isCrashServiceActivated() && !Accelerometer.isServiceRunning())
             startService(Accelerometer.getAccelerationService());
 
-        if(!Configurations.isServiceActive() && Accelerometer.isServiceRunning())
+        if(!Configurations.isCrashServiceActivated() && Accelerometer.isServiceRunning())
             stopService(Accelerometer.getAccelerationService());
     }
 

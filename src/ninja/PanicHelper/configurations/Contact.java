@@ -32,6 +32,4 @@ public class Contact implements Serializable {
         this.sendSms = sendSms;
         this.sendPrivateMessage = sendPrivateMessage;
     }
-
-
 }
