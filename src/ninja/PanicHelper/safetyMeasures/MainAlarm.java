@@ -42,13 +42,17 @@ public class MainAlarm extends Activity {
         secondsView = (TextView) findViewById(R.id.seconds_textView);
         titleView = (TextView) findViewById(R.id.danger_title);
         colorChanged = false;
-        secondsRemaining = 30;
 
         layout.setBackgroundResource(R.drawable.danger_background_animation);
         AnimationDrawable animationDrawable = (AnimationDrawable) layout.getBackground();
         animationDrawable.start();
 
-        new CountDownTimer(30000, 1000) {
+        if(Accelerometer.fired)
+            secondsRemaining = Configurations.getCrashWaitingTime();
+        else
+            secondsRemaining = Configurations.getButtonWaitingTime();
+
+        new CountDownTimer(secondsRemaining * 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 secondsView.setText("seconds remaining: " + millisUntilFinished / 1000);
@@ -60,9 +64,6 @@ public class MainAlarm extends Activity {
 
                     VoiceSay.defaultSafetyScreenMessage();
                 }
-
-                if((millisUntilFinished / 1000) == 23)
-                    voiceRecognitionStart();
             }
 
             public void onFinish() {
