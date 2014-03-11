@@ -29,6 +29,7 @@ import ninja.PanicHelper.adapter.NavDrawerItem;
 import ninja.PanicHelper.adapter.NavDrawerListAdapter;
 import ninja.PanicHelper.safetyMeasures.Light;
 import ninja.PanicHelper.safetyMeasures.MainAlarm;
+import ninja.PanicHelper.safetyMeasures.Sound;
 import ninja.PanicHelper.voice.control.VoiceSay;
 
 import java.security.MessageDigest;
@@ -283,6 +284,7 @@ public class MainActivity extends Activity {
         buttonTwo.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 VoiceSay.defaultHelpMessage();
+                //Sound.start(getAppContext());
 
             }
         });
