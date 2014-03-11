@@ -266,19 +266,19 @@ public class Configurations implements Serializable{
         }
     }
 
-    public void setLoggedIn(boolean isLoggedIn) {
-        this.isLoggedIn = isLoggedIn;
+    public static void setLoggedIn(boolean isLoggedIn) {
+        configInstance.isLoggedIn = isLoggedIn;
     }
 
-    public boolean isLoggedIn(){
-        return isLoggedIn;
+    public static boolean isLoggedIn(){
+        return configInstance.isLoggedIn;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public static void setAccessToken(String accessToken) {
+        configInstance.accessToken = accessToken;
     }
 
-    public String getAccessToken(){
-        return accessToken;
+    public static String getAccessToken(){
+        return configInstance.accessToken;
     }
 }

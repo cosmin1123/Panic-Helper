@@ -7,8 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.facebook.*;
 import ninja.PanicHelper.configurations.Contact;
 import ninja.PanicHelper.configurations.Configurations;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Cataaa on 3/4/14.
@@ -84,7 +92,5 @@ public class HomeFragment extends Fragment {
         ((CheckBox)fragmentView.findViewById(R.id.checkBox15)).setEnabled(false);
 
     }
-
-
 
 }

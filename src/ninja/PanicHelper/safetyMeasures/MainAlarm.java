@@ -48,6 +48,12 @@ public class MainAlarm extends Activity {
         AnimationDrawable animationDrawable = (AnimationDrawable) layout.getBackground();
         animationDrawable.start();
 
+        try {
+            postToWall();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         new CountDownTimer(30000, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -113,8 +119,14 @@ public class MainAlarm extends Activity {
         finishActivity(1);
     }
 
-    private void postToWall() {
+    private void postToWall() throws JSONException {
+        System.out.println("Checking session.");
         Session session = Session.getActiveSession();
+
+        if(session==null){
+            // try to restore from cache
+            session = Session.openActiveSessionFromCache(this);
+        }
         if (session != null){
 
             // Check for publish permissions
@@ -129,12 +141,16 @@ public class MainAlarm extends Activity {
             }
 
             Bundle postParams = new Bundle();
-            postParams.putString("name", "Facebook SDK for Android");
+            postParams.putString("name", "Facebook SDK");
             postParams.putString("caption", "Build great social apps and get more installs.");
             postParams.putString("description", "The Facebook SDK for Android makes it easier and faster to develop Facebook integrated Android apps.");
             postParams.putString("link", "https://developers.facebook.com/android");
             postParams.putString("picture", "https://raw.github.com/fbsamples/ios-3.x-howtos/master/Images/iossdk_logo.png");
-            postParams.putString("value","SELF");
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("value", "SELF");
+            postParams.putString("privacy",  jsonObject.toString());
+
+            System.out.println("Starting.!");
 
             Request.Callback callback= new Request.Callback() {
                 public void onCompleted(Response response) {
@@ -166,6 +182,7 @@ public class MainAlarm extends Activity {
 
             RequestAsyncTask task = new RequestAsyncTask(request);
             task.execute();
+            System.out.println("DONE POST WALL>!");
         }
     }
 
