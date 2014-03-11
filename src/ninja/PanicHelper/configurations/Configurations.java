@@ -2,6 +2,7 @@ package ninja.PanicHelper.configurations;
 
 import android.os.Environment;
 import android.util.Log;
+import ninja.PanicHelper.safetyMeasures.GPSTracker;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -11,25 +12,37 @@ public class Configurations implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
+    private final String myLocationPattern = "\n\nMy location is:\n";
+    private final String myLocation = "\n\nMy location is:\n" + GPSTracker.getLocationLink();
+
+    /* Car crash settings */
+    private boolean isCrashServiceActivated = false;
+    private boolean isCrashYellService = false;
+    private boolean isCrashLightService = false;
+
+    private int crashWaitingTime = 30;
+    private String crashMessage = "Help me! I was in a car accident!\n";
+
+    /* Help button settings */
+    private boolean isButtonYellService = false;
+    private boolean isButtonLightService = false;
+    private boolean sendGPS = false;
+
+    private int buttonWaitingTime = 30;
+    private float holdTime = 2.0f;
+    private float gravity = 2.0f;
+    private String buttonMessage = "Help me! I am hurt!\n";
+
+    /* ???????????????????????????????????????????*/
     private int soundType = 0;
     private int lightType = 0;
+    private boolean silentAlarmButton = false;
+    private boolean lightAlarmButton = false;
 
-    private float gravity = 2.0f;
-    private int buttonAlarmTimer = 30;
-    private int acceleratorAlarmTimer = 30;
-    private float holdAlarmTimer = 2.0f;
 
     /* Facebook data */
     private boolean isLoggedIn = false;
     private String accessToken = null;
-
-    private boolean isServiceActivated = false;
-    private boolean sendGPS = false;
-    private boolean silentAlarmButton = false;
-    private boolean lightAlarmButton = false;
-
-    private String buttonMessage = "Mesaj buton";
-    private String acceleratorMessage = "Mesaj accelerometru";
 
     private ArrayList<Contact> personList = new ArrayList<Contact>();
 
@@ -41,76 +54,133 @@ public class Configurations implements Serializable{
 
     }
 
-    public static void setGravity(float newGravity) {
-        checkIfLoad();
-        configInstance.gravity = newGravity;
+    public static String getMyLocationPattern() {
+        return configInstance.myLocationPattern;
     }
 
-    public static void setSoundType(int soundType) {
+    public static boolean isCrashServiceActivated() {
         checkIfLoad();
-        configInstance.soundType = soundType;
+        return configInstance.isCrashServiceActivated;
     }
 
-    public static void setLightType(int lightType) {
+    public static void setCrashServiceActivated(boolean isCrashServiceActivated) {
         checkIfLoad();
-        configInstance.lightType = lightType;
+        configInstance.isCrashServiceActivated = isCrashServiceActivated;
     }
 
-    public static void setButtonAlarmTimer(int buttonAlarmTimer) {
+    public static boolean isCrashYellService() {
         checkIfLoad();
-        configInstance.buttonAlarmTimer = buttonAlarmTimer;
+        return configInstance.isCrashYellService;
     }
 
-    public static int getButtonAlarmTimer() {
+    public static void setCrashYellService(boolean isCrashYellService) {
         checkIfLoad();
-        return configInstance.buttonAlarmTimer;
+        configInstance.isCrashYellService = isCrashYellService;
     }
 
-    public static void setAcceleratorAlarmTimer(int acceleratorAlarmTimer) {
+    public static boolean isCrashLightService() {
         checkIfLoad();
-        configInstance.acceleratorAlarmTimer = acceleratorAlarmTimer;
+        return configInstance.isCrashLightService;
     }
 
-    public static int getAcceleratorAlarmTimer() {
+    public static void setCrashLightService(boolean isCrashLightService) {
         checkIfLoad();
-        return configInstance.acceleratorAlarmTimer;
+        configInstance.isCrashLightService = isCrashLightService;
     }
 
-    public static void setHoldAlarmTimer(float holdAlarmTimer) {
+    public static int getCrashWaitingTime() {
         checkIfLoad();
-        configInstance.holdAlarmTimer = holdAlarmTimer;
+        return configInstance.crashWaitingTime;
     }
 
-    public static void setServiceActivated(boolean isServiceActivated) {
+    public static void setCrashWaitingTime(int crashWaitingTime) {
         checkIfLoad();
-        configInstance.isServiceActivated = isServiceActivated;
+        configInstance.crashWaitingTime = crashWaitingTime;
     }
 
-    public static boolean isServiceActive() {
+    public static String getCrashMessage() {
         checkIfLoad();
-
-        return configInstance.isServiceActivated;
+        if (configInstance.sendGPS) {
+            Log.d("testgps", "pun gps");
+            return configInstance.crashMessage + configInstance.myLocation;
+        }
+        Log.d("testgps", "nu pun gps");
+        return configInstance.crashMessage;
     }
 
+    public static void setCrashMessage(String crashMessage) {
+        checkIfLoad();
+        configInstance.crashMessage = crashMessage;
+    }
+
+    public static boolean isButtonYellService() {
+        checkIfLoad();
+        return configInstance.isButtonYellService;
+    }
+
+    public static void setButtonYellService(boolean isButtonYellService) {
+        checkIfLoad();
+        configInstance.isButtonYellService = isButtonYellService;
+    }
+
+    public static boolean isButtonLightService() {
+        checkIfLoad();
+        return configInstance.isButtonLightService;
+    }
+
+    public static void setButtonLightService(boolean isButtonLightService) {
+        checkIfLoad();
+        configInstance.isButtonLightService = isButtonLightService;
+    }
+
+    public static boolean isSendGPS() {
+        checkIfLoad();
+        return configInstance.sendGPS;
+    }
 
     public static void setSendGPS(boolean sendGPS) {
         checkIfLoad();
         configInstance.sendGPS = sendGPS;
     }
 
-    public static void setSilentAlarmButton(boolean silentAlarmButton) {
+    public static int getButtonWaitingTime() {
         checkIfLoad();
-        configInstance.silentAlarmButton = silentAlarmButton;
+        return configInstance.buttonWaitingTime;
     }
 
-    public static boolean getSilentAlarmButton() {
+    public static void setButtonWaitingTime(int buttonWaitingTime) {
         checkIfLoad();
-        return configInstance.silentAlarmButton;
+        configInstance.buttonWaitingTime = buttonWaitingTime;
     }
 
-    public static void setLightAlarmButton(boolean lightAlarmButton) {
+    public static float getHoldTime() {
         checkIfLoad();
-        configInstance.lightAlarmButton = lightAlarmButton;
+        return configInstance.holdTime;
+    }
+
+    public static void setHoldTime(float holdTime) {
+        checkIfLoad();
+        configInstance.holdTime = holdTime;
+    }
+
+    public static float getGravity() {
+        checkIfLoad();
+        return configInstance.gravity;
+    }
+
+    public static void setGravity(float gravity) {
+        checkIfLoad();
+        configInstance.gravity = gravity;
+    }
+
+    public static String getButtonMessage() {
+        checkIfLoad();
+        if (configInstance.sendGPS) {
+            Log.d("testgps", "pun gps");
+            return configInstance.buttonMessage + configInstance.myLocation;
+        }
+        Log.d("testgps", "nu pun gps");
+        return configInstance.buttonMessage;
     }
 
     public static void setButtonMessage(String buttonMessage) {
@@ -118,14 +188,44 @@ public class Configurations implements Serializable{
         configInstance.buttonMessage = buttonMessage;
     }
 
-    public static void setAcceleratorMessage(String acceleratorMessage) {
+    public static int getSoundType() {
         checkIfLoad();
-        configInstance.acceleratorMessage = acceleratorMessage;
+        return configInstance.soundType;
     }
 
-    public static void setConfigInstance(Configurations configInstance) {
+    public static void setSoundType(int soundType) {
         checkIfLoad();
-        Configurations.configInstance = configInstance;
+        configInstance.soundType = soundType;
+    }
+
+    public static int getLightType() {
+        checkIfLoad();
+        return configInstance.lightType;
+    }
+
+    public static void setLightType(int lightType) {
+        checkIfLoad();
+        configInstance.lightType = lightType;
+    }
+
+    public static boolean getSilentAlarmButton() {
+        checkIfLoad();
+        return configInstance.silentAlarmButton;
+    }
+
+    public static void setSilentAlarmButton(boolean silentAlarmButton) {
+        checkIfLoad();
+        configInstance.silentAlarmButton = silentAlarmButton;
+    }
+
+    public static boolean isLightAlarmButton() {
+        checkIfLoad();
+        return configInstance.lightAlarmButton;
+    }
+
+    public static void setLightAlarmButton(boolean lightAlarmButton) {
+        checkIfLoad();
+        configInstance.lightAlarmButton = lightAlarmButton;
     }
 
     public static boolean isAccident(float currentGravity) {
@@ -151,7 +251,7 @@ public class Configurations implements Serializable{
         }
 
         configInstance.personList.add(position, c);
-        return  true;
+        return true;
     }
 
     public static String[] getContactNames() {
@@ -162,7 +262,6 @@ public class Configurations implements Serializable{
         for(Contact c : configInstance.personList) {
             temp[i] = c.name;
             i++;
-
         }
         return temp;
     }
@@ -256,11 +355,14 @@ public class Configurations implements Serializable{
             Log.d("Write", "File not found");
         } catch (StreamCorruptedException e) {
             Log.d("Write", "Corrupted Stream");
+            configInstance = new Configurations();
             e.printStackTrace();
         } catch (IOException e) {
             Log.d("Write", "IO Exception");
+            configInstance = new Configurations();
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
+            configInstance = new Configurations();
             Log.d("Write", "Class not found");
             e.printStackTrace();
         }

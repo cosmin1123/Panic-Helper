@@ -48,12 +48,6 @@ public class MainAlarm extends Activity {
         AnimationDrawable animationDrawable = (AnimationDrawable) layout.getBackground();
         animationDrawable.start();
 
-        try {
-            postToWall();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
         new CountDownTimer(30000, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -66,9 +60,6 @@ public class MainAlarm extends Activity {
 
                     VoiceSay.defaultSafetyScreenMessage();
                 }
-
-                if((millisUntilFinished / 1000) == 23)
-                    voiceRecognitionStart();
             }
 
             public void onFinish() {

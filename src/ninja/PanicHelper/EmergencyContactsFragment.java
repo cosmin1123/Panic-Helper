@@ -19,6 +19,7 @@ public class EmergencyContactsFragment extends Fragment{
     public static EmergencyContactsFragment thisC;
     public static ListView list;
     public static Context context;
+    public static Button addContact;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,8 +39,9 @@ public class EmergencyContactsFragment extends Fragment{
 
         thisC = this;
 
+        addContact = ((Button) getView().findViewById(R.id.add_contact_button));
         //Listener pentru a porni activity add contacts. poti sa il rescrii cum vrei.
-        ((Button) getView().findViewById(R.id.add_contact_button)).setOnClickListener(
+        addContact.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -50,6 +52,12 @@ public class EmergencyContactsFragment extends Fragment{
         );
 
         context = getView().getContext();
+
+        if(values.length >= 5) {
+            addContact.setEnabled(false);
+        } else
+            addContact.setEnabled(true);
+
     }
 
 }
