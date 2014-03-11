@@ -29,9 +29,10 @@ public class Configurations implements Serializable{
     private boolean sendGPS = false;
 
     private int buttonWaitingTime = 30;
-    private float holdTime = 2.0f;
+    private int impactSpeed = 50;
     private float gravity = 2.0f;
     private String buttonMessage = "Help me! I am hurt!\n";
+    private int buttonHoldTime = 5;
 
     /* ???????????????????????????????????????????*/
     private int soundType = 0;
@@ -98,6 +99,15 @@ public class Configurations implements Serializable{
         configInstance.crashWaitingTime = crashWaitingTime;
     }
 
+    public static int getImpactSpeed() {
+        checkIfLoad();
+        return configInstance.impactSpeed;
+    }
+
+    public static void setImpactSpeed(int impactSpeed) {
+        configInstance.impactSpeed = impactSpeed;
+    }
+
     public static String getCrashMessage() {
         checkIfLoad();
         if (configInstance.sendGPS) {
@@ -153,19 +163,9 @@ public class Configurations implements Serializable{
         configInstance.buttonWaitingTime = buttonWaitingTime;
     }
 
-    public static float getHoldTime() {
-        checkIfLoad();
-        return configInstance.holdTime;
-    }
-
-    public static void setHoldTime(float holdTime) {
-        checkIfLoad();
-        configInstance.holdTime = holdTime;
-    }
-
     public static float getGravity() {
         checkIfLoad();
-        return configInstance.gravity;
+        return 10 * configInstance.impactSpeed / 36; // formula fizica
     }
 
     public static void setGravity(float gravity) {
@@ -186,6 +186,16 @@ public class Configurations implements Serializable{
     public static void setButtonMessage(String buttonMessage) {
         checkIfLoad();
         configInstance.buttonMessage = buttonMessage;
+    }
+
+    public static int getButtonHoldTime() {
+        checkIfLoad();
+        return configInstance.buttonHoldTime;
+    }
+
+    public static void setButtonHoldTime(int buttonHoldTime) {
+        checkIfLoad();
+        configInstance.buttonHoldTime = buttonHoldTime;
     }
 
     public static int getSoundType() {

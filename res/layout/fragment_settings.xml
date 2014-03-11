@@ -61,7 +61,7 @@
                 android:summary="for instant alarm"
                 android:defaultValue="5"
                 android:max="15"
-                robobunny:min="5"
+                robobunny:min="2"
                 robobunny:unitsLeft=""
                 robobunny:unitsRight="s"
                 />

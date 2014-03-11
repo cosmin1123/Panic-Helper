@@ -16,6 +16,8 @@ import ninja.PanicHelper.R;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.configurations.SeekBarPreference;
 
+import java.util.HashMap;
+
 /**
  * Created by Cataaa on 3/5/14.
  */
@@ -33,11 +35,7 @@ public class SettingsFragment extends PreferenceFragment {
 
     public EditTextPreference crashMessage;
     public EditTextPreference buttonMessage;
-
-    public SeekBarPreference crashWaitingTimeBar;
-    public SeekBar buttonWaitingTimeBar;
-    public SeekBar impactSensitivityBar;
-    public SeekBar holdTimeBar;
+    public HashMap<String, Integer> seekBarHM;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,12 +66,6 @@ public class SettingsFragment extends PreferenceFragment {
         crashMessage = (EditTextPreference) findPreference("crashMessage");
         buttonMessage = (EditTextPreference) findPreference("buttonMessage");
 
-//        Log.d("progres", "Progresul" + crashWaitingTimeBar.getProgress());
-//
-//        crashWaitingTimeBar.setProgress(20);
-//        Log.d("progres", "Progresul nou" + crashWaitingTimeBar.getProgress());
-
-
         // Loading initial settings:
         crashServiceBox.setChecked(Configurations.isCrashServiceActivated());
         if (!crashServiceBox.isChecked()) {
@@ -91,8 +83,6 @@ public class SettingsFragment extends PreferenceFragment {
 
         crashMessage.setText(Configurations.getCrashMessage());
         buttonMessage.setText(Configurations.getButtonMessage());
-
-        //crashWaitingTimeBar.getmSeekBar().setProgress(Configurations.getCrashWaitingTime());
 
         // Dealing with listeners:
         crashServiceBox.setOnPreferenceChangeListener(new CheckBoxPreference.OnPreferenceChangeListener() {
@@ -140,10 +130,25 @@ public class SettingsFragment extends PreferenceFragment {
         Configurations.setCrashMessage(trimMessage(crashMessage.getText()));
         Configurations.setButtonMessage(trimMessage(buttonMessage.getText()));
 
-        // TODO Salvarea valorilor de pe seekbar
-        //Configurations.setCrashWaitingTime(crashWaitingTimeBar.getmSeekBar().getProgress());
+        seekBarHM = new HashMap<String, Integer>();
+        seekBarHM = SeekBarPreference.getSeekBarHM();
 
-        Log.d("checkBoxDebug", "\nCrash Service: " + Configurations.isCrashServiceActivated());
+        if (seekBarHM.containsKey("crashWaitingTimeBar")) {
+            Configurations.setCrashWaitingTime(seekBarHM.get("crashWaitingTimeBar"));
+        }
+        if (seekBarHM.containsKey("impactSensitivityBar")) {
+            Configurations.setImpactSpeed(seekBarHM.get("impactSensitivityBar"));
+        }
+        if (seekBarHM.containsKey("buttonWaitingTimeBar")) {
+            Configurations.setButtonWaitingTime(seekBarHM.get("buttonWaitingTimeBar"));
+        }
+        if (seekBarHM.containsKey("holdTimeBar")) {
+            Configurations.setButtonHoldTime(seekBarHM.get("holdTimeBar"));
+        }
+
+        seekBarHM.clear();
+
+        Log.d("checkConfig", "\nConfig:\n" + Configurations.getButtonHoldTime());
 
     }
 }

@@ -19,9 +19,12 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import ninja.PanicHelper.R;
 
+import java.util.HashMap;
+
 public class SeekBarPreference extends Preference implements OnSeekBarChangeListener {
 
     private final String TAG = getClass().getName();
+    private final String MY_TAG = "seek_key";
 
     private static final String ANDROIDNS="http://schemas.android.com/apk/res/android";
     private static final String ROBOBUNNYNS="http://robobunny.com";
@@ -33,9 +36,16 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     private int mCurrentValue;
     private String mUnitsLeft  = "";
     private String mUnitsRight = "";
+    private String key         = "";
     private SeekBar mSeekBar;
 
     private TextView mStatusText;
+
+    private static HashMap<String, Integer> seekBarHM = new HashMap<String, Integer>();
+
+    public static HashMap<String, Integer> getSeekBarHM() {
+        return seekBarHM;
+    }
 
     public SeekBarPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -55,6 +65,10 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     }
 
     private void setValuesFromXml(AttributeSet attrs) {
+
+        key = getAttributeStringValue(attrs,ANDROIDNS,"key","");
+        Log.d(MY_TAG, "Got the following key: " + key);
+
         mMaxValue = attrs.getAttributeIntValue(ANDROIDNS, "max", 100);
         mMinValue = attrs.getAttributeIntValue(ROBOBUNNYNS, "min", 0);
 
@@ -183,6 +197,11 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 
         // change accepted, store it
         mCurrentValue = newValue;
+
+        // saving data in a static hashmap
+        seekBarHM.put(key, mCurrentValue);
+        Log.d(MY_TAG, "The hashMap: " + seekBarHM);
+
         mStatusText.setText(String.valueOf(newValue));
         persistInt(newValue);
 
@@ -209,7 +228,27 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
 
         if(restoreValue) {
-            mCurrentValue = getPersistedInt(mCurrentValue);
+            if (key != null) {
+
+                Log.d("seeking", "Setez cheia: " + key);
+
+                if (key.compareToIgnoreCase("crashWaitingTimeBar") == 0) {
+                    mCurrentValue = Configurations.getCrashWaitingTime();
+                }
+                if (key.compareToIgnoreCase("impactSensitivityBar") == 0) {
+                    mCurrentValue = Configurations.getImpactSpeed();
+                }
+                if (key.compareToIgnoreCase("buttonWaitingTimeBar") == 0) {
+                    mCurrentValue = Configurations.getButtonWaitingTime();
+                }
+                if (key.compareToIgnoreCase("holdTimeBar") == 0) {
+                    mCurrentValue = Configurations.getButtonHoldTime();
+                }
+
+            } else {
+                Log.d("seeking", "cheia e nula");
+            }
+            //mCurrentValue = getPersistedInt(mCurrentValue);
         }
         else {
             int temp = 0;
