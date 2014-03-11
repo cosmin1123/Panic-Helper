@@ -48,6 +48,7 @@ public class ListAdapter extends ArrayAdapter<String> {
                 String[] values = Configurations.getContactNames();
                 ListAdapter adapter = new ListAdapter(EmergencyContactsFragment.context,values);
                 EmergencyContactsFragment.list.setAdapter(adapter);
+                EmergencyContactsFragment.addContact.setEnabled(true);
             }
         });
 

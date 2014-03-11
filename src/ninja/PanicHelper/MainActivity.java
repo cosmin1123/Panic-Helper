@@ -310,7 +310,6 @@ public class MainActivity extends Activity {
         super.onStop();
         running = false;
         Configurations.save();
-        VoiceSay.stop();
     }
 
 }

@@ -26,9 +26,7 @@ import java.util.Arrays;
  */
 public class FacebookAccountFragment extends Fragment {
     private TextView loggedInName;
-    private Configurations configurations;
     public FacebookAccountFragment(){}
-    private boolean isLoggedIn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,9 +40,36 @@ public class FacebookAccountFragment extends Fragment {
     public void onStart(){
         super.onStart();
         loggedInName = (TextView) getView().findViewById(R.id.loggedin_name);
+
+        Configurations.load();
+        if (Configurations.isLoggedIn()){
+            System.out.println("IT IS!");
+            Session session = Session.getActiveSession();
+            if (session != null && session.isOpened()){
+                Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+                    // callback after Graph API response with user object
+                    @Override
+                    public void onCompleted(GraphUser user, Response response) {
+                        if (user != null) {
+                            loggedInName.setText("Logged in as: " + user.getName());
+                        }
+
+                    }
+                });
+
+            }
+            else{
+                Configurations.setLoggedIn(false);
+                loggedInName.setText("You are currently not logged in on Facebook");
+            }
+        }
+        else{
+            loggedInName.setText("You are currently not logged in on Facebook");
+        }
+
+        //Facebook Button
         LoginButton authButton = (LoginButton) getView().findViewById(R.id.activity_login_facebook_btn_login);
         authButton.setReadPermissions(Arrays.asList("basic_info","xmpp_login"));
-
         authButton.setSessionStatusCallback(new Session.StatusCallback() {
             @Override
             public void call(final Session session, SessionState state, Exception exception) {
@@ -56,7 +81,7 @@ public class FacebookAccountFragment extends Fragment {
                         public void onCompleted(GraphUser user, Response response) {
                             if (user != null) {
                                 FacebookChatAPI test = new FacebookChatAPI(session.getAccessToken());
-                                System.out.println("Message Sent");
+                                Configurations.setLoggedIn(true);
                                 loggedInName.setText("Logged in as: " + user.getName());
                             }
 
@@ -64,11 +89,16 @@ public class FacebookAccountFragment extends Fragment {
                     });
                 }
                 else{
-
+                    Configurations.setLoggedIn(false);
                     loggedInName.setText("You are currently not logged in on Facebook");
                 }
             }
         });
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        Configurations.save();
     }
 }

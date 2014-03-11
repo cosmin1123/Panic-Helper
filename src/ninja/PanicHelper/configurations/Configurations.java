@@ -12,8 +12,8 @@ public class Configurations implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
-    private static final String myLocationPattern = "\n\nMy location is:\n";
-    private static final String myLocation = "\n\nMy location is:\n" + GPSTracker.getLocationLink();
+    private final String myLocationPattern = "\n\nMy location is:\n";
+    private final String myLocation = "\n\nMy location is:\n" + GPSTracker.getLocationLink();
 
     /* Car crash settings */
     private boolean isCrashServiceActivated = false;
@@ -56,7 +56,7 @@ public class Configurations implements Serializable{
     }
 
     public static String getMyLocationPattern() {
-        return myLocationPattern;
+        return configInstance.myLocationPattern;
     }
 
     public static boolean isCrashServiceActivated() {
@@ -112,7 +112,7 @@ public class Configurations implements Serializable{
         checkIfLoad();
         if (configInstance.sendGPS) {
             Log.d("testgps", "pun gps");
-            return configInstance.crashMessage + myLocation;
+            return configInstance.crashMessage + configInstance.myLocation;
         }
         Log.d("testgps", "nu pun gps");
         return configInstance.crashMessage;
@@ -177,7 +177,7 @@ public class Configurations implements Serializable{
         checkIfLoad();
         if (configInstance.sendGPS) {
             Log.d("testgps", "pun gps");
-            return configInstance.buttonMessage + myLocation;
+            return configInstance.buttonMessage + configInstance.myLocation;
         }
         Log.d("testgps", "nu pun gps");
         return configInstance.buttonMessage;
@@ -365,29 +365,32 @@ public class Configurations implements Serializable{
             Log.d("Write", "File not found");
         } catch (StreamCorruptedException e) {
             Log.d("Write", "Corrupted Stream");
+            configInstance = new Configurations();
             e.printStackTrace();
         } catch (IOException e) {
             Log.d("Write", "IO Exception");
+            configInstance = new Configurations();
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
+            configInstance = new Configurations();
             Log.d("Write", "Class not found");
             e.printStackTrace();
         }
     }
 
-    public void setLoggedIn(boolean isLoggedIn) {
-        this.isLoggedIn = isLoggedIn;
+    public static void setLoggedIn(boolean isLoggedIn) {
+        configInstance.isLoggedIn = isLoggedIn;
     }
 
-    public boolean isLoggedIn(){
-        return isLoggedIn;
+    public static boolean isLoggedIn(){
+        return configInstance.isLoggedIn;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public static void setAccessToken(String accessToken) {
+        configInstance.accessToken = accessToken;
     }
 
-    public String getAccessToken(){
-        return accessToken;
+    public static String getAccessToken(){
+        return configInstance.accessToken;
     }
 }
