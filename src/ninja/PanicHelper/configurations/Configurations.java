@@ -12,13 +12,12 @@ public class Configurations implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
-    private final String myLocationPattern = "\n\nMy location is:\n";
-    private final String myLocation = "\n\nMy location is:\n" + GPSTracker.getLocationLink();
-
     /* Car crash settings */
     private boolean isCrashServiceActivated = false;
     private boolean isCrashYellService = false;
     private boolean isCrashLightService = false;
+    private boolean isCrashPostOnWall = false;
+    private boolean isCrashVoiceRec = false;
 
     private int crashWaitingTime = 30;
     private String crashMessage = "Help me! I was in a car accident!\n";
@@ -26,20 +25,14 @@ public class Configurations implements Serializable{
     /* Help button settings */
     private boolean isButtonYellService = false;
     private boolean isButtonLightService = false;
-    private boolean sendGPS = false;
+    private boolean isButtonPostOnWall = false;
+    private boolean isButtonVoiceRec = false;
 
     private int buttonWaitingTime = 30;
     private int impactSpeed = 50;
     private float gravity = 2.0f;
     private String buttonMessage = "Help me! I am hurt!\n";
     private int buttonHoldTime = 5;
-
-    /* ???????????????????????????????????????????*/
-    private int soundType = 0;
-    private int lightType = 0;
-    private boolean silentAlarmButton = false;
-    private boolean lightAlarmButton = false;
-
 
     /* Facebook data */
     private boolean isLoggedIn = false;
@@ -53,10 +46,6 @@ public class Configurations implements Serializable{
         if (configInstance == null)
             Configurations.load();
 
-    }
-
-    public static String getMyLocationPattern() {
-        return configInstance.myLocationPattern;
     }
 
     public static boolean isCrashServiceActivated() {
@@ -110,11 +99,6 @@ public class Configurations implements Serializable{
 
     public static String getCrashMessage() {
         checkIfLoad();
-        if (configInstance.sendGPS) {
-            Log.d("testgps", "pun gps");
-            return configInstance.crashMessage + configInstance.myLocation;
-        }
-        Log.d("testgps", "nu pun gps");
         return configInstance.crashMessage;
     }
 
@@ -143,16 +127,6 @@ public class Configurations implements Serializable{
         configInstance.isButtonLightService = isButtonLightService;
     }
 
-    public static boolean isSendGPS() {
-        checkIfLoad();
-        return configInstance.sendGPS;
-    }
-
-    public static void setSendGPS(boolean sendGPS) {
-        checkIfLoad();
-        configInstance.sendGPS = sendGPS;
-    }
-
     public static int getButtonWaitingTime() {
         checkIfLoad();
         return configInstance.buttonWaitingTime;
@@ -175,11 +149,6 @@ public class Configurations implements Serializable{
 
     public static String getButtonMessage() {
         checkIfLoad();
-        if (configInstance.sendGPS) {
-            Log.d("testgps", "pun gps");
-            return configInstance.buttonMessage + configInstance.myLocation;
-        }
-        Log.d("testgps", "nu pun gps");
         return configInstance.buttonMessage;
     }
 
@@ -198,44 +167,44 @@ public class Configurations implements Serializable{
         configInstance.buttonHoldTime = buttonHoldTime;
     }
 
-    public static int getSoundType() {
+    public static boolean isCrashPostOnWall() {
         checkIfLoad();
-        return configInstance.soundType;
+        return configInstance.isCrashPostOnWall;
     }
 
-    public static void setSoundType(int soundType) {
+    public static void setCrashPostOnWall(boolean isCrashPostOnWall) {
         checkIfLoad();
-        configInstance.soundType = soundType;
+        configInstance.isCrashPostOnWall = isCrashPostOnWall;
     }
 
-    public static int getLightType() {
+    public static boolean isButtonPostOnWall() {
         checkIfLoad();
-        return configInstance.lightType;
+        return configInstance.isButtonPostOnWall;
     }
 
-    public static void setLightType(int lightType) {
+    public static void setButtonPostOnWall(boolean isButtonPostOnWall) {
         checkIfLoad();
-        configInstance.lightType = lightType;
+        configInstance.isButtonPostOnWall = isButtonPostOnWall;
     }
 
-    public static boolean getSilentAlarmButton() {
+    public static boolean isCrashVoiceRec() {
         checkIfLoad();
-        return configInstance.silentAlarmButton;
+        return configInstance.isCrashVoiceRec;
     }
 
-    public static void setSilentAlarmButton(boolean silentAlarmButton) {
+    public static void setCrashVoiceRec(boolean isCrashVoiceRec) {
         checkIfLoad();
-        configInstance.silentAlarmButton = silentAlarmButton;
+        configInstance.isCrashVoiceRec = isCrashVoiceRec;
     }
 
-    public static boolean isLightAlarmButton() {
+    public static boolean isButtonVoiceRec() {
         checkIfLoad();
-        return configInstance.lightAlarmButton;
+        return configInstance.isButtonVoiceRec;
     }
 
-    public static void setLightAlarmButton(boolean lightAlarmButton) {
+    public static void setButtonVoiceRec(boolean isButtonVoiceRec) {
         checkIfLoad();
-        configInstance.lightAlarmButton = lightAlarmButton;
+        configInstance.isButtonVoiceRec = isButtonVoiceRec;
     }
 
     public static boolean isAccident(float currentGravity) {

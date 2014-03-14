@@ -69,7 +69,6 @@ public class MainAlarm extends Activity {
                 if( (secondsRemaining -  (millisUntilFinished / 1000)) >= 5 && !listened) {
                     voiceRecognitionStart();
                     listened = true;
-
                 }
 
                 if(!said) {
@@ -97,8 +96,6 @@ public class MainAlarm extends Activity {
         voiceRecognition.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
         try {
             startActivityForResult(voiceRecognition, 1);
-
-
         } catch (Exception e) {
             Toast.makeText(this, "Error initializing speech to text engine.", Toast.LENGTH_LONG).show();
         }
@@ -111,10 +108,13 @@ public class MainAlarm extends Activity {
         if (requestCode == 1  && resultCode == RESULT_OK) {
             ArrayList<String> thingsYouSaid = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             Log.d("Main", thingsYouSaid.get(0));
-
-            if(thingsYouSaid.get(0).compareTo("stop") == 0)
+            if(thingsYouSaid.get(0).compareTo("stop") == 0){
                 finish();
-
+            }
+            else{
+                finishActivity(1);
+                voiceRecognitionStart();
+            }
         }
 
     }
@@ -217,15 +217,11 @@ public class MainAlarm extends Activity {
     public void startPanicMeasures() {
 
         // start calling
-        if(Configurations.getCallContactTelephoneNumbers().length >= 1)
+        if(Configurations.getCallContactTelephoneNumbers().length >= 1) {
             startActivityForResult(
                 VoiceMessage.leaveMessage(Configurations.getCallContactTelephoneNumbers()[0]), 2);
-
-        if(Configurations.getSmsContactTelephoneNumbers().length >= 1) {
-                Sms.sendSMS(Configurations.getSmsContactTelephoneNumbers()[0]);
         }
-
-        // check if light service is activated
+        // check if ligh service is activated
         if(Configurations.isButtonLightService() && !Accelerometer.fired)
             Light.startWarningLight();
 

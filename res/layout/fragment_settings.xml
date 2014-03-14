@@ -11,6 +11,16 @@
                 android:key="crashService"
                 android:title = "Service activated" />
         <ninja.PanicHelper.configurations.SeekBarPreference
+                android:key="impactSensitivityBar"
+                android:title="Impact sensitivity"
+                android:summary="minimum speed"
+                android:defaultValue="50"
+                android:max="200"
+                robobunny:min="50"
+                robobunny:unitsLeft=""
+                robobunny:unitsRight="km/h"
+                />
+        <ninja.PanicHelper.configurations.SeekBarPreference
                 android:id="@+id/crashWaitingSeekBar"
                 android:key="crashWaitingTimeBar"
                 android:title="Waiting time"
@@ -26,6 +36,12 @@
                 android:title="Car crash message">
                 </EditTextPreference>
         <CheckBoxPreference
+                android:key="crashWallPost"
+                android:title = "Post on Facebook Wall" />
+        <CheckBoxPreference
+                android:key="crashVoiceRec"
+                android:title = "Voice Recognition service" />
+        <CheckBoxPreference
                 android:key="crashYellService"
                 android:title = "Include Yell! service" />
         <CheckBoxPreference
@@ -35,16 +51,6 @@
 
     <PreferenceCategory
             android:title = "Help button settings">
-        <ninja.PanicHelper.configurations.SeekBarPreference
-                android:key="impactSensitivityBar"
-                android:title="Impact sensitivity"
-                android:summary="minimum speed"
-                android:defaultValue="50"
-                android:max="200"
-                robobunny:min="50"
-                robobunny:unitsLeft=""
-                robobunny:unitsRight="km/h"
-                />
         <ninja.PanicHelper.configurations.SeekBarPreference
                 android:key="buttonWaitingTimeBar"
                 android:title="Waiting time"
@@ -70,14 +76,17 @@
                 android:title="Help button message">
         </EditTextPreference>
         <CheckBoxPreference
+                android:key="buttonWallPost"
+                android:title = "Post on Facebook Wall" />
+        <CheckBoxPreference
+                android:key="buttonVoiceRec"
+                android:title = "Voice Recognition service" />
+        <CheckBoxPreference
                 android:key="buttonYellService"
                 android:title = "Include Yell! service" />
         <CheckBoxPreference
                 android:key="buttonLightService"
                 android:title = "Include Light service" />
-        <CheckBoxPreference
-                android:key="gpsService"
-                android:title = "Send GPS coordinates" />
     </PreferenceCategory>
 
 </PreferenceScreen>

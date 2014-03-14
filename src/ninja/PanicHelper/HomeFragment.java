@@ -34,7 +34,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
-
         return fragmentView;
     }
 
@@ -95,6 +94,10 @@ public class HomeFragment extends Fragment {
         ((CheckBox)fragmentView.findViewById(R.id.checkBox13)).setEnabled(false);
         ((CheckBox)fragmentView.findViewById(R.id.checkBox14)).setEnabled(false);
         ((CheckBox)fragmentView.findViewById(R.id.checkBox15)).setEnabled(false);
+
+        // updating holding time;
+        TextView holdTimeView = (TextView) HomeFragment.getViewById(R.id.textView15);
+        holdTimeView.setText("Hold " + Configurations.getButtonHoldTime() + " seconds for instant help");
 
     }
 
