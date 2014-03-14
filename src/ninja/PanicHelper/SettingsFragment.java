@@ -29,9 +29,13 @@ public class SettingsFragment extends PreferenceFragment {
     public CheckBoxPreference crashServiceBox;
     public CheckBoxPreference crashYellServiceBox;
     public CheckBoxPreference crashLightServiceBox;
+    public CheckBoxPreference crashPostOnWallBox;
+    public CheckBoxPreference crashVoiceRecBox;
+
     public CheckBoxPreference buttonYellServiceBox;
     public CheckBoxPreference buttonLightServiceBox;
-    public CheckBoxPreference sendGPSBox;
+    public CheckBoxPreference buttonPostOnWallBox;
+    public CheckBoxPreference buttonVoiceRecBox;
 
     public EditTextPreference crashMessage;
     public EditTextPreference buttonMessage;
@@ -59,15 +63,20 @@ public class SettingsFragment extends PreferenceFragment {
         crashServiceBox = (CheckBoxPreference) findPreference("crashService");
         crashYellServiceBox = (CheckBoxPreference) findPreference("crashYellService");
         crashLightServiceBox = (CheckBoxPreference) findPreference("crashLightService");
+        crashPostOnWallBox = (CheckBoxPreference) findPreference("crashWallPost");
+        crashVoiceRecBox = (CheckBoxPreference) findPreference("crashVoiceRec");
+
         buttonYellServiceBox = (CheckBoxPreference) findPreference("buttonYellService");
         buttonLightServiceBox = (CheckBoxPreference) findPreference("buttonLightService");
-        sendGPSBox = (CheckBoxPreference) findPreference("gpsService");
+        buttonPostOnWallBox = (CheckBoxPreference) findPreference("buttonWallPost");
+        buttonVoiceRecBox = (CheckBoxPreference) findPreference("buttonVoiceRec");
 
         crashMessage = (EditTextPreference) findPreference("crashMessage");
         buttonMessage = (EditTextPreference) findPreference("buttonMessage");
 
         // Loading initial settings:
         crashServiceBox.setChecked(Configurations.isCrashServiceActivated());
+
         if (!crashServiceBox.isChecked()) {
             // Disabling all other fields in the current preference:
             Log.d("checkBoxDebug", "\nCrash Service: " + Configurations.isCrashServiceActivated());
@@ -77,9 +86,13 @@ public class SettingsFragment extends PreferenceFragment {
 
         crashYellServiceBox.setChecked(Configurations.isCrashYellService());
         crashLightServiceBox.setChecked(Configurations.isCrashLightService());
+        crashPostOnWallBox.setChecked(Configurations.isCrashPostOnWall());
+        crashVoiceRecBox.setChecked(Configurations.isCrashVoiceRec());
+
         buttonYellServiceBox.setChecked(Configurations.isButtonYellService());
         buttonLightServiceBox.setChecked(Configurations.isCrashLightService());
-        sendGPSBox.setChecked(Configurations.isSendGPS());
+        buttonPostOnWallBox.setChecked(Configurations.isButtonPostOnWall());
+        buttonVoiceRecBox.setChecked(Configurations.isButtonVoiceRec());
 
         crashMessage.setText(Configurations.getCrashMessage());
         buttonMessage.setText(Configurations.getButtonMessage());
@@ -89,31 +102,16 @@ public class SettingsFragment extends PreferenceFragment {
             public boolean onPreferenceChange(final Preference preference, final Object newValue) {
 
                 // Disabling all other fields in the current preference:
+                // Using this checkbox to enable/disable other fields
+                Configurations.setCrashServiceActivated(crashServiceBox.isChecked());
                 crashPref.setEnabled((Boolean) newValue == true);
                 crashServiceBox.setEnabled(true);
                 return true;
             }
         });
 
-        sendGPSBox.setOnPreferenceChangeListener(new CheckBoxPreference.OnPreferenceChangeListener() {
-            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
-
-                // Updating message fields:
-                Log.d("testgps", "updating ");
-                Configurations.setSendGPS((Boolean) newValue == true);
-                crashMessage.setText(Configurations.getCrashMessage());
-                buttonMessage.setText(Configurations.getButtonMessage());
-                return true;
-            }
-        });
     }
 
-    public static String trimMessage(String s) {
-        if (s.indexOf(Configurations.getMyLocationPattern()) == -1) {
-            return s;
-        }
-        return s.substring(0, s.indexOf(Configurations.getMyLocationPattern()));
-    }
 
     @Override
     public void onStop() {
@@ -123,12 +121,16 @@ public class SettingsFragment extends PreferenceFragment {
         Configurations.setCrashServiceActivated(crashServiceBox.isChecked());
         Configurations.setCrashYellService(crashYellServiceBox.isChecked());
         Configurations.setCrashLightService(crashLightServiceBox.isChecked());
+        Configurations.setCrashPostOnWall(crashPostOnWallBox.isChecked());
+        Configurations.setCrashVoiceRec(crashVoiceRecBox.isChecked());
+
         Configurations.setButtonYellService(buttonYellServiceBox.isChecked());
         Configurations.setButtonLightService(buttonLightServiceBox.isChecked());
-        Configurations.setSendGPS(sendGPSBox.isChecked());
+        Configurations.setButtonPostOnWall(buttonPostOnWallBox.isChecked());
+        Configurations.setButtonVoiceRec(buttonVoiceRecBox.isChecked());
 
-        Configurations.setCrashMessage(trimMessage(crashMessage.getText()));
-        Configurations.setButtonMessage(trimMessage(buttonMessage.getText()));
+        Configurations.setCrashMessage(crashMessage.getText());
+        Configurations.setButtonMessage(buttonMessage.getText());
 
         seekBarHM = new HashMap<String, Integer>();
         seekBarHM = SeekBarPreference.getSeekBarHM();
