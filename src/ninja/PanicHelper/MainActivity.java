@@ -258,7 +258,6 @@ public class MainActivity extends Activity {
         running = true;
         Configurations.load();
         refreshAccelerationService();
-
     }
 
 
