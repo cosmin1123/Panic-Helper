@@ -221,20 +221,30 @@ public class MainAlarm extends Activity {
             startActivityForResult(
                 VoiceMessage.leaveMessage(Configurations.getCallContactTelephoneNumbers()[0]), 2);
         }
-        // check if ligh service is activated
-        if(Configurations.isButtonLightService() && !Accelerometer.fired)
-            Light.startWarningLight();
 
-        if(Configurations.isCrashLightService() && Accelerometer.fired)
+        // send sms
+        if(Configurations.getCallContactTelephoneNumbers().length >= 1) {
+            Sms.sendSMS(Configurations.getSmsContactTelephoneNumbers()[0]);
+        }
+
+        // check if light service is activated
+        if(Configurations.isButtonLightService() && !Accelerometer.fired) {
             Light.startWarningLight();
+        }
+
+        if(Configurations.isCrashLightService() && Accelerometer.fired) {
+            Light.startWarningLight();
+        }
 
         // check if yell service is activated
-        if(Configurations.isButtonYellService() && !Accelerometer.fired)
+        if(Configurations.isButtonYellService() && !Accelerometer.fired) {
             Sound.start(MainActivity.getAppContext());
+        }
 
 
-        if(Configurations.isButtonYellService() && !Accelerometer.fired)
+        if(Configurations.isButtonYellService() && !Accelerometer.fired) {
             Sound.start(MainActivity.getAppContext());
+        }
 
     }
 }
