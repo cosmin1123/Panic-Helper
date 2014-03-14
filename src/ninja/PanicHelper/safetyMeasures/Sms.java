@@ -43,12 +43,12 @@ public class Sms extends Activity{
             public void onReceive(Context arg0, Intent arg1) {
                 switch (getResultCode())
                 {
-                    case Activity.RESULT_OK: {
-                        if(currentSms >= Configurations.getSmsContactTelephoneNumbers().length)
-                            return;
+                    case Activity.RESULT_OK:
+    //                    if(currentSms >= Configurations.getSmsContactTelephoneNumbers().length)
+  //                          return;
 
-                        Sms.sendSMS(Configurations.getSmsContactTelephoneNumbers()[currentSms++]);
-                    }
+//                        Sms.sendSMS(Configurations.getSmsContactTelephoneNumbers()[currentSms++]);
+
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
                         Toast.makeText(MainAlarm.alarmInstance.getBaseContext(), "Generic failure",
@@ -76,8 +76,11 @@ public class Sms extends Activity{
             public void onReceive(Context arg0, Intent arg1) {
                 switch (getResultCode()) {
                     case Activity.RESULT_OK:
-                        Toast.makeText(MainAlarm.alarmInstance.getBaseContext(), "SMS delivered",
-                                Toast.LENGTH_SHORT).show();
+                        if(currentSms >= Configurations.getSmsContactTelephoneNumbers().length)
+                            return;
+
+                        Sms.sendSMS(Configurations.getSmsContactTelephoneNumbers()[currentSms++]);
+
                         break;
                     case Activity.RESULT_CANCELED:
                         Toast.makeText(MainAlarm.alarmInstance.getBaseContext(), "SMS not delivered",
