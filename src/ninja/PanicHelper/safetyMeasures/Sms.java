@@ -44,10 +44,11 @@ public class Sms extends Activity{
                 switch (getResultCode())
                 {
                     case Activity.RESULT_OK:
-    //                    if(currentSms >= Configurations.getSmsContactTelephoneNumbers().length)
-  //                          return;
+                        if(currentSms >= Configurations.getSmsContactTelephoneNumbers().length) {
+                            return;
+                        }
 
-//                        Sms.sendSMS(Configurations.getSmsContactTelephoneNumbers()[currentSms++]);
+                        Sms.sendSMS(Configurations.getSmsContactTelephoneNumbers()[currentSms++]);
 
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
@@ -76,10 +77,7 @@ public class Sms extends Activity{
             public void onReceive(Context arg0, Intent arg1) {
                 switch (getResultCode()) {
                     case Activity.RESULT_OK:
-                        if(currentSms >= Configurations.getSmsContactTelephoneNumbers().length)
-                            return;
 
-                        Sms.sendSMS(Configurations.getSmsContactTelephoneNumbers()[currentSms++]);
 
                         break;
                     case Activity.RESULT_CANCELED:
