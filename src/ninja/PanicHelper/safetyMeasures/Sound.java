@@ -18,7 +18,9 @@ public class Sound {
             mp.start();
             running = true;
         } else {
-            mp.stop();
+            if (mp != null) {
+                mp.stop();
+            }
             running = false;
         }*/
     }

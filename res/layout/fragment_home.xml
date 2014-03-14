@@ -23,21 +23,25 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="0dp" android:layout_weight="4" android:gravity="center">
+            android:layout_height="0dp" android:layout_weight="3.3" android:gravity="center" android:weightSum="10">
         <ImageButton
-                android:layout_width="230dp"
-                android:layout_height="230dp"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
                 android:id="@+id/help_button"
                 android:scaleType="fitCenter"
                 android:background="@drawable/button_emergency"
-                android:cropToPadding="true"/>
+                android:cropToPadding="true" android:layout_weight="6"/>
     </LinearLayout>
+    <TextView android:layout_width="fill_parent" android:layout_height="0dp" android:text="Hold 5 seconds for instant help"
+              android:id="@+id/textView15" android:layout_weight="0.6" android:singleLine="false" android:textSize="22sp"
+              android:textIsSelectable="false" android:textColor="#CC0000" android:gravity="center|center_vertical|center_horizontal|top"
+              android:textStyle="bold"/>
     <TextView
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:text="Emergency Contacts"
             android:id="@+id/textView" android:layout_weight="0.5" android:singleLine="false" android:textSize="22sp"
-            android:textIsSelectable="false" android:textColor="#ffff" android:gravity="center_vertical"/>
+            android:textIsSelectable="false" android:textColor="#ffff" android:gravity="center_vertical|top"/>
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
