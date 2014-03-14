@@ -257,7 +257,6 @@ public class MainActivity extends Activity {
         super.onStart();
         running = true;
         Configurations.load();
-        addListeners();
         refreshAccelerationService();
 
     }
