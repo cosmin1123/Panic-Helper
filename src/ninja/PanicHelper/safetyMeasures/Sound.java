@@ -13,13 +13,13 @@ public class Sound {
     private static boolean running = false;
 
     public static void start(Context context) {
-        if (!running) {
+     /*   if (!running) {
             mp = MediaPlayer.create(context, R.raw.siren_alarm);
             mp.start();
             running = true;
         } else {
             mp.stop();
             running = false;
-        }
+        }*/
     }
 }

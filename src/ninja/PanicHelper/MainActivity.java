@@ -283,8 +283,7 @@ public class MainActivity extends Activity {
         Button buttonTwo = (Button) HomeFragment.getViewById(R.id.button);
         buttonTwo.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                VoiceSay.defaultHelpMessage();
-                //Sound.start(getAppContext());
+                Sound.start(getAppContext());
 
             }
         });
@@ -292,7 +291,7 @@ public class MainActivity extends Activity {
         Button buttonThree = (Button) HomeFragment.getViewById(R.id.button2);
         buttonThree.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                Light.toggleLed();
+                Light.startWarningLight();
             }
         });
 
@@ -312,6 +311,9 @@ public class MainActivity extends Activity {
         super.onStop();
         running = false;
         Configurations.save();
+        Light.ledoff();
     }
+
+
 
 }

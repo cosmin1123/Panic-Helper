@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.facebook.*;
+import ninja.PanicHelper.MainActivity;
 import ninja.PanicHelper.detectors.Accelerometer;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.R;
@@ -32,7 +33,10 @@ public class MainAlarm extends Activity {
     private int secondsRemaining;
     private LinearLayout layout;
     private Handler handler;
-    private static MainAlarm alarmInstance = new MainAlarm();
+    public static MainAlarm alarmInstance;
+    boolean said = false;
+    boolean listened = false;
+    CountDownTimer alarmTimer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,27 +47,38 @@ public class MainAlarm extends Activity {
         titleView = (TextView) findViewById(R.id.danger_title);
         colorChanged = false;
         secondsRemaining = 30;
+        alarmInstance = this;
+
 
         layout.setBackgroundResource(R.drawable.danger_background_animation);
         AnimationDrawable animationDrawable = (AnimationDrawable) layout.getBackground();
         animationDrawable.start();
 
-        new CountDownTimer(30000, 1000) {
+        if(Accelerometer.fired) {
+            secondsRemaining = Configurations.getCrashWaitingTime();
+        } else
+            secondsRemaining = Configurations.getButtonWaitingTime();
+
+
+
+        alarmTimer = new CountDownTimer(secondsRemaining * 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 secondsView.setText("seconds remaining: " + millisUntilFinished / 1000);
 
-                if((millisUntilFinished / 1000) == 23 && Accelerometer.fired)
+                if( (secondsRemaining -  (millisUntilFinished / 1000)) >= 5 && !listened) {
                     voiceRecognitionStart();
-                if((millisUntilFinished / 1000) == 29 && (Accelerometer.fired ||
-                        !Configurations.getSilentAlarmButton())) {
+                    listened = true;
+                }
 
+                if(!said) {
+                    said = true;
                     VoiceSay.defaultSafetyScreenMessage();
                 }
             }
 
             public void onFinish() {
-                secondsView.setText("done!");
+                secondsView.setText("Applying safety measures");
                 startPanicMeasures();
             }
         }.start();
@@ -90,7 +105,9 @@ public class MainAlarm extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==1  && resultCode==RESULT_OK) {
+
+        Log.d("ActivityResult", requestCode + " " + resultCode);
+        if (requestCode == 1  && resultCode == RESULT_OK) {
             ArrayList<String> thingsYouSaid = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             Log.d("Main", thingsYouSaid.get(0));
 
@@ -98,6 +115,7 @@ public class MainAlarm extends Activity {
                 finish();
 
         }
+
     }
 
 
@@ -106,8 +124,16 @@ public class MainAlarm extends Activity {
         super.onStop();
         Accelerometer.fired = false;
 
-        VoiceSay.stop();
         finishActivity(1);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        VoiceSay.stop();
+        alarmTimer.cancel();
+        Light.stopWarningLight();
     }
 
     private void postToWall() throws JSONException {
@@ -134,8 +160,8 @@ public class MainAlarm extends Activity {
             Bundle postParams = new Bundle();
             postParams.putString("name", "Facebook SDK");
             postParams.putString("caption", "Build great social apps and get more installs.");
-            postParams.putString("description", "The Facebook SDK for Android makes it easier and faster to develop Facebook integrated Android apps.");
-            postParams.putString("link", "https://developers.facebook.com/android");
+            postParams.putString("description", "Help me, I am in danger");
+            postParams.putString("link", GPSTracker.getLocationLink());
             postParams.putString("picture", "https://raw.github.com/fbsamples/ios-3.x-howtos/master/Images/iossdk_logo.png");
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("value", "SELF");
@@ -188,6 +214,26 @@ public class MainAlarm extends Activity {
     }
 
     public void startPanicMeasures() {
+
+        // start calling
+        if(Configurations.getCallContactTelephoneNumbers().length >= 1) {
+            startActivityForResult(
+                VoiceMessage.leaveMessage(Configurations.getCallContactTelephoneNumbers()[0]), 2);
+        }
+        // check if ligh service is activated
+        if(Configurations.isButtonLightService() && !Accelerometer.fired)
+            Light.startWarningLight();
+
+        if(Configurations.isCrashLightService() && Accelerometer.fired)
+            Light.startWarningLight();
+
+        // check if yell service is activated
+        if(Configurations.isButtonYellService() && !Accelerometer.fired)
+            Sound.start(MainActivity.getAppContext());
+
+
+        if(Configurations.isButtonYellService() && !Accelerometer.fired)
+            Sound.start(MainActivity.getAppContext());
 
     }
 }

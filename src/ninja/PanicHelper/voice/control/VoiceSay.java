@@ -78,9 +78,5 @@ public class VoiceSay implements TextToSpeech.OnInitListener
 
     public static void defaultHelpMessage() {
         continouslySpeakWords(defaultHelpMessage);
-        if(currentlyPlaying)
-            stop();
-        else
-            currentlyPlaying = true;
     }
 }

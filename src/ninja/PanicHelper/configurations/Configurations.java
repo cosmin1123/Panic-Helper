@@ -276,6 +276,22 @@ public class Configurations implements Serializable{
         return temp;
     }
 
+    public static String[] getCallContactTelephoneNumbers() {
+        checkIfLoad();
+
+        String [] numbers = new String[configInstance.personList.size()];
+        int i = 0;
+        for(Contact c : configInstance.personList) {
+            if(c.callContact) {
+                numbers[i] = c.phoneNumber;
+                i++;
+            }
+        }
+        return numbers;
+    }
+
+
+
     public static void removeContact(String name) {
         checkIfLoad();
 
