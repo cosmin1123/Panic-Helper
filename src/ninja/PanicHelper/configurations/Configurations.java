@@ -279,8 +279,16 @@ public class Configurations implements Serializable{
     public static String[] getCallContactTelephoneNumbers() {
         checkIfLoad();
 
-        String [] numbers = new String[configInstance.personList.size()];
+        int callContactNumber = 0;
+        for(Contact c : configInstance.personList) {
+            if(c.callContact) {
+                callContactNumber++;
+            }
+        }
+
+        String [] numbers = new String[callContactNumber];
         int i = 0;
+
         for(Contact c : configInstance.personList) {
             if(c.callContact) {
                 numbers[i] = c.phoneNumber;
@@ -290,7 +298,48 @@ public class Configurations implements Serializable{
         return numbers;
     }
 
+    public static String[] getSmsContactTelephoneNumbers() {
+        checkIfLoad();
+        int smsContactNumber = 0;
+        for(Contact c : configInstance.personList) {
+            if(c.sendSms) {
+                smsContactNumber++;
+            }
+        }
 
+        String [] numbers = new String[smsContactNumber];
+        int i = 0;
+
+        for(Contact c : configInstance.personList) {
+            if(c.sendSms) {
+                numbers[i] = c.phoneNumber;
+                i++;
+            }
+        }
+        return numbers;
+    }
+
+    public static String[] getFacebookNames() {
+        checkIfLoad();
+
+        int facebookNameNumber = 0;
+        for(Contact c : configInstance.personList) {
+            if(c.sendPrivateMessage) {
+                facebookNameNumber++;
+            }
+        }
+
+        String [] names = new String[facebookNameNumber];
+        int i = 0;
+
+        for(Contact c : configInstance.personList) {
+            if(c.sendPrivateMessage) {
+                names[i] = c.facebookName;
+                i++;
+            }
+        }
+        return names;
+    }
 
     public static void removeContact(String name) {
         checkIfLoad();

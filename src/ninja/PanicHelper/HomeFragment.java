@@ -13,6 +13,7 @@ import ninja.PanicHelper.configurations.Contact;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.safetyMeasures.Light;
 import ninja.PanicHelper.safetyMeasures.MainAlarm;
+import ninja.PanicHelper.safetyMeasures.Sms;
 import ninja.PanicHelper.safetyMeasures.Sound;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -116,7 +117,7 @@ public class HomeFragment extends Fragment {
         Button buttonThree = (Button) HomeFragment.getViewById(R.id.button2);
         buttonThree.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                Light.toggleLed();
+                Light.startWarningLight();
             }
         });
 
