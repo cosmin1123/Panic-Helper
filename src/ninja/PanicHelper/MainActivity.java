@@ -283,9 +283,7 @@ public class MainActivity extends Activity {
         Button buttonTwo = (Button) HomeFragment.getViewById(R.id.button);
         buttonTwo.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                VoiceSay.defaultHelpMessage();
-                //Sound.start(getAppContext());
-
+                Sound.start(getAppContext());
             }
         });
 
