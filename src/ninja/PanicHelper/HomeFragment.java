@@ -1,16 +1,19 @@
 package ninja.PanicHelper;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.facebook.*;
 import ninja.PanicHelper.configurations.Contact;
 import ninja.PanicHelper.configurations.Configurations;
+import ninja.PanicHelper.safetyMeasures.Light;
+import ninja.PanicHelper.safetyMeasures.MainAlarm;
+import ninja.PanicHelper.safetyMeasures.Sound;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,6 +45,7 @@ public class HomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         initialiseContactTable();
+        addListeners();
     }
 
     public void initialiseContactTable() {
@@ -91,6 +95,39 @@ public class HomeFragment extends Fragment {
         ((CheckBox)fragmentView.findViewById(R.id.checkBox14)).setEnabled(false);
         ((CheckBox)fragmentView.findViewById(R.id.checkBox15)).setEnabled(false);
 
+    }
+
+    public void addListeners() {
+        ImageButton buttonOne = (ImageButton) HomeFragment.getViewById(R.id.help_button);
+
+        buttonOne.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                onHelp();
+            }
+        });
+
+        Button buttonTwo = (Button) HomeFragment.getViewById(R.id.button);
+        buttonTwo.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                Sound.start(getActivity().getApplicationContext());
+            }
+        });
+
+        Button buttonThree = (Button) HomeFragment.getViewById(R.id.button2);
+        buttonThree.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                Light.toggleLed();
+            }
+        });
+
+    }
+
+    public void  onHelp() {
+        Intent dialogIntent = new Intent(MainActivity.getAppContext(), MainAlarm.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getActivity().getApplication().startActivity(dialogIntent);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getActivity().getApplication().startActivity(dialogIntent);
     }
 
 }

@@ -115,10 +115,7 @@ public class MainActivity extends Activity {
         }
 
         // initialise and add listeners
-
-
         initialise();
-
     }
     // Override onActivityResult to receive Facebook callback
     @Override
@@ -154,13 +151,7 @@ public class MainActivity extends Activity {
         VoiceSay.speakWords("");
     }
 
-    public void  onHelp() {
-        Intent dialogIntent = new Intent(MainActivity.getAppContext(), MainAlarm.class);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getApplication().startActivity(dialogIntent);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getApplication().startActivity(dialogIntent);
-    }
+
     /**
      * Slide menu item click listener
      * */
@@ -266,36 +257,10 @@ public class MainActivity extends Activity {
         super.onStart();
         running = true;
         Configurations.load();
-        addListeners();
         refreshAccelerationService();
 
     }
 
-    public void addListeners() {
-        ImageButton buttonOne = (ImageButton) HomeFragment.getViewById(R.id.help_button);
-
-        buttonOne.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                onHelp();
-            }
-        });
-;
-        Button buttonTwo = (Button) HomeFragment.getViewById(R.id.button);
-        buttonTwo.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                Sound.start(getAppContext());
-
-            }
-        });
-
-        Button buttonThree = (Button) HomeFragment.getViewById(R.id.button2);
-        buttonThree.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                Light.toggleLed();
-            }
-        });
-
-    }
 
     public void refreshAccelerationService() {
 
