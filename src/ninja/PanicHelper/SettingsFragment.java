@@ -78,7 +78,7 @@ public class SettingsFragment extends PreferenceFragment {
         crashYellServiceBox.setChecked(Configurations.isCrashYellService());
         crashLightServiceBox.setChecked(Configurations.isCrashLightService());
         buttonYellServiceBox.setChecked(Configurations.isButtonYellService());
-        buttonLightServiceBox.setChecked(Configurations.isCrashLightService());
+        buttonLightServiceBox.setChecked(Configurations.isButtonLightService());
         sendGPSBox.setChecked(Configurations.isSendGPS());
 
         crashMessage.setText(Configurations.getCrashMessage());

@@ -257,7 +257,9 @@ public class MainActivity extends Activity {
         super.onStart();
         running = true;
         Configurations.load();
+        addListeners();
         refreshAccelerationService();
+
     }
 
 
@@ -275,6 +277,7 @@ public class MainActivity extends Activity {
         super.onStop();
         running = false;
         Configurations.save();
+        Light.ledoff();
     }
 
 }

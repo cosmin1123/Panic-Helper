@@ -1,6 +1,7 @@
 package ninja.PanicHelper.safetyMeasures;
 
 import android.hardware.Camera;
+import android.os.CountDownTimer;
 import android.util.Log;
 
 /**
@@ -13,9 +14,39 @@ import android.util.Log;
 public class Light {
     static Camera camera = Camera.open();
     private static boolean cameraOn = false;
+    private static boolean runninLight = false;
+    private static CountDownTimer cm;
+
+    public static void stopWarningLight() {
+        runninLight = false;
+        if(cm != null)
+            cm.cancel();
+        ledoff();
+    }
+
+    public static void startWarningLight() {
+        int secondsRemaining = 1000;
+        if(!runninLight)
+            runninLight = true;
+        else {
+            stopWarningLight();
+            return;
+        }
+
+        cm = new CountDownTimer(secondsRemaining * 1000, 500) {
+
+            public void onTick(long millisUntilFinished) {
+                toggleLed();
+            }
+
+            public void onFinish() {
+                ledoff();
+            }
+        }.start();
+    }
 
     public static void toggleLed() {
-        Log.d("TEST", "TOGGLELED " + cameraOn);
+        Log.d("LED", "TOGGLELED " + cameraOn);
         if(cameraOn)
             ledoff();
         else
@@ -24,9 +55,6 @@ public class Light {
     }
 
     public static void ledon() {
-
-        Log.d("TEST", "HERE");
-
         Camera.Parameters p = camera.getParameters();
         p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
         camera.setParameters(p);
