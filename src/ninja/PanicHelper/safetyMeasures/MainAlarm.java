@@ -206,7 +206,6 @@ public class MainAlarm extends Activity {
                     }
             }
         }
-        return true;
     }
 
     private void postToWall() {
