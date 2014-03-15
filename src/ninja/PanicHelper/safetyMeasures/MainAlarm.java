@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.facebook.*;
+import ninja.PanicHelper.HomeFragment;
 import ninja.PanicHelper.MainActivity;
 import ninja.PanicHelper.detectors.Accelerometer;
 import ninja.PanicHelper.configurations.Configurations;
@@ -83,6 +84,7 @@ public class MainAlarm extends Activity {
             public void onFinish() {
                 secondsView.setText("Applying safety measures");
                 startPanicMeasures();
+
             }
         }.start();
 
@@ -136,10 +138,12 @@ public class MainAlarm extends Activity {
         alarmTimer.cancel();
         Light.stopWarningLight();
         Sound.stop();
+        Configurations.setButtonWaitingTime(HomeFragment.buttonHoldingTime);
     }
 
 
     public void startPanicMeasures() {
+        Configurations.setButtonWaitingTime(HomeFragment.buttonHoldingTime);
 
         // check if light service is activated
         if(Configurations.isButtonLightService() && !Accelerometer.fired) {
@@ -151,11 +155,11 @@ public class MainAlarm extends Activity {
         }
 
         // check if yell service is activated
-        if(Configurations.isCrashYellService() && !Accelerometer.fired) {
+        if(Configurations.isCrashYellService() && Accelerometer.fired) {
             Sound.start(MainActivity.getAppContext());
         }
 
-        if(Configurations.isButtonYellService() && Accelerometer.fired) {
+        if(Configurations.isButtonYellService() && !Accelerometer.fired) {
             Sound.start(MainActivity.getAppContext());
         }
 

@@ -1,7 +1,6 @@
 package ninja.PanicHelper;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -10,20 +9,15 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
-import com.facebook.*;
-import ninja.PanicHelper.configurations.Contact;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import ninja.PanicHelper.configurations.Configurations;
+import ninja.PanicHelper.configurations.Contact;
 import ninja.PanicHelper.safetyMeasures.Light;
 import ninja.PanicHelper.safetyMeasures.MainAlarm;
-import ninja.PanicHelper.safetyMeasures.Sms;
 import ninja.PanicHelper.safetyMeasures.Sound;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by Cataaa on 3/4/14.
@@ -34,7 +28,7 @@ public class HomeFragment extends Fragment {
     public long startTime = 0;
     public long stopTime = 0;
     public int holdTime = 0;
-    public int buttonHoldingTime = 0;
+    public static int buttonHoldingTime = Configurations.getButtonHoldTime();
     public boolean buttonUp = false;
     public boolean actionDone = false;
 
@@ -124,7 +118,7 @@ public class HomeFragment extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
+                    buttonHoldingTime = Configurations.getButtonWaitingTime();
                     buttonUp = false;
                     startTime = System.currentTimeMillis();
                     holdTime = Configurations.getButtonHoldTime();
@@ -137,16 +131,12 @@ public class HomeFragment extends Fragment {
                         public void onFinish() {
 
                             stopTime = System.currentTimeMillis();
-                            if (stopTime - startTime >= (long) holdTime * 1000 && !buttonUp) {
+                            if ((stopTime - startTime) >= ((long) holdTime * 1000) && !buttonUp) {
 
                                 // held holdTime seconds => start panic measures directly
-                                buttonHoldingTime = Configurations.getButtonWaitingTime();
                                 Configurations.setButtonWaitingTime(1);
                                 onHelp();
-                                Configurations.setButtonWaitingTime(buttonHoldingTime);
-                                actionDone = true;
                             }
-                            timer.cancel();
                         }
                     }.start();
                 }
@@ -154,12 +144,12 @@ public class HomeFragment extends Fragment {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     buttonUp = true;
                     if (!actionDone) {
-
                         // didn't hold holdTime seconds => the usual help measures
                         onHelp();
-                        actionDone = false;
                         timer.cancel();
                     }
+
+                    actionDone = false;
                 }
 
                 return false;
