@@ -31,6 +31,7 @@ public class Light {
         ledoff();
         camera.stopPreview();
         camera.release();
+        camera = null;
 
     }
 
@@ -44,7 +45,6 @@ public class Light {
         }
         else {
             stopWarningLight();
-            camera = null;
             return;
         }
 
