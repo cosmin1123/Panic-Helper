@@ -129,6 +129,7 @@ public class MainAlarm extends Activity {
         super.onStop();
         Accelerometer.fired = false;
         finishActivity(1);
+        Configurations.setButtonWaitingTime(HomeFragment.buttonHoldingTime);
     }
 
     @Override
