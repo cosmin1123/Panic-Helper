@@ -76,14 +76,6 @@ public class SettingsFragment extends PreferenceFragment {
 
         // Loading initial settings:
         crashServiceBox.setChecked(Configurations.isCrashServiceActivated());
-
-        if (!crashServiceBox.isChecked()) {
-            // Disabling all other fields in the current preference:
-            Log.d("checkBoxDebug", "\nCrash Service: " + Configurations.isCrashServiceActivated());
-            crashPref.setEnabled(false);
-            crashServiceBox.setEnabled(true);
-        }
-
         crashYellServiceBox.setChecked(Configurations.isCrashYellService());
         crashLightServiceBox.setChecked(Configurations.isCrashLightService());
         crashPostOnWallBox.setChecked(Configurations.isCrashPostOnWall());
@@ -96,19 +88,6 @@ public class SettingsFragment extends PreferenceFragment {
 
         crashMessage.setText(Configurations.getCrashMessage());
         buttonMessage.setText(Configurations.getButtonMessage());
-
-        // Dealing with listeners:
-        crashServiceBox.setOnPreferenceChangeListener(new CheckBoxPreference.OnPreferenceChangeListener() {
-            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
-
-                // Disabling all other fields in the current preference:
-                // Using this checkbox to enable/disable other fields
-                Configurations.setCrashServiceActivated(crashServiceBox.isChecked());
-                crashPref.setEnabled((Boolean) newValue == true);
-                crashServiceBox.setEnabled(true);
-                return true;
-            }
-        });
 
     }
 
