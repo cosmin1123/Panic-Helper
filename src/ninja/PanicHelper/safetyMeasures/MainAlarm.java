@@ -1,11 +1,13 @@
 package ninja.PanicHelper.safetyMeasures;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
@@ -64,7 +66,6 @@ public class MainAlarm extends Activity {
 
 
         alarmTimer = new CountDownTimer(secondsRemaining * 1000, 1000) {
-
             public void onTick(long millisUntilFinished) {
                 secondsView.setText("seconds remaining: " + millisUntilFinished / 1000);
 
@@ -121,7 +122,6 @@ public class MainAlarm extends Activity {
                 voiceRecognitionStart();
             }
         }
-
     }
 
     @Override
@@ -144,8 +144,9 @@ public class MainAlarm extends Activity {
 
 
     public void startPanicMeasures() {
-        Configurations.setButtonWaitingTime(HomeFragment.buttonHoldingTime);
+        vibratePhone();
 
+        Configurations.setButtonWaitingTime(HomeFragment.buttonHoldingTime);
         // check if light service is activated
         if(Configurations.isButtonLightService() && !Accelerometer.fired) {
             Light.startWarningLight();
@@ -297,5 +298,10 @@ public class MainAlarm extends Activity {
             }
         }
         return true;
+    }
+
+    private void vibratePhone(){
+        Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(2000);
     }
 }
