@@ -20,7 +20,6 @@ public class Accelerometer extends Service implements SensorEventListener{
     private static boolean accelerometerRunning = false;
     private static Intent accelerationService = null;
     public static boolean fired = false;
-
     boolean flag=false;
     public static final String TAG = "Acceleration";
     SensorManager sensorManager;
