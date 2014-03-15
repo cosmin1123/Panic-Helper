@@ -41,9 +41,7 @@ public class FacebookAccountFragment extends Fragment {
         super.onStart();
         loggedInName = (TextView) getView().findViewById(R.id.loggedin_name);
 
-        Configurations.load();
         if (Configurations.isLoggedIn()){
-            System.out.println("IT IS!");
             Session session = Session.getActiveSession();
             if (session != null && session.isOpened()){
                 Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
@@ -52,11 +50,11 @@ public class FacebookAccountFragment extends Fragment {
                     public void onCompleted(GraphUser user, Response response) {
                         if (user != null) {
                             loggedInName.setText("Logged in as: " + user.getName());
+                            Configurations.setFacebookName(user.getName());
                         }
 
                     }
                 });
-
             }
             else{
                 Configurations.setLoggedIn(false);
@@ -80,9 +78,10 @@ public class FacebookAccountFragment extends Fragment {
                         @Override
                         public void onCompleted(GraphUser user, Response response) {
                             if (user != null) {
-                                FacebookChatAPI test = new FacebookChatAPI(session.getAccessToken());
                                 Configurations.setLoggedIn(true);
                                 loggedInName.setText("Logged in as: " + user.getName());
+                                Configurations.setFacebookName(user.getName());
+                                Configurations.setAccessToken(session.getAccessToken());
                             }
 
                         }

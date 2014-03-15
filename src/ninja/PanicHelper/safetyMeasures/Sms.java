@@ -41,15 +41,16 @@ public class Sms extends Activity{
         MainAlarm.alarmInstance.getApplication().registerReceiver(new BroadcastReceiver(){
             @Override
             public void onReceive(Context arg0, Intent arg1) {
+                System.out.println("Sending sms number " + currentSms);
                 switch (getResultCode())
                 {
                     case Activity.RESULT_OK:
                         if(currentSms >= Configurations.getSmsContactTelephoneNumbers().length) {
                             return;
                         }
-
                         Sms.sendSMS(Configurations.getSmsContactTelephoneNumbers()[currentSms++]);
-
+                        Toast.makeText(MainAlarm.alarmInstance.getBaseContext(), "Sent Sms #" + currentSms ,
+                                Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
                         Toast.makeText(MainAlarm.alarmInstance.getBaseContext(), "Generic failure",

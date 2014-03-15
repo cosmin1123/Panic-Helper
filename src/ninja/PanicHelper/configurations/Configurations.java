@@ -2,7 +2,6 @@ package ninja.PanicHelper.configurations;
 
 import android.os.Environment;
 import android.util.Log;
-import ninja.PanicHelper.safetyMeasures.GPSTracker;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -37,6 +36,7 @@ public class Configurations implements Serializable{
     /* Facebook data */
     private boolean isLoggedIn = false;
     private String accessToken = null;
+    private String facebookName = null;
 
     private ArrayList<Contact> personList = new ArrayList<Contact>();
 
@@ -288,7 +288,7 @@ public class Configurations implements Serializable{
         return numbers;
     }
 
-    public static String[] getFacebookNames() {
+    public static String[] getContactFbUserNames() {
         checkIfLoad();
 
         int facebookNameNumber = 0;
@@ -413,18 +413,32 @@ public class Configurations implements Serializable{
     }
 
     public static void setLoggedIn(boolean isLoggedIn) {
+        checkIfLoad();
         configInstance.isLoggedIn = isLoggedIn;
     }
 
     public static boolean isLoggedIn(){
+        checkIfLoad();
         return configInstance.isLoggedIn;
     }
 
     public static void setAccessToken(String accessToken) {
+        checkIfLoad();
         configInstance.accessToken = accessToken;
     }
 
     public static String getAccessToken(){
+        checkIfLoad();
         return configInstance.accessToken;
+    }
+
+    public static String getFacebookName() {
+        checkIfLoad();
+        return configInstance.facebookName;
+    }
+
+    public static void setFacebookName(String facebookName) {
+        checkIfLoad();
+        configInstance.facebookName = facebookName;
     }
 }

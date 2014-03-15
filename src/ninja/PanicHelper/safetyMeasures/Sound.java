@@ -24,4 +24,11 @@ public class Sound {
             running = false;
         }
     }
+
+    public static void stop(){
+        if (mp != null) {
+            mp.stop();
+        }
+        running = false;
+    }
 }

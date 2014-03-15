@@ -25,7 +25,7 @@ public class Light {
     }
 
     public static void startWarningLight() {
-        int secondsRemaining = 1000;
+        int secondsRemaining = 100;
         if(!runninLight)
             runninLight = true;
         else {
@@ -33,7 +33,7 @@ public class Light {
             return;
         }
 
-        cm = new CountDownTimer(secondsRemaining * 1000, 250) {
+        cm = new CountDownTimer(secondsRemaining * 100, 1) {
 
             public void onTick(long millisUntilFinished) {
                 toggleLed();
