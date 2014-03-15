@@ -1,10 +1,13 @@
 package ninja.PanicHelper;
+
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -26,7 +29,16 @@ import java.util.List;
  */
 public class HomeFragment extends Fragment {
     public static View fragmentView;
-    public HomeFragment(){}
+    public CountDownTimer timer;
+    public long startTime = 0;
+    public long stopTime = 0;
+    public int holdTime = 0;
+    public int buttonHoldingTime = 0;
+    public boolean buttonUp = false;
+    public boolean actionDone = false;
+
+    public HomeFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,50 +61,50 @@ public class HomeFragment extends Fragment {
 
     public void initialiseContactTable() {
         Contact c = Configurations.getFirstFive().get(0);
-        Log.d("TESTT", c.name)    ;
-        ((TextView)fragmentView.findViewById(R.id.textView6)).setText(c.name);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox)).setChecked(c.callContact);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox2)).setChecked(c.sendSms);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox3)).setChecked(c.sendPrivateMessage);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox)).setEnabled(false);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox2)).setEnabled(false);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox3)).setEnabled(false);
+        Log.d("TESTT", c.name);
+        ((TextView) fragmentView.findViewById(R.id.textView6)).setText(c.name);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox)).setChecked(c.callContact);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox2)).setChecked(c.sendSms);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox3)).setChecked(c.sendPrivateMessage);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox)).setEnabled(false);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox2)).setEnabled(false);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox3)).setEnabled(false);
 
         c = Configurations.getFirstFive().get(1);
-        ((TextView)fragmentView.findViewById(R.id.textView8)).setText(c.name);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox4)).setChecked(c.callContact);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox5)).setChecked(c.sendSms);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox6)).setChecked(c.sendPrivateMessage);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox4)).setEnabled(false);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox5)).setEnabled(false);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox6)).setEnabled(false);
+        ((TextView) fragmentView.findViewById(R.id.textView8)).setText(c.name);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox4)).setChecked(c.callContact);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox5)).setChecked(c.sendSms);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox6)).setChecked(c.sendPrivateMessage);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox4)).setEnabled(false);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox5)).setEnabled(false);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox6)).setEnabled(false);
 
         c = Configurations.getFirstFive().get(2);
-        ((TextView)fragmentView.findViewById(R.id.textView3)).setText(c.name);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox7)).setChecked(c.callContact);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox8)).setChecked(c.sendSms);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox9)).setChecked(c.sendPrivateMessage);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox7)).setEnabled(false);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox8)).setEnabled(false);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox9)).setEnabled(false);
+        ((TextView) fragmentView.findViewById(R.id.textView3)).setText(c.name);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox7)).setChecked(c.callContact);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox8)).setChecked(c.sendSms);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox9)).setChecked(c.sendPrivateMessage);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox7)).setEnabled(false);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox8)).setEnabled(false);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox9)).setEnabled(false);
 
         c = Configurations.getFirstFive().get(3);
-        ((TextView)fragmentView.findViewById(R.id.textView10)).setText(c.name);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox10)).setChecked(c.callContact);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox11)).setChecked(c.sendSms);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox12)).setChecked(c.sendPrivateMessage);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox10)).setEnabled(false);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox11)).setEnabled(false);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox12)).setEnabled(false);
+        ((TextView) fragmentView.findViewById(R.id.textView10)).setText(c.name);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox10)).setChecked(c.callContact);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox11)).setChecked(c.sendSms);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox12)).setChecked(c.sendPrivateMessage);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox10)).setEnabled(false);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox11)).setEnabled(false);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox12)).setEnabled(false);
 
         c = Configurations.getFirstFive().get(4);
-        ((TextView)fragmentView.findViewById(R.id.textView12)).setText(c.name);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox13)).setChecked(c.callContact);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox14)).setChecked(c.sendSms);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox15)).setChecked(c.sendPrivateMessage);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox13)).setEnabled(false);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox14)).setEnabled(false);
-        ((CheckBox)fragmentView.findViewById(R.id.checkBox15)).setEnabled(false);
+        ((TextView) fragmentView.findViewById(R.id.textView12)).setText(c.name);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox13)).setChecked(c.callContact);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox14)).setChecked(c.sendSms);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox15)).setChecked(c.sendPrivateMessage);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox13)).setEnabled(false);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox14)).setEnabled(false);
+        ((CheckBox) fragmentView.findViewById(R.id.checkBox15)).setEnabled(false);
 
         // updating holding time;
         TextView holdTimeView = (TextView) HomeFragment.getViewById(R.id.textView15);
@@ -101,11 +113,54 @@ public class HomeFragment extends Fragment {
     }
 
     public void addListeners() {
+
         ImageButton buttonOne = (ImageButton) HomeFragment.getViewById(R.id.help_button);
 
-        buttonOne.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                onHelp();
+        //onHelp();
+        buttonOne.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+                    buttonUp = false;
+                    startTime = System.currentTimeMillis();
+                    holdTime = Configurations.getButtonHoldTime();
+
+                    timer = new CountDownTimer(holdTime * 1000, holdTime * 1000) {
+
+                        @Override
+                        public void onTick(long millisUntilFinished) {}
+                        @Override
+                        public void onFinish() {
+
+                            stopTime = System.currentTimeMillis();
+                            if (stopTime - startTime >= (long) holdTime * 1000 && !buttonUp) {
+
+                                // held holdTime seconds => start panic measures directly
+                                buttonHoldingTime = Configurations.getButtonWaitingTime();
+                                Configurations.setButtonWaitingTime(1);
+                                onHelp();
+                                Configurations.setButtonWaitingTime(buttonHoldingTime);
+                                actionDone = true;
+                            }
+                            timer.cancel();
+                        }
+                    }.start();
+                }
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    buttonUp = true;
+                    if (!actionDone) {
+
+                        // didn't hold holdTime seconds => the usual help measures
+                        onHelp();
+                        actionDone = false;
+                        timer.cancel();
+                    }
+                }
+
+                return false;
             }
         });
 
@@ -125,10 +180,8 @@ public class HomeFragment extends Fragment {
 
     }
 
-    public void  onHelp() {
+    public void onHelp() {
         Intent dialogIntent = new Intent(MainActivity.getAppContext(), MainAlarm.class);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getActivity().getApplication().startActivity(dialogIntent);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getActivity().getApplication().startActivity(dialogIntent);
     }
