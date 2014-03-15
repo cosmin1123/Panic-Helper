@@ -131,8 +131,6 @@ public class HomeFragment extends Fragment {
         Intent dialogIntent = new Intent(MainActivity.getAppContext(), MainAlarm.class);
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getActivity().getApplication().startActivity(dialogIntent);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getActivity().getApplication().startActivity(dialogIntent);
     }
 
 }

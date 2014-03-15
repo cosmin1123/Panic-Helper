@@ -12,7 +12,6 @@ import android.util.Log;
 import ninja.PanicHelper.MainActivity;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.safetyMeasures.MainAlarm;
-import ninja.PanicHelper.voice.control.VoiceSay;
 
 public class Accelerometer extends Service implements SensorEventListener{
     private float mAccel; // acceleration apart from gravity
@@ -20,7 +19,6 @@ public class Accelerometer extends Service implements SensorEventListener{
     private float mAccelLast; // last acceleration including gravity
     private static boolean accelerometerRunning = false;
     private static Intent accelerationService = null;
-    private static VoiceSay voice = new VoiceSay();
     public static boolean fired = false;
 
     boolean flag=false;
