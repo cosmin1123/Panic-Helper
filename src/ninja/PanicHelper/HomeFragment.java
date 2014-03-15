@@ -46,6 +46,7 @@ public class HomeFragment extends Fragment {
         super.onStart();
         initialiseContactTable();
         addListeners();
+        MainActivity.refreshAccelerationService();
     }
 
     public void initialiseContactTable() {

@@ -66,7 +66,9 @@ public class MainAlarm extends Activity {
             public void onTick(long millisUntilFinished) {
                 secondsView.setText("seconds remaining: " + millisUntilFinished / 1000);
 
-                if( (secondsRemaining -  (millisUntilFinished / 1000)) >= 5 && !listened) {
+                if( (secondsRemaining -  (millisUntilFinished / 1000)) >= 5 && !listened &&
+                        ((Configurations.isCrashVoiceRec() &&  Accelerometer.fired) ||
+                        (!Accelerometer.fired && Configurations.isButtonVoiceRec()))) {
                     voiceRecognitionStart();
                     listened = true;
                 }
@@ -126,7 +128,6 @@ public class MainAlarm extends Activity {
         Accelerometer.fired = false;
 
         finishActivity(1);
-
     }
 
     @Override
@@ -216,15 +217,14 @@ public class MainAlarm extends Activity {
 
     public void startPanicMeasures() {
 
-        // start calling
-        if(Configurations.getCallContactTelephoneNumbers().length >= 1) {
-            startActivityForResult(
-                VoiceMessage.leaveMessage(Configurations.getCallContactTelephoneNumbers()[0]), 2);
+        // check if yell service is activated
+        if(Configurations.isButtonYellService() && !Accelerometer.fired) {
+            Sound.start(MainActivity.getAppContext());
         }
 
-        // send sms
-        if(Configurations.getCallContactTelephoneNumbers().length >= 1) {
-            Sms.sendSMS(Configurations.getSmsContactTelephoneNumbers()[0]);
+
+        if(Configurations.isButtonYellService() && !Accelerometer.fired) {
+            Sound.start(MainActivity.getAppContext());
         }
 
         // check if light service is activated
@@ -236,14 +236,15 @@ public class MainAlarm extends Activity {
             Light.startWarningLight();
         }
 
-        // check if yell service is activated
-        if(Configurations.isButtonYellService() && !Accelerometer.fired) {
-            Sound.start(MainActivity.getAppContext());
+        // send sms
+        if(Configurations.getSmsContactTelephoneNumbers().length >= 1) {
+            Sms.sendSMS(Configurations.getSmsContactTelephoneNumbers()[0]);
         }
 
-
-        if(Configurations.isButtonYellService() && !Accelerometer.fired) {
-            Sound.start(MainActivity.getAppContext());
+        // start calling
+        if(Configurations.getCallContactTelephoneNumbers().length >= 1) {
+            startActivityForResult(
+                VoiceMessage.leaveMessage(Configurations.getCallContactTelephoneNumbers()[0]), 2);
         }
 
     }

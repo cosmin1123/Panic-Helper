@@ -150,6 +150,7 @@ public class SettingsFragment extends PreferenceFragment {
 
         seekBarHM.clear();
 
+        MainActivity.refreshAccelerationService();
         Log.d("checkConfig", "\nConfig:\n" + Configurations.getButtonHoldTime());
 
     }

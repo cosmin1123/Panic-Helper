@@ -47,7 +47,6 @@ public class Sms extends Activity{
                         if(currentSms >= Configurations.getSmsContactTelephoneNumbers().length) {
                             return;
                         }
-
                         Sms.sendSMS(Configurations.getSmsContactTelephoneNumbers()[currentSms++]);
 
                         break;

@@ -257,17 +257,16 @@ public class MainActivity extends Activity {
         super.onStart();
         running = true;
         Configurations.load();
-        refreshAccelerationService();
     }
 
 
-    public void refreshAccelerationService() {
+    public static void refreshAccelerationService() {
 
         if(Configurations.isCrashServiceActivated() && !Accelerometer.isServiceRunning())
-            startService(Accelerometer.getAccelerationService());
+            MainActivity.getAppContext().startService(Accelerometer.getAccelerationService());
 
         if(!Configurations.isCrashServiceActivated() && Accelerometer.isServiceRunning())
-            stopService(Accelerometer.getAccelerationService());
+            MainActivity.getAppContext().stopService(Accelerometer.getAccelerationService());
     }
 
     @Override
