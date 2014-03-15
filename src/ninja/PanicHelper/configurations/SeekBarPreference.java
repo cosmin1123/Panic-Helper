@@ -40,8 +40,6 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
     private SeekBar mSeekBar;
 
     private TextView mStatusText;
-    private TextView mTitle;
-    private boolean firstTime = true;
 
     private static HashMap<String, Integer> seekBarHM = new HashMap<String, Integer>();
 
@@ -162,30 +160,7 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
             mStatusText.setText(String.valueOf(mCurrentValue));
             mStatusText.setMinimumWidth(30);
 
-            mTitle = (TextView) layout.findViewById(getTitleRes());
-            if (mTitle == null) {
-                Log.d("sek_tag", "titlu nul");
-            } else {
-                Log.d("sek_tag", "titlu: " + mTitle.getText());
-            }
             mSeekBar.setProgress(mCurrentValue - mMinValue);
-
-            if (key.compareToIgnoreCase("crashWaitingTimeBar") == 0) {
-                if (firstTime) {
-                    mSeekBar.setEnabled(Configurations.isCrashServiceActivated());
-                } else {
-                    mSeekBar.setEnabled(!Configurations.isCrashServiceActivated());
-                }
-            }
-            if (key.compareToIgnoreCase("impactSensitivityBar") == 0) {
-                if (firstTime) {
-                    mSeekBar.setEnabled(Configurations.isCrashServiceActivated());
-                } else {
-                    mSeekBar.setEnabled(!Configurations.isCrashServiceActivated());
-                }
-            }
-
-            firstTime = false;
 
             TextView unitsRight = (TextView) layout.findViewById(R.id.seekBarPrefUnitsRight);
             unitsRight.setText(mUnitsRight);
@@ -252,8 +227,6 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
         if (restoreValue) {
             if (key != null) {
 
-                Log.d("seeking", "Setez cheia: " + key);
-
                 if (key.compareToIgnoreCase("crashWaitingTimeBar") == 0) {
                     mCurrentValue = Configurations.getCrashWaitingTime();
                 }
@@ -267,8 +240,6 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
                     mCurrentValue = Configurations.getButtonHoldTime();
                 }
 
-            } else {
-                Log.d("seeking", "cheia e nula");
             }
             //mCurrentValue = getPersistedInt(mCurrentValue);
         } else {
