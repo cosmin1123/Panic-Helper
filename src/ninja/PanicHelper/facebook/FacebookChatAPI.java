@@ -26,20 +26,24 @@ public class FacebookChatAPI {
         this.accessToken = accessToken;
     }
 
-    public void sendMessage(final String contactUsername, final String message){
+    public void sendMessage(final String[] contactUsernames, final String message){
         (new AsyncTask<Void,Void,Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                String contactUsernameId = getIdByUsername(contactUsername);
 
                 XMPPConnection connection = createXMPPConnection();
                 try
                 {
                     connection.connect();
                     connection.login(applicationKey, accessToken );
-                    String to = String.format( "-%s@chat.facebook.com",contactUsernameId);
-                    Chat chat = connection.getChatManager().createChat( to, null );
-                    chat.sendMessage(message);
+                    int counter = 0;
+                    for (String username : contactUsernames){
+                        System.out.println("Sending to " + username + "message #" + (++counter));
+                        String contactUsernameId = getIdByUsername(username);
+                        String to = String.format( "-%s@chat.facebook.com",contactUsernameId);
+                        Chat chat = connection.getChatManager().createChat( to, null );
+                        chat.sendMessage(message);
+                    }
                 }
                 catch( XMPPException e )
                 {

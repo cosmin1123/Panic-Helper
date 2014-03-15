@@ -15,8 +15,8 @@
                 android:title="Impact sensitivity"
                 android:summary="minimum speed"
                 android:defaultValue="50"
-                android:max="200"
-                robobunny:min="50"
+                android:max="100"
+                robobunny:min="10"
                 robobunny:unitsLeft=""
                 robobunny:unitsRight="km/h"
                 />

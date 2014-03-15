@@ -29,6 +29,7 @@ public class VoiceMessage{
 
     public static Intent leaveMessage(String telephoneNumber) {
         Intent intent = new Intent(Intent.ACTION_CALL);
+
         intent.setData(Uri.parse("tel:"+telephoneNumber));
 
         callFinished = false;

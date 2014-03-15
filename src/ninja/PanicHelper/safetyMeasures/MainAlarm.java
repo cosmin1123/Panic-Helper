@@ -17,6 +17,7 @@ import ninja.PanicHelper.MainActivity;
 import ninja.PanicHelper.detectors.Accelerometer;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.R;
+import ninja.PanicHelper.facebook.FacebookChatAPI;
 import org.json.JSONException;
 import org.json.JSONObject;
 import ninja.PanicHelper.voice.control.VoiceSay;
@@ -66,7 +67,9 @@ public class MainAlarm extends Activity {
             public void onTick(long millisUntilFinished) {
                 secondsView.setText("seconds remaining: " + millisUntilFinished / 1000);
 
-                if( (secondsRemaining -  (millisUntilFinished / 1000)) >= 5 && !listened) {
+                if( (secondsRemaining -  (millisUntilFinished / 1000)) >= 5 && !listened &&
+                        ((Configurations.isCrashVoiceRec() &&  Accelerometer.fired) ||
+                        (!Accelerometer.fired && Configurations.isButtonVoiceRec()))) {
                     voiceRecognitionStart();
                     listened = true;
                 }
@@ -119,14 +122,11 @@ public class MainAlarm extends Activity {
 
     }
 
-
     @Override
     public void onStop() {
         super.onStop();
         Accelerometer.fired = false;
-
         finishActivity(1);
-
     }
 
     @Override
@@ -135,75 +135,155 @@ public class MainAlarm extends Activity {
         VoiceSay.stop();
         alarmTimer.cancel();
         Light.stopWarningLight();
+        Sound.stop();
     }
 
-    private void postToWall() throws JSONException {
-        System.out.println("Checking session.");
-        Session session = Session.getActiveSession();
 
-        if(session==null){
-            // try to restore from cache
-            session = Session.openActiveSessionFromCache(this);
+    public void startPanicMeasures() {
+
+        // check if light service is activated
+        if(Configurations.isButtonLightService() && !Accelerometer.fired) {
+            Light.startWarningLight();
         }
-        if (session != null){
 
-            // Check for publish permissions
-            List<String> permissions = session.getPermissions();
-            List<String> PERMISSIONS = Arrays.asList("publish_actions");
-            if (!isSubsetOf(PERMISSIONS, permissions)) {
-                boolean pendingPublishReauthorization = true;
-                Session.NewPermissionsRequest newPermissionsRequest = new Session
-                        .NewPermissionsRequest(this, PERMISSIONS);
-                session.requestNewPublishPermissions(newPermissionsRequest);
-                return;
-            }
+        if(Configurations.isCrashLightService() && Accelerometer.fired) {
+            Light.startWarningLight();
+        }
 
-            Bundle postParams = new Bundle();
-            postParams.putString("name", "Facebook SDK");
-            postParams.putString("caption", "Build great social apps and get more installs.");
-            postParams.putString("description", "Help me, I am in danger");
-            postParams.putString("link", GPSTracker.getLocationLink());
-            postParams.putString("picture", "https://raw.github.com/fbsamples/ios-3.x-howtos/master/Images/iossdk_logo.png");
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("value", "SELF");
-            postParams.putString("privacy",  jsonObject.toString());
+        // check if yell service is activated
+        if(Configurations.isCrashYellService() && !Accelerometer.fired) {
+            Sound.start(MainActivity.getAppContext());
+        }
 
-            System.out.println("Starting.!");
+        if(Configurations.isButtonYellService() && Accelerometer.fired) {
+            Sound.start(MainActivity.getAppContext());
+        }
 
-            Request.Callback callback= new Request.Callback() {
-                public void onCompleted(Response response) {
-                    JSONObject graphResponse = response
-                            .getGraphObject()
-                            .getInnerJSONObject();
-                    String postId = null;
-                    try {
-                        postId = graphResponse.getString("id");
-                    } catch (JSONException e) {
+        // Post to Facebook wall
+        if (Configurations.isButtonPostOnWall() && !Accelerometer.fired){
+            postToWall();
+        }
 
-                    }
+        if (Configurations.isCrashPostOnWall() && Accelerometer.fired){
+            postToWall();
+        }
 
-                    FacebookRequestError error = response.getError();
-                    if (error != null) {
-                        Toast.makeText(getApplicationContext(),
-                                error.getErrorMessage(),
-                                Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(),
-                                postId,
-                                Toast.LENGTH_LONG).show();
-                    }
+        // Send Facebook Private Messages
+        if (Configurations.getContactFbUserNames().length > 0){
+            sendFbMessages(Configurations.getContactFbUserNames());
+        }
+
+        // send sms
+        if(Configurations.getSmsContactTelephoneNumbers().length >= 1) {
+            Sms.sendSMS(Configurations.getSmsContactTelephoneNumbers()[0]);
+        }
+
+        // start calling
+        if(Configurations.getCallContactTelephoneNumbers().length >= 1) {
+            startActivityForResult(
+                    VoiceMessage.leaveMessage(Configurations.getCallContactTelephoneNumbers()[0]), 2);
+        }
+    }
+
+    private void sendFbMessages(String[] userNames){
+        if (Configurations.isLoggedIn()){
+            Session session = Session.getActiveSession();
+            if(session==null){
+                // try to restore from cache
+                session = Session.openActiveSessionFromCache(this);
+                if (session == null){
+                    return;
                 }
-            };
-
-            Request request = new Request(session, "me/feed", postParams,
-                    HttpMethod.POST, callback);
-
-            RequestAsyncTask task = new RequestAsyncTask(request);
-            task.execute();
-            System.out.println("DONE POST WALL>!");
+            }
+            if (session != null){
+                String accessToken = session.getAccessToken();
+                FacebookChatAPI chatAPI = new FacebookChatAPI(accessToken);
+                    if (Accelerometer.fired){
+                        chatAPI.sendMessage(userNames,Configurations.getCrashMessage());
+                    }
+                    else{
+                        chatAPI.sendMessage(userNames,Configurations.getButtonMessage());
+                    }
+            }
         }
     }
 
+    private void postToWall() {
+        if (Configurations.isLoggedIn()){
+            Session session = Session.getActiveSession();
+            if(session==null){
+                // try to restore from cache
+                session = Session.openActiveSessionFromCache(this);
+                if (session == null){
+                    return;
+                }
+            }
+            if (session != null){
+                // Check for publish permissions
+                List<String> permissions = session.getPermissions();
+                List<String> PERMISSIONS = Arrays.asList("publish_actions");
+                if (!isSubsetOf(PERMISSIONS, permissions)) {
+                    boolean pendingPublishReauthorization = true;
+                    Session.NewPermissionsRequest newPermissionsRequest = new Session
+                            .NewPermissionsRequest(this, PERMISSIONS);
+                    session.requestNewPublishPermissions(newPermissionsRequest);
+                    return;
+                }
+
+                Bundle postParams = new Bundle();
+                postParams.putString("name", Configurations.getFacebookName() + " is in DANGER!");
+                postParams.putString("caption", "Click on this link to see his position on the map.");
+                if (Accelerometer.fired){
+                    postParams.putString("description", Configurations.getCrashMessage());
+                }
+                else{
+                    postParams.putString("description", Configurations.getButtonMessage());
+                }
+
+                postParams.putString("link", GPSTracker.getLocationLink());
+                postParams.putString("picture", "https://awareofyourcare.com/blog/wp-content/uploads/2011/03/Help-Button.jpg");
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("value", "SELF");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                postParams.putString("privacy",  jsonObject.toString());
+
+                Request.Callback callback= new Request.Callback() {
+                    public void onCompleted(Response response) {
+                        JSONObject graphResponse = response
+                                .getGraphObject()
+                                .getInnerJSONObject();
+                        String postId = null;
+                        try {
+                            postId = graphResponse.getString("id");
+                        } catch (JSONException e) {
+
+                        }
+
+                        FacebookRequestError error = response.getError();
+                        if (error != null) {
+                            Toast.makeText(getApplicationContext(),
+                                    error.getErrorMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    postId,
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                };
+
+                Request request = new Request(session, "me/feed", postParams,
+                        HttpMethod.POST, callback);
+
+                RequestAsyncTask task = new RequestAsyncTask(request);
+                task.execute();
+            }
+        }
+
+    }
 
     private boolean isSubsetOf(Collection<String> subset, Collection<String> superset) {
         for (String string : subset) {
@@ -212,29 +292,5 @@ public class MainAlarm extends Activity {
             }
         }
         return true;
-    }
-
-    public void startPanicMeasures() {
-
-        // start calling
-        if(Configurations.getCallContactTelephoneNumbers().length >= 1) {
-            startActivityForResult(
-                VoiceMessage.leaveMessage(Configurations.getCallContactTelephoneNumbers()[0]), 2);
-        }
-        // check if light service is activated
-        if(Configurations.isButtonLightService() && !Accelerometer.fired)
-            Light.startWarningLight();
-
-        if(Configurations.isCrashLightService() && Accelerometer.fired)
-            Light.startWarningLight();
-
-        // check if yell service is activated
-        if(Configurations.isButtonYellService() && !Accelerometer.fired)
-            Sound.start(MainActivity.getAppContext());
-
-
-        if(Configurations.isButtonYellService() && !Accelerometer.fired)
-            Sound.start(MainActivity.getAppContext());
-
     }
 }
