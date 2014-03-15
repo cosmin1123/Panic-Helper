@@ -20,7 +20,7 @@
             android:id="@+id/textView" android:layout_weight=".15" android:textColor="#ffff" android:textSize="20dp"
             android:gravity="center_vertical|center_horizontal"/>
     <TextView android:layout_width="fill_parent" android:layout_height="0dp"
-              android:text="30 seconds" android:id="@+id/seconds_textView"
+              android:text="Applying safety measures" android:id="@+id/seconds_textView"
               android:layout_weight=".15" android:textColor="#ffff" android:textSize="20dp"
               android:gravity="center_horizontal"/>
     <TextView
