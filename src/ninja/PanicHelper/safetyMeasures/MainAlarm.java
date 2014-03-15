@@ -69,7 +69,7 @@ public class MainAlarm extends Activity {
             public void onTick(long millisUntilFinished) {
                 secondsView.setText("seconds remaining: " + millisUntilFinished / 1000);
 
-                if( (secondsRemaining -  (millisUntilFinished / 1000)) >= 5 && !listened &&
+                if( (secondsRemaining -  (millisUntilFinished / 1000)) >= 7 && !listened &&
                         ((Configurations.isCrashVoiceRec() &&  Accelerometer.fired) ||
                         (!Accelerometer.fired && Configurations.isButtonVoiceRec()))) {
                     voiceRecognitionStart();
