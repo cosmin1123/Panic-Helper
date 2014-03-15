@@ -20,9 +20,7 @@ public class Accelerometer extends Service implements SensorEventListener{
     private float mAccelLast; // last acceleration including gravity
     private static boolean accelerometerRunning = false;
     private static Intent accelerationService = null;
-    private static VoiceSay voice = new VoiceSay();
     public static boolean fired = false;
-
     boolean flag=false;
     public static final String TAG = "Acceleration";
     SensorManager sensorManager;

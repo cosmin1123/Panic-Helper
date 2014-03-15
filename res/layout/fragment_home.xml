@@ -5,21 +5,27 @@
               android:layout_height="fill_parent" android:orientation="vertical" tools:context=".MainActivity"
               android:baselineAligned="false" android:background="@drawable/back_ground">
 
-    <RelativeLayout
+    <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="0dp" android:layout_weight="2">
+            android:layout_height="0dp" android:layout_weight="2" android:weightSum="10">
         <Button
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="120dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/button" android:background="@drawable/button_alarm"
-                />
+                android:layout_weight="3"/>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent" android:layout_weight="4">
+        </LinearLayout>
         <Button
-                android:layout_width="120dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/button2" android:singleLine="false" android:background="@drawable/button_light"
-                android:layout_alignParentRight="true"/>
-    </RelativeLayout>
+                android:layout_alignParentRight="true" android:layout_weight="3"/>
+    </LinearLayout>
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
@@ -30,7 +36,7 @@
                 android:id="@+id/help_button"
                 android:scaleType="fitCenter"
                 android:background="@drawable/button_emergency"
-                android:cropToPadding="true" android:layout_weight="6"/>
+                android:cropToPadding="true" android:layout_weight="5.5"/>
     </LinearLayout>
     <TextView android:layout_width="fill_parent" android:layout_height="0dp" android:text="Hold 5 seconds for instant help"
               android:id="@+id/textView15" android:layout_weight="0.6" android:singleLine="false" android:textSize="22sp"
@@ -41,7 +47,8 @@
             android:layout_height="0dp"
             android:text="Emergency Contacts"
             android:id="@+id/textView" android:layout_weight="0.5" android:singleLine="false" android:textSize="22sp"
-            android:textIsSelectable="false" android:textColor="#ffff" android:gravity="center_vertical|top"/>
+            android:textIsSelectable="false" android:textColor="#ffff" android:gravity="center|top"
+            />
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
