@@ -18,19 +18,21 @@ import ninja.PanicHelper.configurations.Contact;
 import ninja.PanicHelper.safetyMeasures.Light;
 import ninja.PanicHelper.safetyMeasures.MainAlarm;
 import ninja.PanicHelper.safetyMeasures.Sound;
+import org.w3c.dom.Text;
 
 /**
  * Created by Cataaa on 3/4/14.
  */
 public class HomeFragment extends Fragment {
     public static View fragmentView;
-    public CountDownTimer timer;
-    public long startTime = 0;
-    public long stopTime = 0;
-    public int holdTime = 0;
     public static int buttonHoldingTime = Configurations.getButtonHoldTime();
-    public boolean buttonUp = false;
-    public boolean actionDone = false;
+    public static TextView holdCounterTextView;
+    private CountDownTimer timer;
+    private long startTime = 0;
+    private long stopTime = 0;
+    private int holdTime = 0;
+    private boolean buttonUp = false;
+    private boolean actionDone = false;
 
     public HomeFragment() {
     }
@@ -111,6 +113,7 @@ public class HomeFragment extends Fragment {
     public void addListeners() {
 
         ImageButton buttonOne = (ImageButton) HomeFragment.getViewById(R.id.help_button);
+        holdCounterTextView = (TextView) HomeFragment.getViewById(R.id.holdCounterText);
 
         //onHelp();
         buttonOne.setOnTouchListener(new View.OnTouchListener() {
@@ -122,17 +125,18 @@ public class HomeFragment extends Fragment {
                     buttonUp = false;
                     startTime = System.currentTimeMillis();
                     holdTime = Configurations.getButtonHoldTime();
-
-                    timer = new CountDownTimer(holdTime * 1000, holdTime * 1000) {
+                    holdCounterTextView.setText(holdTime + "");
+                    timer = new CountDownTimer(holdTime * 1000, 1000) {
 
                         @Override
-                        public void onTick(long millisUntilFinished) {}
+                        public void onTick(long millisUntilFinished) {
+                            holdCounterTextView.setText(((int) millisUntilFinished/1000) + "");
+                        }
                         @Override
                         public void onFinish() {
-
+                            holdCounterTextView.setText("0");
                             stopTime = System.currentTimeMillis();
                             if ((stopTime - startTime) >= ((long) holdTime * 1000) && !buttonUp) {
-
                                 // held holdTime seconds => start panic measures directly
                                 Configurations.setButtonWaitingTime(1);
                                 onHelp();

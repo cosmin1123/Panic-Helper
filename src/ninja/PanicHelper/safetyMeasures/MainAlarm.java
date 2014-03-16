@@ -145,9 +145,9 @@ public class MainAlarm extends Activity {
         alarmTimer.cancel();
         Light.stopWarningLight();
         Sound.stop();
+        HomeFragment.holdCounterTextView.setText("");
         Configurations.setButtonWaitingTime(HomeFragment.buttonHoldingTime);
     }
-
 
     public void startPanicMeasures() {
         // check if light service is activated
@@ -269,17 +269,6 @@ public class MainAlarm extends Activity {
                             postId = graphResponse.getString("id");
                         } catch (JSONException e) {
 
-                        }
-
-                        FacebookRequestError error = response.getError();
-                        if (error != null) {
-                            Toast.makeText(getApplicationContext(),
-                                    error.getErrorMessage(),
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(),
-                                    postId,
-                                    Toast.LENGTH_LONG).show();
                         }
                     }
                 };
