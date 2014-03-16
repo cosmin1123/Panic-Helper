@@ -11,8 +11,8 @@ import android.widget.*;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.adapter.ListAdapter;
 
-/**
- * Created by Cataaa on 3/6/14.
+/*
+The class for generating the emergency contacts fragment view.
  */
 public class EmergencyContactsFragment extends Fragment{
     public EmergencyContactsFragment(){}
@@ -58,6 +58,12 @@ public class EmergencyContactsFragment extends Fragment{
         } else
             addContact.setEnabled(true);
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Configurations.save();
     }
 
 }

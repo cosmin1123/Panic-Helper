@@ -193,7 +193,6 @@ public class MemorizingTrustManager implements X509TrustManager {
 			// Here, we are covering up errors. It might be more useful
 			// however to throw them out of the constructor so the
 			// embedding app knows something went wrong.
-			Log.e(TAG, "getTrustManager(" + ks + ")", e);
 		}
 		return null;
 	}
@@ -203,16 +202,13 @@ public class MemorizingTrustManager implements X509TrustManager {
 		try {
 			ks = KeyStore.getInstance(KeyStore.getDefaultType());
 		} catch (KeyStoreException e) {
-			Log.e(TAG, "getAppKeyStore()", e);
 			return null;
 		}
 		try {
 			ks.load(null, null);
 			ks.load(new java.io.FileInputStream(keyStoreFile), "MTM".toCharArray());
 		} catch (java.io.FileNotFoundException e) {
-			Log.i(TAG, "getAppKeyStore(" + keyStoreFile + ") - file does not exist");
 		} catch (Exception e) {
-			Log.e(TAG, "getAppKeyStore(" + keyStoreFile + ")", e);
 		}
 		return ks;
 	}
@@ -223,7 +219,6 @@ public class MemorizingTrustManager implements X509TrustManager {
 			for (X509Certificate c : chain)
 				appKeyStore.setCertificateEntry(c.getSubjectDN().toString(), c);
 		} catch (KeyStoreException e) {
-			Log.e(TAG, "storeCert(" + chain + ")", e);
 			return;
 		}
 		
@@ -236,7 +231,6 @@ public class MemorizingTrustManager implements X509TrustManager {
 			appKeyStore.store(fos, "MTM".toCharArray());
 			fos.close();
 		} catch (Exception e) {
-			Log.e(TAG, "storeCert(" + keyStoreFile + ")", e);
 		}
 	}
 
@@ -261,9 +255,7 @@ public class MemorizingTrustManager implements X509TrustManager {
 	public void checkCertTrusted(X509Certificate[] chain, String authType, boolean isServer)
 		throws CertificateException
 	{
-		Log.d(TAG, "checkCertTrusted(" + chain + ", " + authType + ", " + isServer + ")");
 		try {
-			Log.d(TAG, "checkCertTrusted: trying appTrustManager");
 			if (isServer)
 				appTrustManager.checkServerTrusted(chain, authType);
 			else
@@ -272,17 +264,14 @@ public class MemorizingTrustManager implements X509TrustManager {
 			// if the cert is stored in our appTrustManager, we ignore expiredness
 			ae.printStackTrace();
 			if (isExpiredException(ae)) {
-				Log.i(TAG, "checkCertTrusted: accepting expired certificate from keystore");
 				return;
 			}
 			if (isCertKnown(chain[0])) {
-				Log.i(TAG, "checkCertTrusted: accepting cert already stored in keystore");
 				return;
 			}
 			try {
 				if (defaultTrustManager == null)
 					throw new CertificateException();
-				Log.d(TAG, "checkCertTrusted: trying defaultTrustManager");
 				if (isServer)
 					defaultTrustManager.checkServerTrusted(chain, authType);
 				else
@@ -308,7 +297,6 @@ public class MemorizingTrustManager implements X509TrustManager {
 
 	public X509Certificate[] getAcceptedIssuers()
 	{
-		Log.d(TAG, "getAcceptedIssuers()");
 		return defaultTrustManager.getAcceptedIssuers();
 	}
 
@@ -414,21 +402,17 @@ public class MemorizingTrustManager implements X509TrustManager {
 				try {
 					getUI().startActivity(ni);
 				} catch (Exception e) {
-					Log.e(TAG, "startActivity: " + e);
 					startActivityNotification(ni, certMessage);
 				}
 			}
 		});
 
-		Log.d(TAG, "openDecisions: " + openDecisions);
-		Log.d(TAG, "waiting on " + myId);
 		try {
 			synchronized(choice) { choice.wait(); }
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		master.unregisterReceiver(decisionReceiver);
-		Log.d(TAG, "finished wait on " + myId + ": " + choice.state);
 		switch (choice.state) {
 		case MTMDecision.DECISION_ALWAYS:
 			storeCert(chain);
@@ -442,8 +426,6 @@ public class MemorizingTrustManager implements X509TrustManager {
 	public static void interactResult(Intent i) {
 		int decisionId = i.getIntExtra(DECISION_INTENT_ID, MTMDecision.DECISION_INVALID);
 		int choice = i.getIntExtra(DECISION_INTENT_CHOICE, MTMDecision.DECISION_INVALID);
-		Log.d(TAG, "interactResult: " + decisionId + " chose " + choice);
-		Log.d(TAG, "openDecisions: " + openDecisions);
 
 		MTMDecision d;
 		synchronized(openDecisions) {
@@ -451,7 +433,6 @@ public class MemorizingTrustManager implements X509TrustManager {
 			 openDecisions.remove(decisionId);
 		}
 		if (d == null) {
-			Log.e(TAG, "interactResult: aborting due to stale decision reference!");
 			return;
 		}
 		synchronized(d) {

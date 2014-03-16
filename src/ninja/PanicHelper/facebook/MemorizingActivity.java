@@ -8,19 +8,16 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import ninja.PanicHelper.R;
 
 public class MemorizingActivity extends Activity
 		implements OnClickListener,OnCancelListener {
-	final static String TAG = "MemorizingActivity";
 
 	int decisionId;
 	String app;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 	}
 
@@ -31,8 +28,7 @@ public class MemorizingActivity extends Activity
 		app = i.getStringExtra(MemorizingTrustManager.DECISION_INTENT_APP);
 		decisionId = i.getIntExtra(MemorizingTrustManager.DECISION_INTENT_ID, MTMDecision.DECISION_INVALID);
 		String cert = i.getStringExtra(MemorizingTrustManager.DECISION_INTENT_CERT);
-		Log.d(TAG, "onResume with " + i.getExtras() + " decId=" + decisionId);
-		Log.d(TAG, "data: " + i.getData());
+
 		new AlertDialog.Builder(this).setTitle(R.string.mtm_accept_cert)
 			.setMessage(cert)
 			.setPositiveButton(R.string.mtm_decision_always, this)
@@ -43,7 +39,6 @@ public class MemorizingActivity extends Activity
 	}
 
 	void sendDecision(int decision) {
-		Log.d(TAG, "Sending decision to " + app + ": " + decision);
 		Intent i = new Intent(MemorizingTrustManager.DECISION_INTENT + "/" + app);
 		i.putExtra(MemorizingTrustManager.DECISION_INTENT_ID, decisionId);
 		i.putExtra(MemorizingTrustManager.DECISION_INTENT_CHOICE, decision);

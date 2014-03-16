@@ -1,7 +1,6 @@
 package ninja.PanicHelper.facebook;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import de.measite.smack.Sasl;
 import org.apache.harmony.javax.security.auth.callback.CallbackHandler;
 import org.jivesoftware.smack.*;
@@ -19,7 +18,6 @@ import java.util.Map;
 
 public class FacebookChatAPI {
     private static String accessToken;
-    private final String TAG = "Facebook Chat API";
     private final String applicationKey = "582917665107934";
 
     public FacebookChatAPI(String accessToken){
@@ -203,13 +201,9 @@ public class FacebookChatAPI {
             }
             rd.close();
         } catch (Exception e) {
-            Log.i(TAG, "Error at getting ID for " + contactUsername);
-            Log.e(TAG, e.toString());
             return null;
         }
-        Log.i(TAG, "Get Method result: " + result + "\n");
         String contactAccountID = result.split(",")[0].split(":")[1].replace("\"", "");
-        Log.i(TAG, "The ID for " + contactUsername + " is " + contactAccountID + "\n");
         return contactAccountID;
     }
 }

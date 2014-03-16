@@ -9,7 +9,6 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.speech.RecognizerIntent;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,19 +16,24 @@ import android.widget.Toast;
 import com.facebook.*;
 import ninja.PanicHelper.HomeFragment;
 import ninja.PanicHelper.MainActivity;
-import ninja.PanicHelper.detectors.Accelerometer;
-import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.R;
+import ninja.PanicHelper.configurations.Configurations;
+import ninja.PanicHelper.detectors.Accelerometer;
 import ninja.PanicHelper.facebook.FacebookChatAPI;
+import ninja.PanicHelper.voice.control.VoiceSay;
 import org.json.JSONException;
 import org.json.JSONObject;
-import ninja.PanicHelper.voice.control.VoiceSay;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+/*
+The activity for the main alarm.
+It start a counter for starting the panic measures and when the timer expires it starts the panic
+measures based on the configurations made by the user.
+ */
 public class MainAlarm extends Activity {
     private static final int DELAY = 100;
     private TextView secondsView,titleView;
@@ -110,10 +114,8 @@ public class MainAlarm extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.d("ActivityResult", requestCode + " " + resultCode);
         if (requestCode == 1  && resultCode == RESULT_OK) {
             ArrayList<String> thingsYouSaid = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            Log.d("Main", thingsYouSaid.get(0));
             if(thingsYouSaid.get(0).compareTo("stop") == 0){
                 finish();
             }
@@ -147,7 +149,8 @@ public class MainAlarm extends Activity {
         vibratePhone();
 
         Configurations.setButtonWaitingTime(HomeFragment.buttonHoldingTime);
-        // check if light service is activated
+
+        // Check if light service is activated
         if(Configurations.isButtonLightService() && !Accelerometer.fired) {
             Light.startWarningLight();
         }
@@ -156,7 +159,7 @@ public class MainAlarm extends Activity {
             Light.startWarningLight();
         }
 
-        // check if yell service is activated
+        // Check if yell service is activated
         if(Configurations.isCrashYellService() && Accelerometer.fired) {
             Sound.start(MainActivity.getAppContext());
         }
@@ -179,12 +182,12 @@ public class MainAlarm extends Activity {
             sendFbMessages(Configurations.getContactFbUserNames());
         }
 
-        // send sms
+        // Send sms
         if(Configurations.getSmsContactTelephoneNumbers().length >= 1) {
             Sms.sendSMS(Configurations.getSmsContactTelephoneNumbers()[0]);
         }
 
-        // start calling
+        // Start calling
         if(Configurations.getCallContactTelephoneNumbers().length >= 1) {
             startActivityForResult(
                     VoiceMessage.leaveMessage(Configurations.getCallContactTelephoneNumbers()[0]), 2);
