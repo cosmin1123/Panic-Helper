@@ -87,7 +87,7 @@ public class SettingsFragment extends PreferenceFragment {
         buttonVoiceRecBox.setChecked(Configurations.isButtonVoiceRec());
 
         crashMessage.setText(Configurations.getCrashPlainMessage());
-        buttonMessage.setText(Configurations.getButtonMessage());
+        buttonMessage.setText(Configurations.getButtonPlainMessage());
 
     }
 
@@ -111,6 +111,7 @@ public class SettingsFragment extends PreferenceFragment {
         Configurations.setCrashMessage(crashMessage.getText());
         Configurations.setCrashPlainMessage(crashMessage.getText());
         Configurations.setButtonMessage(buttonMessage.getText());
+        Configurations.setButtonPlainMessage(buttonMessage.getText());
 
         seekBarHM = new HashMap<String, Integer>();
         seekBarHM = SeekBarPreference.getSeekBarHM();

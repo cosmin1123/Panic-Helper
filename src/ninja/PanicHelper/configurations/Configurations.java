@@ -33,6 +33,7 @@ public class Configurations implements Serializable{
     private int impactSpeed = 50;
     private float gravity = 2.0f;
     private String buttonMessage = "Help me! I am hurt!\n";
+    private String buttonPlainMessage = "Help me! I am hurt!\n";
     private int buttonHoldTime = 5;
 
     /* Facebook data */
@@ -167,6 +168,16 @@ public class Configurations implements Serializable{
     public static void setButtonMessage(String buttonMessage) {
         checkIfLoad();
         configInstance.buttonMessage = buttonMessage;
+    }
+
+    public static String getButtonPlainMessage() {
+        checkIfLoad();
+        return configInstance.buttonPlainMessage;
+    }
+
+    public static void setButtonPlainMessage(String buttonPlainMessage) {
+        checkIfLoad();
+        configInstance.buttonPlainMessage = buttonPlainMessage;
     }
 
     public static int getButtonHoldTime() {
