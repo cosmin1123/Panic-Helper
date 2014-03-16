@@ -74,12 +74,12 @@ public class SettingsFragment extends PreferenceFragment {
         crashVoiceRecBox.setChecked(Configurations.isCrashVoiceRec());
 
         buttonYellServiceBox.setChecked(Configurations.isButtonYellService());
-        buttonLightServiceBox.setChecked(Configurations.isCrashLightService());
+        buttonLightServiceBox.setChecked(Configurations.isButtonLightService());
         buttonPostOnWallBox.setChecked(Configurations.isButtonPostOnWall());
         buttonVoiceRecBox.setChecked(Configurations.isButtonVoiceRec());
 
-        crashMessage.setText(Configurations.getCrashMessage());
-        buttonMessage.setText(Configurations.getButtonMessage());
+        crashMessage.setText(Configurations.getCrashPlainMessage());
+        buttonMessage.setText(Configurations.getButtonPlainMessage());
 
     }
 
@@ -101,7 +101,9 @@ public class SettingsFragment extends PreferenceFragment {
         Configurations.setButtonVoiceRec(buttonVoiceRecBox.isChecked());
 
         Configurations.setCrashMessage(crashMessage.getText());
+        Configurations.setCrashPlainMessage(crashMessage.getText());
         Configurations.setButtonMessage(buttonMessage.getText());
+        Configurations.setButtonPlainMessage(buttonMessage.getText());
 
         seekBarHM = new HashMap<String, Integer>();
         seekBarHM = SeekBarPreference.getSeekBarHM();
