@@ -89,7 +89,6 @@ public class Sms extends Activity{
             }
         }, new IntentFilter(DELIVERED));
 
-        Log.d("EXCEPTIONsdasdasdasd", Configurations.getButtonMessage());
         SmsManager sms = SmsManager.getDefault();
 
         if(Accelerometer.fired)
