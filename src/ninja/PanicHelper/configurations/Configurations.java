@@ -19,7 +19,7 @@ public class Configurations implements Serializable{
     private boolean isCrashVoiceRec = false;
 
     private int crashWaitingTime = 30;
-    private String crashMessage = "Help me! I was in a car accident!\n";
+    private String crashMessage = "Help me! I just had a car accident!\n";
 
     /* Help button settings */
     private boolean isButtonYellService = false;
