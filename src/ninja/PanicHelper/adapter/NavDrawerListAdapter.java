@@ -12,6 +12,10 @@ import ninja.PanicHelper.R;
 
 import java.util.ArrayList;
 
+/**
+ *  Adapter for the Navigation Bar
+ */
+
 public class NavDrawerListAdapter extends BaseAdapter {
 	
 	private Context context;

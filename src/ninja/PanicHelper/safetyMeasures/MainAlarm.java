@@ -53,7 +53,6 @@ public class MainAlarm extends Activity {
         secondsRemaining = 30;
         alarmInstance = this;
 
-
         layout.setBackgroundResource(R.drawable.danger_background_animation);
         AnimationDrawable animationDrawable = (AnimationDrawable) layout.getBackground();
         animationDrawable.start();
@@ -84,6 +83,11 @@ public class MainAlarm extends Activity {
 
             public void onFinish() {
                 secondsView.setText("Applying safety measures");
+                if (Configurations.isButtonVoiceRec() || Configurations.isCrashVoiceRec()){
+                    finishActivity(1);
+                }
+                vibratePhone();
+                Configurations.setButtonWaitingTime(HomeFragment.buttonHoldingTime);
                 startPanicMeasures();
 
             }
@@ -109,18 +113,20 @@ public class MainAlarm extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         Log.d("ActivityResult", requestCode + " " + resultCode);
         if (requestCode == 1  && resultCode == RESULT_OK) {
             ArrayList<String> thingsYouSaid = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            Log.d("Main", thingsYouSaid.get(0));
-            if(thingsYouSaid.get(0).compareTo("stop") == 0){
+            if(thingsYouSaid.get(0).contains("stop")){
                 finish();
             }
             else{
                 finishActivity(1);
                 voiceRecognitionStart();
             }
+        }
+        else{
+            finishActivity(1);
+            voiceRecognitionStart();
         }
     }
 
@@ -144,9 +150,6 @@ public class MainAlarm extends Activity {
 
 
     public void startPanicMeasures() {
-        vibratePhone();
-
-        Configurations.setButtonWaitingTime(HomeFragment.buttonHoldingTime);
         // check if light service is activated
         if(Configurations.isButtonLightService() && !Accelerometer.fired) {
             Light.startWarningLight();

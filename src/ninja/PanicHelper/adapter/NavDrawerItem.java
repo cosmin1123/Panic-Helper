@@ -1,5 +1,10 @@
 package ninja.PanicHelper.adapter;
 
+
+/**
+ *  An item in the Navigation Bar
+ */
+
 public class NavDrawerItem {
 	
 	private String title;
@@ -30,14 +35,6 @@ public class NavDrawerItem {
 		return this.icon;
 	}
 	
-	public String getCount(){
-		return this.count;
-	}
-	
-	public boolean getCounterVisibility(){
-		return this.isCounterVisible;
-	}
-	
 	public void setTitle(String title){
 		this.title = title;
 	}
@@ -45,12 +42,5 @@ public class NavDrawerItem {
 	public void setIcon(int icon){
 		this.icon = icon;
 	}
-	
-	public void setCount(String count){
-		this.count = count;
-	}
-	
-	public void setCounterVisibility(boolean isCounterVisible){
-		this.isCounterVisible = isCounterVisible;
-	}
+
 }
