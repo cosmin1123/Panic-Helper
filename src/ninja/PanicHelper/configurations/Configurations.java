@@ -2,6 +2,7 @@ package ninja.PanicHelper.configurations;
 
 import android.os.Environment;
 import android.util.Log;
+import ninja.PanicHelper.safetyMeasures.GPSTracker;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -99,7 +100,7 @@ public class Configurations implements Serializable{
 
     public static String getCrashMessage() {
         checkIfLoad();
-        return configInstance.crashMessage;
+        return configInstance.crashMessage + " \n"+ "My location is:\n" + GPSTracker.getLocationLink();
     }
 
     public static void setCrashMessage(String crashMessage) {
@@ -149,7 +150,7 @@ public class Configurations implements Serializable{
 
     public static String getButtonMessage() {
         checkIfLoad();
-        return configInstance.buttonMessage;
+        return configInstance.buttonMessage + " \n"+ "My location is:\n" + GPSTracker.getLocationLink();
     }
 
     public static void setButtonMessage(String buttonMessage) {
