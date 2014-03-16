@@ -9,7 +9,6 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.speech.RecognizerIntent;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,14 +16,13 @@ import android.widget.Toast;
 import com.facebook.*;
 import ninja.PanicHelper.HomeFragment;
 import ninja.PanicHelper.MainActivity;
-import ninja.PanicHelper.detectors.Accelerometer;
-import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.R;
+import ninja.PanicHelper.configurations.Configurations;
+import ninja.PanicHelper.detectors.Accelerometer;
 import ninja.PanicHelper.facebook.FacebookChatAPI;
 import ninja.PanicHelper.voice.control.VoiceSay;
 import org.json.JSONException;
 import org.json.JSONObject;
-import ninja.PanicHelper.voice.control.VoiceSay;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,6 +61,8 @@ public class MainAlarm extends Activity {
         } else
             secondsRemaining = Configurations.getButtonWaitingTime();
 
+        if(HomeFragment.buttonHold)
+            secondsRemaining = 1;
 
 
         alarmTimer = new CountDownTimer(secondsRemaining * 1000, 1000) {
@@ -88,7 +88,6 @@ public class MainAlarm extends Activity {
                     finishActivity(1);
                 }
                 vibratePhone();
-                Configurations.setButtonWaitingTime(HomeFragment.buttonHoldingTime);
                 startPanicMeasures();
 
             }
@@ -136,7 +135,6 @@ public class MainAlarm extends Activity {
         super.onStop();
         Accelerometer.fired = false;
         finishActivity(1);
-        Configurations.setButtonWaitingTime(HomeFragment.buttonHoldingTime);
     }
 
     @Override
@@ -147,13 +145,10 @@ public class MainAlarm extends Activity {
         Light.stopWarningLight();
         Sound.stop();
         HomeFragment.holdCounterTextView.setText("");
-        Configurations.setButtonWaitingTime(HomeFragment.buttonHoldingTime);
     }
 
     public void startPanicMeasures() {
         vibratePhone();
-
-        Configurations.setButtonWaitingTime(HomeFragment.buttonHoldingTime);
 
         // Check if light service is activated
         if(Configurations.isButtonLightService() && !Accelerometer.fired) {

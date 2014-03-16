@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,7 +26,7 @@ The class for generating the home fragment view.
  */
 public class HomeFragment extends Fragment {
     public static View fragmentView;
-    public static int buttonHoldingTime = Configurations.getButtonHoldTime();
+    public static boolean buttonHold;
     public static TextView holdCounterTextView;
     private CountDownTimer timer;
     private long startTime = 0;
@@ -116,13 +117,12 @@ public class HomeFragment extends Fragment {
         ImageButton buttonOne = (ImageButton) HomeFragment.getViewById(R.id.help_button);
         holdCounterTextView = (TextView) HomeFragment.getViewById(R.id.holdCounterText);
 
-        //onHelp();
         buttonOne.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    buttonHoldingTime = Configurations.getButtonWaitingTime();
+                    buttonHold = false;
                     buttonUp = false;
                     startTime = System.currentTimeMillis();
                     holdTime = Configurations.getButtonHoldTime();
@@ -139,7 +139,7 @@ public class HomeFragment extends Fragment {
                             stopTime = System.currentTimeMillis();
                             if ((stopTime - startTime) >= ((long) holdTime * 1000) && !buttonUp) {
                                 // held holdTime seconds => start panic measures directly
-                                Configurations.setButtonWaitingTime(1);
+                                buttonHold = true;
                                 onHelp();
                             }
                         }
