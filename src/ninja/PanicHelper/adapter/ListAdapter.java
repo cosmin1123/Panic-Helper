@@ -1,8 +1,5 @@
 package ninja.PanicHelper.adapter;
 
-/**
- * Created by Cataaa on 3/6/14.
- */
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -14,6 +11,9 @@ import ninja.PanicHelper.EmergencyContactsFragment;
 import ninja.PanicHelper.R;
 import ninja.PanicHelper.configurations.Configurations;
 
+/*
+It generates the list of contacts for Emergency contacts.
+ */
 public class ListAdapter extends ArrayAdapter<String> {
     private final Context context;
     private final String[] values;

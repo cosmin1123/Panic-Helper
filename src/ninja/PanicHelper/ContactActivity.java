@@ -7,8 +7,8 @@ import android.widget.*;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.configurations.Contact;
 
-/**
- * Created by Cataaa on 3/7/14.
+/*
+The class for adding and editing contacts from the emergency contacts.
  */
 public class ContactActivity extends Activity {
 

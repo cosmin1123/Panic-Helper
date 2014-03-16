@@ -4,17 +4,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import ninja.PanicHelper.MainActivity;
 import ninja.PanicHelper.configurations.Configurations;
-import ninja.PanicHelper.voice.control.VoiceSay;
 
-/**
- * Created with IntelliJ IDEA.
- * User: cosmin
- * Date: 3/6/14
- * Time: 8:28 PM
- * To change this template use File | Settings | File Templates.
+/*
+The class for calling a list of persons defined by the user in the emergency contacts.
  */
 public class VoiceMessage{
     /*
@@ -23,7 +17,6 @@ public class VoiceMessage{
                 startActivity(d);
      */
     static int prevState = -1;
-    static boolean playing = false;
     static boolean callFinished = false;
     static int currentContact = 1;
 
@@ -41,7 +34,6 @@ public class VoiceMessage{
 
                 switch(state) {
                     case TelephonyManager.CALL_STATE_IDLE: {
-                        Log.d("STATEOFTHECALLISI", state + " " + prevState);
                         if(prevState == TelephonyManager.CALL_STATE_OFFHOOK &&
                                 currentContact < Configurations.getCallContactTelephoneNumbers().length) {
                             MainAlarm.alarmInstance.startActivity(
@@ -52,11 +44,9 @@ public class VoiceMessage{
                         break;
                     }
                     case TelephonyManager.CALL_STATE_OFFHOOK:
-                        Log.d("STATEOFTHECALLISH", state + "");
                         prevState = TelephonyManager.CALL_STATE_OFFHOOK;
                         break;
                     case TelephonyManager.CALL_STATE_RINGING:
-                        Log.d("STATEOFTHECALLISR", state + "");
                         break;
                 }
             }

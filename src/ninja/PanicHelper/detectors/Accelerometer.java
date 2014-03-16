@@ -8,11 +8,15 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
-import android.util.Log;
 import ninja.PanicHelper.MainActivity;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.safetyMeasures.MainAlarm;
 
+/*
+The class that detects the current acceleration and runs as a service in the background.
+When it detects an acceleration higher than a certain threshold it starts the main application and then
+it starts the main alarm, that will start the safety measures.
+ */
 public class Accelerometer extends Service implements SensorEventListener{
     private float mAccel; // acceleration apart from gravity
     private float mAccelCurrent; // current acceleration including gravity
@@ -32,7 +36,6 @@ public class Accelerometer extends Service implements SensorEventListener{
     public void onCreate()
     {
         flag=true;
-        Log.d(TAG + "F", "onCreate");
         super.onCreate();
 
     }
@@ -40,14 +43,12 @@ public class Accelerometer extends Service implements SensorEventListener{
         accelerometerRunning = false;
         sensorManager.unregisterListener(this);
         flag=false;
-        Log.d(TAG + "F", "onDestroy");
         stopForeground(false);
         super.onDestroy();
 
     }
     public void onStart(Intent intent, int startId)
     {
-        Log.d(TAG + "F", "onStart");
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
@@ -80,7 +81,6 @@ public class Accelerometer extends Service implements SensorEventListener{
             if(Configurations.isAccident(mAccel) ) {
                 startSafetyMeasures();
             }
-            Log.d(TAG, "Current accel is: " + mAccel);
 
 
         }

@@ -6,12 +6,14 @@ import java.util.Locale;
 import android.content.Context;
 import android.media.AudioManager;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
 import android.widget.Toast;
 import ninja.PanicHelper.MainActivity;
 import ninja.PanicHelper.safetyMeasures.GPSTracker;
 
-
+/*
+The class for transforming text to voice.
+It is used for announcing the user that the safety measures will start
+ */
 public class VoiceSay implements TextToSpeech.OnInitListener
 {
     public TextToSpeech tts;
@@ -40,22 +42,16 @@ public class VoiceSay implements TextToSpeech.OnInitListener
                     AudioManager.STREAM_MUSIC,
                     am.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
                     0);
-
-            Log.d("Voice: ", "OK");
         }
         else {
-            Log.d("Voice: ", "NOT OK");
             Toast.makeText(MainActivity.getAppContext(),
                     "Error occurred while initializing Text-To-Speech engine", Toast.LENGTH_LONG).show();
         }
 
     }
 
-
     public static void speakWords(String textHolder){
-
         voice.tts.speak(textHolder, TextToSpeech.QUEUE_FLUSH, null);
-        Log.d("Voice: ", "I said: " + textHolder);
     }
 
     public static void continouslySpeakWords(String textHolder) {

@@ -1,14 +1,9 @@
 package ninja.PanicHelper.configurations;
 
-/**
- * Created by Buga on 3/10/14.
- */
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.Preference;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +16,10 @@ import ninja.PanicHelper.R;
 
 import java.util.HashMap;
 
+/*
+Tge class for getting and modifying the information from the seek bars.
+ */
 public class SeekBarPreference extends Preference implements OnSeekBarChangeListener {
-
-    private final String TAG = getClass().getName();
-    private final String MY_TAG = "seek_key";
 
     private static final String ANDROIDNS = "http://schemas.android.com/apk/res/android";
     private static final String ROBOBUNNYNS = "http://robobunny.com";
@@ -68,7 +63,6 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 
         // retrieving key
         key = getAttributeStringValue(attrs, ANDROIDNS, "key", "");
-        Log.d(MY_TAG, "Got the following key: " + key);
 
         mMaxValue = attrs.getAttributeIntValue(ANDROIDNS, "max", 100);
         mMinValue = attrs.getAttributeIntValue(ROBOBUNNYNS, "min", 0);
@@ -82,7 +76,6 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
             if (newInterval != null)
                 mInterval = Integer.parseInt(newInterval);
         } catch (Exception e) {
-            Log.e(TAG, "Invalid interval value", e);
         }
 
     }
@@ -113,7 +106,6 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 
             layout = (RelativeLayout) mInflater.inflate(R.layout.seek_bar_preference, parent, false);
         } catch (Exception e) {
-            Log.e(TAG, "Error creating seek bar preference", e);
         }
 
         return layout;
@@ -140,7 +132,6 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
                         ViewGroup.LayoutParams.WRAP_CONTENT);
             }
         } catch (Exception ex) {
-            Log.e(TAG, "Error binding view: " + ex.toString());
         }
 
         updateView(view);
@@ -169,7 +160,6 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
             unitsLeft.setText(mUnitsLeft);
 
         } catch (Exception e) {
-            Log.e(TAG, "Error updating seek bar preference", e);
         }
 
     }
@@ -196,7 +186,6 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 
         // saving data in a static hashmap
         seekBarHM.put(key, mCurrentValue);
-        Log.d(MY_TAG, "The hashMap: " + seekBarHM);
 
         mStatusText.setText(String.valueOf(newValue));
         persistInt(newValue);
@@ -247,7 +236,6 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
             try {
                 temp = (Integer) defaultValue;
             } catch (Exception ex) {
-                Log.e(TAG, "Invalid default value: " + defaultValue.toString());
             }
 
             persistInt(temp);

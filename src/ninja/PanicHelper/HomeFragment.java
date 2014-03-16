@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,8 +18,8 @@ import ninja.PanicHelper.safetyMeasures.Light;
 import ninja.PanicHelper.safetyMeasures.MainAlarm;
 import ninja.PanicHelper.safetyMeasures.Sound;
 
-/**
- * Created by Cataaa on 3/4/14.
+/*
+The class for generating the home fragment view.
  */
 public class HomeFragment extends Fragment {
     public static View fragmentView;
@@ -57,7 +56,7 @@ public class HomeFragment extends Fragment {
 
     public void initialiseContactTable() {
         Contact c = Configurations.getFirstFive().get(0);
-        Log.d("TESTT", c.name);
+
         ((TextView) fragmentView.findViewById(R.id.textView6)).setText(c.name);
         ((CheckBox) fragmentView.findViewById(R.id.checkBox)).setChecked(c.callContact);
         ((CheckBox) fragmentView.findViewById(R.id.checkBox2)).setChecked(c.sendSms);
