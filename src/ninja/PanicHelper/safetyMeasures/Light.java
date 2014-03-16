@@ -3,16 +3,12 @@ package ninja.PanicHelper.safetyMeasures;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.os.CountDownTimer;
-import android.util.Log;
 
 import java.io.IOException;
 
-/**
- * Created with IntelliJ IDEA.
- * User: cosmin
- * Date: 3/5/14
- * Time: 3:29 PM
- * To change this template use File | Settings | File Templates.
+/*
+The class for starting the light service.
+It works by starting a count down timer and turning the camera light on and off at a given interval.
  */
 public class Light {
     static Camera camera;
@@ -68,7 +64,6 @@ public class Light {
     }
 
     public static void toggleLed() {
-        Log.d("LED", "TOGGLELED " + cameraOn);
         if(cameraOn)
             ledoff();
         else

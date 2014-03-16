@@ -21,6 +21,7 @@ import ninja.PanicHelper.detectors.Accelerometer;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.R;
 import ninja.PanicHelper.facebook.FacebookChatAPI;
+import ninja.PanicHelper.voice.control.VoiceSay;
 import org.json.JSONException;
 import org.json.JSONObject;
 import ninja.PanicHelper.voice.control.VoiceSay;
@@ -113,7 +114,7 @@ public class MainAlarm extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("ActivityResult", requestCode + " " + resultCode);
+
         if (requestCode == 1  && resultCode == RESULT_OK) {
             ArrayList<String> thingsYouSaid = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if(thingsYouSaid.get(0).contains("stop")){
@@ -150,7 +151,11 @@ public class MainAlarm extends Activity {
     }
 
     public void startPanicMeasures() {
-        // check if light service is activated
+        vibratePhone();
+
+        Configurations.setButtonWaitingTime(HomeFragment.buttonHoldingTime);
+
+        // Check if light service is activated
         if(Configurations.isButtonLightService() && !Accelerometer.fired) {
             Light.startWarningLight();
         }
@@ -159,7 +164,7 @@ public class MainAlarm extends Activity {
             Light.startWarningLight();
         }
 
-        // check if yell service is activated
+        // Check if yell service is activated
         if(Configurations.isCrashYellService() && Accelerometer.fired) {
             Sound.start(MainActivity.getAppContext());
         }
@@ -182,12 +187,12 @@ public class MainAlarm extends Activity {
             sendFbMessages(Configurations.getContactFbUserNames());
         }
 
-        // send sms
+        // Send sms
         if(Configurations.getSmsContactTelephoneNumbers().length >= 1) {
             Sms.sendSMS(Configurations.getSmsContactTelephoneNumbers()[0]);
         }
 
-        // start calling
+        // Start calling
         if(Configurations.getCallContactTelephoneNumbers().length >= 1) {
             startActivityForResult(
                     VoiceMessage.leaveMessage(Configurations.getCallContactTelephoneNumbers()[0]), 2);

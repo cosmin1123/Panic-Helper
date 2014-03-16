@@ -2,9 +2,9 @@ package ninja.PanicHelper;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,8 +20,8 @@ import ninja.PanicHelper.safetyMeasures.MainAlarm;
 import ninja.PanicHelper.safetyMeasures.Sound;
 import org.w3c.dom.Text;
 
-/**
- * Created by Cataaa on 3/4/14.
+/*
+The class for generating the home fragment view.
  */
 public class HomeFragment extends Fragment {
     public static View fragmentView;
@@ -42,6 +42,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         return fragmentView;
     }
 
@@ -59,7 +60,7 @@ public class HomeFragment extends Fragment {
 
     public void initialiseContactTable() {
         Contact c = Configurations.getFirstFive().get(0);
-        Log.d("TESTT", c.name);
+
         ((TextView) fragmentView.findViewById(R.id.textView6)).setText(c.name);
         ((CheckBox) fragmentView.findViewById(R.id.checkBox)).setChecked(c.callContact);
         ((CheckBox) fragmentView.findViewById(R.id.checkBox2)).setChecked(c.sendSms);

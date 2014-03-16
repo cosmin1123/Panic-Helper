@@ -7,21 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.telephony.SmsManager;
-import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.widget.Toast;
-import ninja.PanicHelper.MainActivity;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.detectors.Accelerometer;
 
-import java.util.ArrayList;
-
-/**
- * Created with IntelliJ IDEA.
- * User: cosmin
- * Date: 3/14/14
- * Time: 7:46 PM
- * To change this template use File | Settings | File Templates.
+/*
+The class for sending sms messages to the list of persons defined by the user in
+the emergency contacts.
  */
 public class Sms extends Activity{
     static int currentSms = 1;

@@ -1,25 +1,17 @@
 package ninja.PanicHelper;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.*;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.SeekBar;
-import com.facebook.Settings;
-import ninja.PanicHelper.R;
+import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
+import android.preference.PreferenceCategory;
+import android.preference.PreferenceFragment;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.configurations.SeekBarPreference;
 
 import java.util.HashMap;
 
-/**
- * Created by Cataaa on 3/5/14.
+/*
+The class for generating the settings fragment view.
  */
 public class SettingsFragment extends PreferenceFragment {
     public SettingsFragment() {
@@ -82,12 +74,12 @@ public class SettingsFragment extends PreferenceFragment {
         crashVoiceRecBox.setChecked(Configurations.isCrashVoiceRec());
 
         buttonYellServiceBox.setChecked(Configurations.isButtonYellService());
-        buttonLightServiceBox.setChecked(Configurations.isCrashLightService());
+        buttonLightServiceBox.setChecked(Configurations.isButtonLightService());
         buttonPostOnWallBox.setChecked(Configurations.isButtonPostOnWall());
         buttonVoiceRecBox.setChecked(Configurations.isButtonVoiceRec());
 
-        crashMessage.setText(Configurations.getCrashMessage());
-        buttonMessage.setText(Configurations.getButtonMessage());
+        crashMessage.setText(Configurations.getCrashPlainMessage());
+        buttonMessage.setText(Configurations.getButtonPlainMessage());
 
     }
 
@@ -109,7 +101,9 @@ public class SettingsFragment extends PreferenceFragment {
         Configurations.setButtonVoiceRec(buttonVoiceRecBox.isChecked());
 
         Configurations.setCrashMessage(crashMessage.getText());
+        Configurations.setCrashPlainMessage(crashMessage.getText());
         Configurations.setButtonMessage(buttonMessage.getText());
+        Configurations.setButtonPlainMessage(buttonMessage.getText());
 
         seekBarHM = new HashMap<String, Integer>();
         seekBarHM = SeekBarPreference.getSeekBarHM();
@@ -130,7 +124,7 @@ public class SettingsFragment extends PreferenceFragment {
         seekBarHM.clear();
 
         MainActivity.refreshAccelerationService();
-        Log.d("checkConfig", "\nConfig:\n" + Configurations.getButtonHoldTime());
+        Configurations.save();
 
     }
 }

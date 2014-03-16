@@ -2,27 +2,23 @@ package ninja.PanicHelper;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
-import ninja.PanicHelper.R;
 import ninja.PanicHelper.configurations.Configurations;
-import ninja.PanicHelper.facebook.FacebookChatAPI;
 
 import java.util.Arrays;
 
-
-/**
- * Created by Cataaa on 3/8/14.
+/*
+The class for generating the Facebook account fragment view and checking if the user
+is authenticated on facebook.
  */
 public class FacebookAccountFragment extends Fragment {
     private TextView loggedInName;

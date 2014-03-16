@@ -1,13 +1,16 @@
 package ninja.PanicHelper.configurations;
 
 import android.os.Environment;
-import android.util.Log;
 import ninja.PanicHelper.safetyMeasures.GPSTracker;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+/*
+The settings of the application and it saves the settings in a file
+when the application stops.
+*/
 public class Configurations implements Serializable{
 
     private static final long serialVersionUID = 1L;
@@ -21,6 +24,7 @@ public class Configurations implements Serializable{
 
     private int crashWaitingTime = 30;
     private String crashMessage = "Help me! I just had a car accident!\n";
+    private String crashPlainMessage = "Help me! I just had a car accident!\n";
 
     /* Help button settings */
     private boolean isButtonYellService = false;
@@ -32,6 +36,7 @@ public class Configurations implements Serializable{
     private int impactSpeed = 50;
     private float gravity = 2.0f;
     private String buttonMessage = "Help me! I am hurt!\n";
+    private String buttonPlainMessage = "Help me! I am hurt!\n";
     private int buttonHoldTime = 5;
 
     /* Facebook data */
@@ -100,12 +105,22 @@ public class Configurations implements Serializable{
 
     public static String getCrashMessage() {
         checkIfLoad();
-        return configInstance.crashMessage + " \n"+ "My location is:\n" + GPSTracker.getLocationLink();
+        return configInstance.crashMessage + " \nMy location is:\n" + GPSTracker.getLocationLink();
     }
 
     public static void setCrashMessage(String crashMessage) {
         checkIfLoad();
         configInstance.crashMessage = crashMessage;
+    }
+
+    public static String getCrashPlainMessage() {
+        checkIfLoad();
+        return configInstance.crashPlainMessage;
+    }
+
+    public static void setCrashPlainMessage(String crashPlainMessage) {
+        checkIfLoad();
+        configInstance.crashPlainMessage = crashPlainMessage;
     }
 
     public static boolean isButtonYellService() {
@@ -150,12 +165,22 @@ public class Configurations implements Serializable{
 
     public static String getButtonMessage() {
         checkIfLoad();
-        return configInstance.buttonMessage + " \n"+ "My location is:\n" + GPSTracker.getLocationLink();
+        return configInstance.buttonMessage + " \nMy location is:\n" + GPSTracker.getLocationLink();
     }
 
     public static void setButtonMessage(String buttonMessage) {
         checkIfLoad();
         configInstance.buttonMessage = buttonMessage;
+    }
+
+    public static String getButtonPlainMessage() {
+        checkIfLoad();
+        return configInstance.buttonPlainMessage;
+    }
+
+    public static void setButtonPlainMessage(String buttonPlainMessage) {
+        checkIfLoad();
+        configInstance.buttonPlainMessage = buttonPlainMessage;
     }
 
     public static int getButtonHoldTime() {
@@ -251,7 +276,7 @@ public class Configurations implements Serializable{
 
         int callContactNumber = 0;
         for(Contact c : configInstance.personList) {
-            if(c.callContact) {
+            if(c.callContact && c.phoneNumber.length() >= 3) {
                 callContactNumber++;
             }
         }
@@ -260,7 +285,7 @@ public class Configurations implements Serializable{
         int i = 0;
 
         for(Contact c : configInstance.personList) {
-            if(c.callContact) {
+            if(c.callContact && c.phoneNumber.length() > 1) {
                 numbers[i] = c.phoneNumber;
                 i++;
             }
@@ -272,7 +297,7 @@ public class Configurations implements Serializable{
         checkIfLoad();
         int smsContactNumber = 0;
         for(Contact c : configInstance.personList) {
-            if(c.sendSms) {
+            if(c.sendSms  && c.phoneNumber.length() > 1) {
                 smsContactNumber++;
             }
         }
@@ -281,7 +306,7 @@ public class Configurations implements Serializable{
         int i = 0;
 
         for(Contact c : configInstance.personList) {
-            if(c.sendSms) {
+            if(c.sendSms && c.phoneNumber.length() > 1) {
                 numbers[i] = c.phoneNumber;
                 i++;
             }
@@ -294,7 +319,7 @@ public class Configurations implements Serializable{
 
         int facebookNameNumber = 0;
         for(Contact c : configInstance.personList) {
-            if(c.sendPrivateMessage) {
+            if(c.sendPrivateMessage && c.facebookName.length() > 1) {
                 facebookNameNumber++;
             }
         }
@@ -303,7 +328,7 @@ public class Configurations implements Serializable{
         int i = 0;
 
         for(Contact c : configInstance.personList) {
-            if(c.sendPrivateMessage) {
+            if(c.sendPrivateMessage && c.facebookName.length() > 1) {
                 names[i] = c.facebookName;
                 i++;
             }
@@ -372,12 +397,9 @@ public class Configurations implements Serializable{
 
             if(configInstance == null)
                 configInstance = new Configurations();
-            Log.d("Write","Sucess");
         }
 
-        catch(IOException e)
-        {
-            Log.d("Write", e.toString());
+        catch(IOException e) {
         }
 
     }
@@ -393,22 +415,16 @@ public class Configurations implements Serializable{
             if(configInstance == null)
                 configInstance = new Configurations();
 
-            Log.d("Write", "Load success");
-
         } catch (FileNotFoundException e) {
            configInstance = new Configurations();
-            Log.d("Write", "File not found");
         } catch (StreamCorruptedException e) {
-            Log.d("Write", "Corrupted Stream");
             configInstance = new Configurations();
             e.printStackTrace();
         } catch (IOException e) {
-            Log.d("Write", "IO Exception");
             configInstance = new Configurations();
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             configInstance = new Configurations();
-            Log.d("Write", "Class not found");
             e.printStackTrace();
         }
     }

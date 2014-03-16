@@ -2,12 +2,9 @@ package ninja.PanicHelper.configurations;
 
 import java.io.Serializable;
 
-/**
- * Created with IntelliJ IDEA.
- * User: cosmin
- * Date: 3/7/14
- * Time: 3:43 PM
- * To change this template use File | Settings | File Templates.
+/*
+The class that describes a contact  and the methods to contact that person
+phone, sms or private facebook message.
  */
 public class Contact implements Serializable {
 

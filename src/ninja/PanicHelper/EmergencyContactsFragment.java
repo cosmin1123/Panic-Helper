@@ -3,6 +3,7 @@ package ninja.PanicHelper;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +12,8 @@ import android.widget.*;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.adapter.ListAdapter;
 
-/**
- * Created by Cataaa on 3/6/14.
+/*
+The class for generating the emergency contacts fragment view.
  */
 public class EmergencyContactsFragment extends Fragment{
     public EmergencyContactsFragment(){}
@@ -26,6 +27,7 @@ public class EmergencyContactsFragment extends Fragment{
                              Bundle savedInstanceState) {
 
         View rootView  = inflater.inflate(R.layout.fragment_emergency_contacts, container, false);
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         return rootView;
     }
 
@@ -58,6 +60,12 @@ public class EmergencyContactsFragment extends Fragment{
         } else
             addContact.setEnabled(true);
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Configurations.save();
     }
 
 }

@@ -11,17 +11,11 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
-import android.util.Log;
 import ninja.PanicHelper.MainActivity;
-
-/**
- * Created with IntelliJ IDEA.
- * User: Buga
- * Date: 10/19/13
- * Time: 9:41 PM
- * To change this template use File | Settings | File Templates.
+/*
+The class that gets the current latitude and longitude and also, it can provide
+a link to google maps with the current latitude and longitude.
  */
-
 public class GPSTracker extends Service implements LocationListener {
 
     private final Context mContext;
@@ -76,7 +70,6 @@ public class GPSTracker extends Service implements LocationListener {
                             LocationManager.NETWORK_PROVIDER,
                             MIN_TIME_BW_UPDATES,
                             MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-                    Log.d("Network", "Network");
                     if (locationManager != null) {
                         location = locationManager
                                 .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -93,7 +86,6 @@ public class GPSTracker extends Service implements LocationListener {
                                 LocationManager.GPS_PROVIDER,
                                 MIN_TIME_BW_UPDATES,
                                 MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-                        Log.d("GPS Enabled", "GPS Enabled");
                         if (locationManager != null) {
                             location = locationManager
                                     .getLastKnownLocation(LocationManager.GPS_PROVIDER);
