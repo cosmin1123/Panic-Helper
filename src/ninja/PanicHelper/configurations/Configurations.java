@@ -21,6 +21,7 @@ public class Configurations implements Serializable{
 
     private int crashWaitingTime = 30;
     private String crashMessage = "Help me! I just had a car accident!\n";
+    private String crashPlainMessage = "Help me! I just had a car accident!\n";
 
     /* Help button settings */
     private boolean isButtonYellService = false;
@@ -100,12 +101,22 @@ public class Configurations implements Serializable{
 
     public static String getCrashMessage() {
         checkIfLoad();
-        return configInstance.crashMessage + " \n"+ "My location is:\n" + GPSTracker.getLocationLink();
+        return configInstance.crashMessage + " \nMy location is:\n" + GPSTracker.getLocationLink();
     }
 
     public static void setCrashMessage(String crashMessage) {
         checkIfLoad();
         configInstance.crashMessage = crashMessage;
+    }
+
+    public static String getCrashPlainMessage() {
+        checkIfLoad();
+        return configInstance.crashPlainMessage;
+    }
+
+    public static void setCrashPlainMessage(String crashPlainMessage) {
+        checkIfLoad();
+        configInstance.crashPlainMessage = crashPlainMessage;
     }
 
     public static boolean isButtonYellService() {
