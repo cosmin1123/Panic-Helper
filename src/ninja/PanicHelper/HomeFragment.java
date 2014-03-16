@@ -2,6 +2,7 @@ package ninja.PanicHelper;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
         return fragmentView;
     }
 
