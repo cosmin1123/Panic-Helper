@@ -165,7 +165,7 @@ public class Configurations implements Serializable{
 
     public static String getButtonMessage() {
         checkIfLoad();
-        return configInstance.buttonMessage + " \n"+ "My location is:\n" + GPSTracker.getLocationLink();
+        return configInstance.buttonMessage + " \nMy location is:\n" + GPSTracker.getLocationLink();
     }
 
     public static void setButtonMessage(String buttonMessage) {
