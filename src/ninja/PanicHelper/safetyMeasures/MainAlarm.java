@@ -9,6 +9,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,24 +17,20 @@ import android.widget.Toast;
 import com.facebook.*;
 import ninja.PanicHelper.HomeFragment;
 import ninja.PanicHelper.MainActivity;
-import ninja.PanicHelper.R;
-import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.detectors.Accelerometer;
+import ninja.PanicHelper.configurations.Configurations;
+import ninja.PanicHelper.R;
 import ninja.PanicHelper.facebook.FacebookChatAPI;
 import ninja.PanicHelper.voice.control.VoiceSay;
 import org.json.JSONException;
 import org.json.JSONObject;
+import ninja.PanicHelper.voice.control.VoiceSay;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-/*
-The activity for the main alarm.
-It start a counter for starting the panic measures and when the timer expires it starts the panic
-measures based on the configurations made by the user.
- */
 public class MainAlarm extends Activity {
     private static final int DELAY = 100;
     private TextView secondsView,titleView;
@@ -56,7 +53,6 @@ public class MainAlarm extends Activity {
         colorChanged = false;
         secondsRemaining = 30;
         alarmInstance = this;
-
 
         layout.setBackgroundResource(R.drawable.danger_background_animation);
         AnimationDrawable animationDrawable = (AnimationDrawable) layout.getBackground();
@@ -88,6 +84,11 @@ public class MainAlarm extends Activity {
 
             public void onFinish() {
                 secondsView.setText("Applying safety measures");
+                if (Configurations.isButtonVoiceRec() || Configurations.isCrashVoiceRec()){
+                    finishActivity(1);
+                }
+                vibratePhone();
+                Configurations.setButtonWaitingTime(HomeFragment.buttonHoldingTime);
                 startPanicMeasures();
 
             }
@@ -116,13 +117,17 @@ public class MainAlarm extends Activity {
 
         if (requestCode == 1  && resultCode == RESULT_OK) {
             ArrayList<String> thingsYouSaid = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            if(thingsYouSaid.get(0).compareTo("stop") == 0){
+            if(thingsYouSaid.get(0).contains("stop")){
                 finish();
             }
             else{
                 finishActivity(1);
                 voiceRecognitionStart();
             }
+        }
+        else{
+            finishActivity(1);
+            voiceRecognitionStart();
         }
     }
 

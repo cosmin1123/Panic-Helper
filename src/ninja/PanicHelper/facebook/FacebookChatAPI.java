@@ -15,7 +15,9 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ *  API for accessing the Facebook Chat
+ */
 public class FacebookChatAPI {
     private static String accessToken;
     private final String applicationKey = "582917665107934";
@@ -24,6 +26,7 @@ public class FacebookChatAPI {
         this.accessToken = accessToken;
     }
 
+    /* Method to send a message to a given list of Usernames */
     public void sendMessage(final String[] contactUsernames, final String message){
         (new AsyncTask<Void,Void,Void>() {
             @Override
@@ -71,6 +74,7 @@ public class FacebookChatAPI {
         return new XMPPConnection( configuration );
     }
 
+    /* Class required for connection through X-FACEBOOK-PLATFORM */
     public static class SASLXFacebookPlatformMechanism extends SASLMechanism
     {
         public static final String NAME = "X-FACEBOOK-PLATFORM";
@@ -185,7 +189,7 @@ public class FacebookChatAPI {
         }
     }
 
-    //We need to get the Facebook ID of the username with who we are trying to chat.
+    /* We need to get the Facebook ID of the username with who we are trying to chat. */
     private String getIdByUsername(String contactUsername){
         HttpURLConnection conn;
         BufferedReader rd;
