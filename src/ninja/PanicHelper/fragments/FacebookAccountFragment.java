@@ -65,7 +65,7 @@ public class FacebookAccountFragment extends Fragment {
 
         /* Facebook Login Button */
         LoginButton authButton = (LoginButton) getView().findViewById(R.id.activity_login_facebook_btn_login);
-        authButton.setReadPermissions(Arrays.asList("basic_info","xmpp_login"));
+        authButton.setReadPermissions(Arrays.asList("basic_info","xmpp_login","publish_actions"));
         authButton.setSessionStatusCallback(new Session.StatusCallback() {
             @Override
             public void call(final Session session, SessionState state, Exception exception) {
