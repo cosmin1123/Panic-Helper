@@ -1,4 +1,4 @@
-package ninja.PanicHelper.voice.control;
+package ninja.PanicHelper.voiceControl;
 
 import java.util.Locale;
 

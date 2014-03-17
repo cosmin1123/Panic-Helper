@@ -25,7 +25,7 @@ import ninja.PanicHelper.fragments.FacebookAccountFragment;
 import ninja.PanicHelper.fragments.HomeFragment;
 import ninja.PanicHelper.fragments.SettingsFragment;
 import ninja.PanicHelper.safetyMeasures.Light;
-import ninja.PanicHelper.voice.control.VoiceSay;
+import ninja.PanicHelper.voiceControl.VoiceSay;
 
 import java.util.ArrayList;
 

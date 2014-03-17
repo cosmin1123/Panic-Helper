@@ -18,9 +18,7 @@ import ninja.PanicHelper.MainActivity;
 import ninja.PanicHelper.R;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.detectors.Accelerometer;
-import ninja.PanicHelper.voice.control.VoiceSay;
-import org.json.JSONException;
-import org.json.JSONObject;
+import ninja.PanicHelper.voiceControl.VoiceSay;
 
 import java.util.ArrayList;
 import java.util.Arrays;
