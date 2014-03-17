@@ -1,4 +1,4 @@
-package ninja.PanicHelper.facebook;
+package ninja.PanicHelper.safetyMeasures;
 
 import android.os.AsyncTask;
 import de.measite.smack.Sasl;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 /**
  *  API for accessing the Facebook Chat
- */
+ **/
 public class FacebookChatAPI {
     private static String accessToken;
     private final String applicationKey = "582917665107934";

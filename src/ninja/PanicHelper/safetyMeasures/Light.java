@@ -6,10 +6,10 @@ import android.os.CountDownTimer;
 
 import java.io.IOException;
 
-/*
-The class for starting the light service.
-It works by starting a count down timer and turning the camera light on and off at a given interval.
- */
+/**
+ * The class for starting the light service.
+ * It works by starting a count down timer and turning the camera light on and off at a given interval.
+ **/
 public class Light {
     static Camera camera;
     private static boolean cameraOn = false;
@@ -21,7 +21,6 @@ public class Light {
         runninLight = false;
         if(cm != null)
             cm.cancel();
-
         if(camera == null)
             return;
         ledoff();
@@ -52,11 +51,9 @@ public class Light {
         camera.startPreview();
 
         cm = new CountDownTimer(secondsRemaining * 1000, 75) {
-
             public void onTick(long millisUntilFinished) {
                 toggleLed();
             }
-
             public void onFinish() {
                 ledoff();
             }
@@ -75,13 +72,11 @@ public class Light {
         p.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
         camera.setParameters(p);
         cameraOn = true;
-
     }
 
     public static void ledoff() {
         p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
         camera.setParameters(p);
-
         cameraOn = false;
     }
 }

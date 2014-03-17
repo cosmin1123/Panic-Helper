@@ -1,4 +1,4 @@
-package ninja.PanicHelper;
+package ninja.PanicHelper.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -9,15 +9,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import ninja.PanicHelper.contacts.ContactActivity;
+import ninja.PanicHelper.R;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.adapter.ListAdapter;
 
-/*
-The class for generating the emergency contacts fragment view.
- */
+/**
+ * The class for generating the emergency contacts fragment view.
+ **/
 public class EmergencyContactsFragment extends Fragment{
     public EmergencyContactsFragment(){}
-    public static EmergencyContactsFragment thisC;
+    public static EmergencyContactsFragment thisFragment;
     public static ListView list;
     public static Context context;
     public static Button addContact;
@@ -38,23 +40,21 @@ public class EmergencyContactsFragment extends Fragment{
         String[] values = Configurations.getContactNames();
         ListAdapter adapter = new ListAdapter(getView().getContext(),values);
         list.setAdapter(adapter);
-
-        thisC = this;
+        thisFragment = this;
 
         addContact = ((Button) getView().findViewById(R.id.add_contact_button));
-        //Listener pentru a porni activity add contacts. poti sa il rescrii cum vrei.
+        /* Listener to start activity for creating new contact */
         addContact.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(thisC.getView().getContext(), ContactActivity.class);
-                        thisC.startActivity(intent);
+                        Intent intent = new Intent(thisFragment.getView().getContext(), ContactActivity.class);
+                        thisFragment.startActivity(intent);
                     }
                 }
         );
 
         context = getView().getContext();
-
         if(values.length >= 5) {
             addContact.setEnabled(false);
         } else
@@ -62,6 +62,7 @@ public class EmergencyContactsFragment extends Fragment{
 
     }
 
+    /* Save configurations on closing the page*/
     @Override
     public void onStop() {
         super.onStop();

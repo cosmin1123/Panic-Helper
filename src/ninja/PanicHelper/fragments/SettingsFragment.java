@@ -1,17 +1,19 @@
-package ninja.PanicHelper;
+package ninja.PanicHelper.fragments;
 
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+import ninja.PanicHelper.MainActivity;
+import ninja.PanicHelper.R;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.configurations.SeekBarPreference;
 
 import java.util.HashMap;
 
 /*
-The class for generating the settings fragment view.
+ * The class for generating the settings fragment view.
  */
 public class SettingsFragment extends PreferenceFragment {
     public SettingsFragment() {
@@ -33,14 +35,14 @@ public class SettingsFragment extends PreferenceFragment {
     public EditTextPreference buttonMessage;
     public HashMap<String, Integer> seekBarHM;
 
+    /* Load the preferences from an XML resource */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Load the preferences from an XML resource
         addPreferencesFromResource(R.layout.fragment_settings);
     }
 
+    /* Load configurations settings from configuration file */
     @Override
     public void onStart() {
         super.onStart();
@@ -49,7 +51,7 @@ public class SettingsFragment extends PreferenceFragment {
 
     public void loadSettings() {
 
-        // Finding preferences:
+        /* Finding preferences */
         crashPref = (PreferenceCategory) findPreference("crashPref");
 
         crashServiceBox = (CheckBoxPreference) findPreference("crashService");
@@ -66,7 +68,7 @@ public class SettingsFragment extends PreferenceFragment {
         crashMessage = (EditTextPreference) findPreference("crashMessage");
         buttonMessage = (EditTextPreference) findPreference("buttonMessage");
 
-        // Loading initial settings:
+        /* Loading initial settings */
         crashServiceBox.setChecked(Configurations.isCrashServiceActivated());
         crashYellServiceBox.setChecked(Configurations.isCrashYellService());
         crashLightServiceBox.setChecked(Configurations.isCrashLightService());
@@ -83,12 +85,11 @@ public class SettingsFragment extends PreferenceFragment {
 
     }
 
-
+    /* Save configurations on closing the page*/
     @Override
     public void onStop() {
         super.onStop();
 
-        // Storing new value:
         Configurations.setCrashServiceActivated(crashServiceBox.isChecked());
         Configurations.setCrashYellService(crashYellServiceBox.isChecked());
         Configurations.setCrashLightService(crashLightServiceBox.isChecked());

@@ -11,10 +11,10 @@ import android.widget.Toast;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.detectors.Accelerometer;
 
-/*
-The class for sending sms messages to the list of persons defined by the user in
-the emergency contacts.
- */
+/**
+ * The class for sending sms messages to the list of persons defined by the user in
+ * the emergency contacts.
+ **/
 public class Sms extends Activity{
     static int currentSms = 1;
 
@@ -29,7 +29,7 @@ public class Sms extends Activity{
         PendingIntent deliveredPI = PendingIntent.getBroadcast(MainAlarm.alarmInstance, 0,
                 new Intent(DELIVERED), 0);
 
-        //---when the SMS has been sent---
+        /* when the SMS has been sent */
         MainAlarm.alarmInstance.getApplication().registerReceiver(new BroadcastReceiver(){
             @Override
             public void onReceive(Context arg0, Intent arg1) {
@@ -64,7 +64,7 @@ public class Sms extends Activity{
             }
         }, new IntentFilter(SENT));
 
-        //---when the SMS has been delivered---
+        /* when the SMS has been delivered */
         MainAlarm.alarmInstance.getApplication().registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context arg0, Intent arg1) {
@@ -87,7 +87,6 @@ public class Sms extends Activity{
             sms.sendTextMessage(phoneNumber, null, Configurations.getCrashMessage(), sentPI, deliveredPI);
         else
             sms.sendTextMessage(phoneNumber, null, Configurations.getButtonMessage(), sentPI, deliveredPI);
-
 
     }
 }

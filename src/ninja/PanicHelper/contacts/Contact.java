@@ -1,11 +1,11 @@
-package ninja.PanicHelper.configurations;
+package ninja.PanicHelper.contacts;
 
 import java.io.Serializable;
 
-/*
-The class that describes a contact  and the methods to contact that person
-phone, sms or private facebook message.
- */
+/**
+ * The class that describes a contact  and the methods to contact that person
+ * phone, sms or private facebook message.
+ **/
 public class Contact implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -24,7 +24,6 @@ public class Contact implements Serializable {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.facebookName = facebookName;
-
         this.callContact = callContact;
         this.sendSms = sendSms;
         this.sendPrivateMessage = sendPrivateMessage;

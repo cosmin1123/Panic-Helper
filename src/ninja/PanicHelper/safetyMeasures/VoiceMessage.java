@@ -7,31 +7,23 @@ import android.telephony.TelephonyManager;
 import ninja.PanicHelper.MainActivity;
 import ninja.PanicHelper.configurations.Configurations;
 
-/*
-The class for calling a list of persons defined by the user in the emergency contacts.
- */
+/**
+ * The class for calling a list of persons defined by the user in the emergency contacts.
+ **/
 public class VoiceMessage{
-    /*
-        How to start:
-                Intent d =     VoiceMessage.leaveMessage("0725025119");
-                startActivity(d);
-     */
     static int prevState = -1;
     static boolean callFinished = false;
     static int currentContact = 1;
 
     public static Intent leaveMessage(String telephoneNumber) {
         Intent intent = new Intent(Intent.ACTION_CALL);
-
         intent.setData(Uri.parse("tel:"+telephoneNumber));
-
         callFinished = false;
 
         TelephonyManager telephony = (TelephonyManager) MainActivity.getAppContext().
                 getSystemService(MainActivity.getAppContext().TELEPHONY_SERVICE);
         telephony.listen(new PhoneStateListener() {
             public void onCallStateChanged(int state, String incomingNumber) {
-
                 switch(state) {
                     case TelephonyManager.CALL_STATE_IDLE: {
                         if(prevState == TelephonyManager.CALL_STATE_OFFHOOK &&
@@ -51,7 +43,6 @@ public class VoiceMessage{
                 }
             }
         }, PhoneStateListener.LISTEN_CALL_STATE);
-
 
         return  intent;
     }

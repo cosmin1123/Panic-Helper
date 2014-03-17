@@ -19,7 +19,7 @@
                   android:launchMode="singleTask"
                   android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
         </activity>
-        <activity android:name=".ContactActivity"
+        <activity android:name=".contacts.ContactActivity"
                   android:label="Create Contact"
                   android:launchMode="singleTask"
                   android:theme="@style/PanicHelperTheme">

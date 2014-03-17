@@ -1,4 +1,4 @@
-package ninja.PanicHelper;
+package ninja.PanicHelper.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -12,14 +12,15 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
+import ninja.PanicHelper.R;
 import ninja.PanicHelper.configurations.Configurations;
 
 import java.util.Arrays;
 
-/*
-The class for generating the Facebook account fragment view and checking if the user
-is authenticated on facebook.
- */
+/**
+ * The class for generating the Facebook account fragment view and checking if the user
+ * is authenticated on facebook.
+ **/
 public class FacebookAccountFragment extends Fragment {
     private TextView loggedInName;
     public FacebookAccountFragment(){}
@@ -37,6 +38,7 @@ public class FacebookAccountFragment extends Fragment {
         super.onStart();
         loggedInName = (TextView) getView().findViewById(R.id.loggedin_name);
 
+        /* Check if Facebook session is still valid */
         if (Configurations.isLoggedIn()){
             Session session = Session.getActiveSession();
             if (session != null && session.isOpened()){
@@ -61,7 +63,7 @@ public class FacebookAccountFragment extends Fragment {
             loggedInName.setText("You are currently not logged in on Facebook");
         }
 
-        //Facebook Button
+        /* Facebook Login Button */
         LoginButton authButton = (LoginButton) getView().findViewById(R.id.activity_login_facebook_btn_login);
         authButton.setReadPermissions(Arrays.asList("basic_info","xmpp_login"));
         authButton.setSessionStatusCallback(new Session.StatusCallback() {
@@ -91,6 +93,7 @@ public class FacebookAccountFragment extends Fragment {
         });
     }
 
+    /* Save configurations on closing the page*/
     @Override
     public void onStop() {
         super.onStop();

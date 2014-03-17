@@ -1,16 +1,17 @@
-package ninja.PanicHelper;
+package ninja.PanicHelper.contacts;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+import ninja.PanicHelper.R;
 import ninja.PanicHelper.configurations.Configurations;
-import ninja.PanicHelper.configurations.Contact;
+import ninja.PanicHelper.contacts.Contact;
 
-/*
-The class for adding and editing contacts from the emergency contacts.
- */
+/**
+ * The class for adding and editing contacts from the emergency contacts.
+ **/
 public class ContactActivity extends Activity {
 
     public static Contact contact;
@@ -37,17 +38,16 @@ public class ContactActivity extends Activity {
             ((Switch)findViewById(R.id.switch2)).setChecked(contact.sendSms);
             ((Switch)findViewById(R.id.switch3)).setChecked(contact.sendPrivateMessage);
 
-            ((Switch)findViewById(R.id.switch1)).setSelected(contact.callContact);
-            ((Switch)findViewById(R.id.switch2)).setSelected(contact.sendSms);
-            ((Switch)findViewById(R.id.switch3)).setSelected(contact.sendPrivateMessage);
+            (findViewById(R.id.switch1)).setSelected(contact.callContact);
+            (findViewById(R.id.switch2)).setSelected(contact.sendSms);
+            (findViewById(R.id.switch3)).setSelected(contact.sendPrivateMessage);
         }
 
     }
 
     public void addContactsListeners() {
-
-        // save
-        ((Button) findViewById(R.id.button)).setOnClickListener(
+        /* Save contact */
+        (findViewById(R.id.button)).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -83,8 +83,9 @@ public class ContactActivity extends Activity {
 
                     }
                 });
-        // cancel
-        ((Button) findViewById(R.id.button2)).setOnClickListener(
+
+        /* Cancel */
+        (findViewById(R.id.button2)).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

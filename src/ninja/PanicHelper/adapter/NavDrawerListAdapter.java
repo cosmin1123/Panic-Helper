@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 /**
  *  Adapter for the Navigation Bar
- */
+ **/
 
 public class NavDrawerListAdapter extends BaseAdapter {
 	
@@ -57,5 +57,4 @@ public class NavDrawerListAdapter extends BaseAdapter {
         
         return convertView;
 	}
-
 }

@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import ninja.PanicHelper.ContactActivity;
-import ninja.PanicHelper.EmergencyContactsFragment;
+import ninja.PanicHelper.contacts.ContactActivity;
+import ninja.PanicHelper.fragments.EmergencyContactsFragment;
 import ninja.PanicHelper.R;
 import ninja.PanicHelper.configurations.Configurations;
 
@@ -61,9 +61,9 @@ public class ListAdapter extends ArrayAdapter<String> {
                 ContactActivity.contact = Configurations.getContactByName(name);
                 ContactActivity.contactPosition = Configurations.getContactPositionByName(name);
 
-                Intent intent = new Intent(EmergencyContactsFragment.thisC.getView().getContext(),
+                Intent intent = new Intent(EmergencyContactsFragment.thisFragment.getView().getContext(),
                         ContactActivity.class);
-                EmergencyContactsFragment.thisC.startActivity(intent);
+                EmergencyContactsFragment.thisFragment.startActivity(intent);
 
             }
         });
