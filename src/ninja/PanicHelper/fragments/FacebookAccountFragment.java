@@ -16,6 +16,8 @@ import ninja.PanicHelper.R;
 import ninja.PanicHelper.configurations.Configurations;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * The class for generating the Facebook account fragment view and checking if the user
@@ -65,12 +67,22 @@ public class FacebookAccountFragment extends Fragment {
 
         /* Facebook Login Button */
         LoginButton authButton = (LoginButton) getView().findViewById(R.id.activity_login_facebook_btn_login);
-        authButton.setReadPermissions(Arrays.asList("basic_info","xmpp_login","publish_actions"));
+        authButton.setReadPermissions(Arrays.asList("basic_info","xmpp_login"));
         authButton.setSessionStatusCallback(new Session.StatusCallback() {
             @Override
             public void call(final Session session, SessionState state, Exception exception) {
                 if (session.isOpened()) {
                     // make request to the /me API
+                    /* Check for publish permissions */
+                    List<String> permissions = session.getPermissions();
+                    List<String> PERMISSIONS = Arrays.asList("publish_actions");
+                    if (!isSubsetOf(PERMISSIONS, permissions)) {
+                        boolean pendingPublishReauthorization = true;
+                        Session.NewPermissionsRequest newPermissionsRequest = new Session
+                                .NewPermissionsRequest(getActivity(), PERMISSIONS);
+                        session.requestNewPublishPermissions(newPermissionsRequest);
+                        return;
+                    }
                     Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
                         // callback after Graph API response with user object
                         @Override
@@ -84,8 +96,7 @@ public class FacebookAccountFragment extends Fragment {
 
                         }
                     });
-                }
-                else{
+                } else {
                     Configurations.setLoggedIn(false);
                     loggedInName.setText("You are currently not logged in on Facebook");
                 }
@@ -93,6 +104,14 @@ public class FacebookAccountFragment extends Fragment {
         });
     }
 
+    private boolean isSubsetOf(Collection<String> subset, Collection<String> superset) {
+        for (String string : subset) {
+            if (!superset.contains(string)) {
+                return false;
+            }
+        }
+        return true;
+    }
     /* Save configurations on closing the page*/
     @Override
     public void onStop() {

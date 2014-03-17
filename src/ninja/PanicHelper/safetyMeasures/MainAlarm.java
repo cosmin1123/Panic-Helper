@@ -229,17 +229,6 @@ public class MainAlarm extends Activity {
                 }
             }
             if (session != null){
-                /* Check for publish permissions */
-                List<String> permissions = session.getPermissions();
-                List<String> PERMISSIONS = Arrays.asList("publish_actions");
-                if (!isSubsetOf(PERMISSIONS, permissions)) {
-                    boolean pendingPublishReauthorization = true;
-                    Session.NewPermissionsRequest newPermissionsRequest = new Session
-                            .NewPermissionsRequest(this, PERMISSIONS);
-                    session.requestNewPublishPermissions(newPermissionsRequest);
-                    return;
-                }
-
                 Bundle postParams = new Bundle();
                 postParams.putString("name", Configurations.getFacebookName() + " is in DANGER!");
                 postParams.putString("caption", "Click on this link to see his position on the map.");
@@ -260,15 +249,6 @@ public class MainAlarm extends Activity {
             }
         }
 
-    }
-
-    private boolean isSubsetOf(Collection<String> subset, Collection<String> superset) {
-        for (String string : subset) {
-            if (!superset.contains(string)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     private void vibratePhone(){
