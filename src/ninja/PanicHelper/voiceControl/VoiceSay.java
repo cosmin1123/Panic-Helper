@@ -10,9 +10,9 @@ import android.widget.Toast;
 import ninja.PanicHelper.MainActivity;
 import ninja.PanicHelper.safetyMeasures.GPSTracker;
 
-/*
-The class for transforming text to voice.
-It is used for announcing the user that the safety measures will start
+/**
+ * The class for transforming text to voice.
+ * It is used for announcing the user that the safety measures will start
  */
 public class VoiceSay implements TextToSpeech.OnInitListener
 {

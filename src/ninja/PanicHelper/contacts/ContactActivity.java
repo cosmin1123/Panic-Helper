@@ -76,9 +76,14 @@ public class ContactActivity extends Activity {
                                 Configurations.save();
                                 finish();
 
-                            }else
-                                Toast.makeText(getApplicationContext(),
+                            }else {
+                                if(name.length() == 0)
+                                    Toast.makeText(getApplicationContext(),
+                                         "Name can not be empty", Toast.LENGTH_LONG).show();
+                                else
+                                    Toast.makeText(getApplicationContext(),
                                         "This name already exists", Toast.LENGTH_LONG).show();
+                            }
                         contact = null;
 
                     }

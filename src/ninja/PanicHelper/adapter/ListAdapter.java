@@ -11,8 +11,8 @@ import ninja.PanicHelper.fragments.EmergencyContactsFragment;
 import ninja.PanicHelper.R;
 import ninja.PanicHelper.configurations.Configurations;
 
-/*
-It generates the list of contacts for Emergency contacts.
+/**
+ * It generates the list of contacts for Emergency contacts.
  */
 public class ListAdapter extends ArrayAdapter<String> {
     private final Context context;
