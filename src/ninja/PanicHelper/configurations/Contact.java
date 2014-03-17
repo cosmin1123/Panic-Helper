@@ -2,9 +2,9 @@ package ninja.PanicHelper.configurations;
 
 import java.io.Serializable;
 
-/*
-The class that describes a contact  and the methods to contact that person
-phone, sms or private facebook message.
+/**
+ * The class that describes a contact  and the methods to contact that person
+ * phone, sms or private facebook message.
  */
 public class Contact implements Serializable {
 

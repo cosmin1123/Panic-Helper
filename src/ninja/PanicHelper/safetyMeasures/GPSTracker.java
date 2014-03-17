@@ -12,9 +12,9 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import ninja.PanicHelper.MainActivity;
-/*
-The class that gets the current latitude and longitude and also, it can provide
-a link to google maps with the current latitude and longitude.
+/**
+ * The class that gets the current latitude and longitude and also, it can provide
+ * a link to google maps with the current latitude and longitude.
  */
 public class GPSTracker extends Service implements LocationListener {
 

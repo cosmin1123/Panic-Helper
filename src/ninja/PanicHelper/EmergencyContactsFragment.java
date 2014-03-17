@@ -12,8 +12,8 @@ import android.widget.*;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.adapter.ListAdapter;
 
-/*
-The class for generating the emergency contacts fragment view.
+/**
+ * The class for generating the emergency contacts fragment view.
  */
 public class EmergencyContactsFragment extends Fragment{
     public EmergencyContactsFragment(){}

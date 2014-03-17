@@ -7,8 +7,8 @@ import android.telephony.TelephonyManager;
 import ninja.PanicHelper.MainActivity;
 import ninja.PanicHelper.configurations.Configurations;
 
-/*
-The class for calling a list of persons defined by the user in the emergency contacts.
+/**
+ * The class for calling a list of persons defined by the user in the emergency contacts.
  */
 public class VoiceMessage{
     /*

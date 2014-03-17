@@ -10,8 +10,8 @@ import ninja.PanicHelper.configurations.SeekBarPreference;
 
 import java.util.HashMap;
 
-/*
-The class for generating the settings fragment view.
+/**
+ * The class for generating the settings fragment view.
  */
 public class SettingsFragment extends PreferenceFragment {
     public SettingsFragment() {

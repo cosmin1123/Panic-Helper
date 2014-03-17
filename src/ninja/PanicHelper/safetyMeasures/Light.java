@@ -6,9 +6,9 @@ import android.os.CountDownTimer;
 
 import java.io.IOException;
 
-/*
-The class for starting the light service.
-It works by starting a count down timer and turning the camera light on and off at a given interval.
+/**
+ * The class for starting the light service.
+ * It works by starting a count down timer and turning the camera light on and off at a given interval.
  */
 public class Light {
     static Camera camera;

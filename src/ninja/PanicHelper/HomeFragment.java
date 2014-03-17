@@ -21,8 +21,8 @@ import ninja.PanicHelper.safetyMeasures.MainAlarm;
 import ninja.PanicHelper.safetyMeasures.Sound;
 import org.w3c.dom.Text;
 
-/*
-The class for generating the home fragment view.
+/**
+ * The class for generating the home fragment view.
  */
 public class HomeFragment extends Fragment {
     public static View fragmentView;

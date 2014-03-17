@@ -16,8 +16,8 @@ import ninja.PanicHelper.R;
 
 import java.util.HashMap;
 
-/*
-Tge class for getting and modifying the information from the seek bars.
+/**
+ * The class for getting and modifying the information from the seek bars.
  */
 public class SeekBarPreference extends Preference implements OnSeekBarChangeListener {
 

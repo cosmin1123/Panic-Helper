@@ -12,10 +12,10 @@ import ninja.PanicHelper.MainActivity;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.safetyMeasures.MainAlarm;
 
-/*
-The class that detects the current acceleration and runs as a service in the background.
-When it detects an acceleration higher than a certain threshold it starts the main application and then
-it starts the main alarm, that will start the safety measures.
+/**
+ * The class that detects the current acceleration and runs as a service in the background.
+ * When it detects an acceleration higher than a certain threshold it starts the main application and then
+ * it starts the main alarm, that will start the safety measures.
  */
 public class Accelerometer extends Service implements SensorEventListener{
     private float mAccel; // acceleration apart from gravity

@@ -7,9 +7,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-/*
-The settings of the application and it saves the settings in a file
-when the application stops.
+/**
+ * The settings of the application and it saves the settings in a file
+ * when the application stops.
 */
 public class Configurations implements Serializable{
 

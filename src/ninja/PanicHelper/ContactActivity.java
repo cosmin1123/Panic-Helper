@@ -8,8 +8,8 @@ import android.widget.*;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.configurations.Contact;
 
-/*
-The class for adding and editing contacts from the emergency contacts.
+/**
+ * The class for adding and editing contacts from the emergency contacts.
  */
 public class ContactActivity extends Activity {
 

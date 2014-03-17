@@ -6,9 +6,9 @@ import android.media.MediaPlayer;
 import ninja.PanicHelper.MainActivity;
 import ninja.PanicHelper.R;
 
-/*
-The class for starting a predefined sound.
-The yell service
+/**
+ * The class for starting a predefined sound.
+ * The yell service
  */
 public class Sound {
 

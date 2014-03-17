@@ -16,9 +16,9 @@ import ninja.PanicHelper.configurations.Configurations;
 
 import java.util.Arrays;
 
-/*
-The class for generating the Facebook account fragment view and checking if the user
-is authenticated on facebook.
+/**
+ * The class for generating the Facebook account fragment view and checking if the user
+ * is authenticated on facebook.
  */
 public class FacebookAccountFragment extends Fragment {
     private TextView loggedInName;

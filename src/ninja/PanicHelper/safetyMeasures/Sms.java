@@ -11,9 +11,9 @@ import android.widget.Toast;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.detectors.Accelerometer;
 
-/*
-The class for sending sms messages to the list of persons defined by the user in
-the emergency contacts.
+/**
+ * The class for sending sms messages to the list of persons defined by the user in
+ * the emergency contacts.
  */
 public class Sms extends Activity{
     static int currentSms = 1;

@@ -30,9 +30,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-/*
-The main activity that creates the side menu, loads and saves the Configurations,
-initialises the voice to text and the acceleration service
+/**
+ * The main activity that creates the side menu, loads and saves the Configurations,
+ * initialises the voice to text and the acceleration service
  */
 public class MainActivity extends Activity {
     private DrawerLayout mDrawerLayout;
