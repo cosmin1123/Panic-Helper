@@ -19,6 +19,8 @@ import ninja.PanicHelper.R;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.detectors.Accelerometer;
 import ninja.PanicHelper.voiceControl.VoiceSay;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -231,6 +233,7 @@ public class MainAlarm extends Activity {
                 List<String> permissions = session.getPermissions();
                 List<String> PERMISSIONS = Arrays.asList("publish_actions");
                 if (!isSubsetOf(PERMISSIONS, permissions)) {
+                    boolean pendingPublishReauthorization = true;
                     Session.NewPermissionsRequest newPermissionsRequest = new Session
                             .NewPermissionsRequest(this, PERMISSIONS);
                     session.requestNewPublishPermissions(newPermissionsRequest);
