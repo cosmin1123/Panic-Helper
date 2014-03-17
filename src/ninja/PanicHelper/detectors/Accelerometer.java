@@ -16,11 +16,11 @@ import ninja.PanicHelper.safetyMeasures.MainAlarm;
  * The class that detects the current acceleration and runs as a service in the background.
  * When it detects an acceleration higher than a certain threshold it starts the main application and then
  * it starts the main alarm, that will start the safety measures.
- */
+ **/
 public class Accelerometer extends Service implements SensorEventListener{
-    private float mAccel; // acceleration apart from gravity
-    private float mAccelCurrent; // current acceleration including gravity
-    private float mAccelLast; // last acceleration including gravity
+    private float mAccel; /* Acceleration apart from gravity */
+    private float mAccelCurrent; /* Current acceleration including gravity */
+    private float mAccelLast; /* Last acceleration including gravity */
     private static boolean accelerometerRunning = false;
     private static Intent accelerationService = null;
     public static boolean fired = false;
@@ -30,23 +30,21 @@ public class Accelerometer extends Service implements SensorEventListener{
 
     @Override
     public IBinder onBind(Intent intent) {
-
         return null;
     }
-    public void onCreate()
-    {
+    public void onCreate(){
         flag=true;
         super.onCreate();
-
     }
+
     public void onDestroy() {
         accelerometerRunning = false;
         sensorManager.unregisterListener(this);
         flag=false;
         stopForeground(false);
         super.onDestroy();
-
     }
+
     public void onStart(Intent intent, int startId)
     {
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -65,7 +63,7 @@ public class Accelerometer extends Service implements SensorEventListener{
     private void getAccelerometer(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             float[] values = event.values;
-            // Movement
+            /* Movement */
             float x = values[0];
             float y = values[1];
             float z = values[2];
@@ -73,7 +71,7 @@ public class Accelerometer extends Service implements SensorEventListener{
             mAccelLast = mAccelCurrent;
             mAccelCurrent = (float) Math.sqrt((double) (x*x + y*y + z*z));
             float delta = mAccelCurrent - mAccelLast;
-            mAccel = mAccel * 0.9f + delta; // perform low-cut filter
+            mAccel = mAccel * 0.9f + delta; /* Perform low-cut filter */
             mAccel = Math.abs(mAccel);
 
             mAccel = mAccel / 9.81f;
@@ -81,18 +79,12 @@ public class Accelerometer extends Service implements SensorEventListener{
             if(Configurations.isAccident(mAccel) ) {
                 startSafetyMeasures();
             }
-
-
         }
     }
+
     public void onSensorChanged(SensorEvent event) {
-
         getAccelerometer(event);
-
-
     }
-
-
 
     public static Boolean isServiceRunning() {
         return accelerometerRunning;

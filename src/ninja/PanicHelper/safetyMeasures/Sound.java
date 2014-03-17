@@ -6,15 +6,14 @@ import android.media.MediaPlayer;
 import ninja.PanicHelper.MainActivity;
 import ninja.PanicHelper.R;
 
-/**
+/*
  * The class for starting a predefined sound.
  * The yell service
- */
+ **/
 public class Sound {
-
     private static MediaPlayer mp;
     private static boolean running = false;
-
+    /* Play sound */
     public static void start(Context context) {
         AudioManager audioManager = (AudioManager) MainActivity.getAppContext().getSystemService(Context.AUDIO_SERVICE);
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
@@ -31,7 +30,7 @@ public class Sound {
             running = false;
         }
     }
-
+    /* Stop sound */
     public static void stop(){
         if (mp != null) {
             mp.stop();

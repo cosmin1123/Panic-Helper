@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.Vibrator;
 import android.speech.RecognizerIntent;
 import android.view.View;
@@ -14,28 +13,28 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.facebook.*;
-import ninja.PanicHelper.HomeFragment;
+import ninja.PanicHelper.fragments.HomeFragment;
 import ninja.PanicHelper.MainActivity;
 import ninja.PanicHelper.R;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.detectors.Accelerometer;
-import ninja.PanicHelper.facebook.FacebookChatAPI;
-import ninja.PanicHelper.voice.control.VoiceSay;
-import org.json.JSONException;
-import org.json.JSONObject;
+import ninja.PanicHelper.voiceControl.VoiceSay;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ *  The activity that represents the Main Alarm when the Help Button has been pressed
+ *  or when a car accident has been detected.
+ **/
+
 public class MainAlarm extends Activity {
-    private static final int DELAY = 100;
     private TextView secondsView,titleView;
     private boolean colorChanged;
     private int secondsRemaining;
     private LinearLayout layout;
-    private Handler handler;
     public static MainAlarm alarmInstance;
     boolean said = false;
     boolean listened = false;
@@ -150,7 +149,7 @@ public class MainAlarm extends Activity {
     public void startPanicMeasures() {
         vibratePhone();
 
-        // Check if light service is activated
+        /* Check if light service is activated */
         if(Configurations.isButtonLightService() && !Accelerometer.fired) {
             Light.startWarningLight();
         }
@@ -159,7 +158,7 @@ public class MainAlarm extends Activity {
             Light.startWarningLight();
         }
 
-        // Check if yell service is activated
+        /* Check if yell service is activated */
         if(Configurations.isCrashYellService() && Accelerometer.fired) {
             Sound.start(MainActivity.getAppContext());
         }
@@ -168,7 +167,7 @@ public class MainAlarm extends Activity {
             Sound.start(MainActivity.getAppContext());
         }
 
-        // Post to Facebook wall
+        /* Post to Facebook wall */
         if (Configurations.isButtonPostOnWall() && !Accelerometer.fired){
             postToWall();
         }
@@ -177,17 +176,17 @@ public class MainAlarm extends Activity {
             postToWall();
         }
 
-        // Send Facebook Private Messages
+        /* Send Facebook Private Messages */
         if (Configurations.getContactFbUserNames().length > 0){
             sendFbMessages(Configurations.getContactFbUserNames());
         }
 
-        // Send sms
+        /* Send sms */
         if(Configurations.getSmsContactTelephoneNumbers().length >= 1) {
             Sms.sendSMS(Configurations.getSmsContactTelephoneNumbers()[0]);
         }
 
-        // Start calling
+        /* Start calling */
         if(Configurations.getCallContactTelephoneNumbers().length >= 1) {
             startActivityForResult(
                     VoiceMessage.leaveMessage(Configurations.getCallContactTelephoneNumbers()[0]), 2);
@@ -198,7 +197,7 @@ public class MainAlarm extends Activity {
         if (Configurations.isLoggedIn()){
             Session session = Session.getActiveSession();
             if(session==null){
-                // try to restore from cache
+                /* Try to restore from cache */
                 session = Session.openActiveSessionFromCache(this);
                 if (session == null){
                     return;
@@ -221,18 +220,17 @@ public class MainAlarm extends Activity {
         if (Configurations.isLoggedIn()){
             Session session = Session.getActiveSession();
             if(session==null){
-                // try to restore from cache
+                /* Try to restore from cache */
                 session = Session.openActiveSessionFromCache(this);
                 if (session == null){
                     return;
                 }
             }
             if (session != null){
-                // Check for publish permissions
+                /* Check for publish permissions */
                 List<String> permissions = session.getPermissions();
                 List<String> PERMISSIONS = Arrays.asList("publish_actions");
                 if (!isSubsetOf(PERMISSIONS, permissions)) {
-                    boolean pendingPublishReauthorization = true;
                     Session.NewPermissionsRequest newPermissionsRequest = new Session
                             .NewPermissionsRequest(this, PERMISSIONS);
                     session.requestNewPublishPermissions(newPermissionsRequest);
@@ -248,33 +246,11 @@ public class MainAlarm extends Activity {
                 else{
                     postParams.putString("description", Configurations.getButtonMessage());
                 }
-
                 postParams.putString("link", GPSTracker.getLocationLink());
                 postParams.putString("picture", "https://awareofyourcare.com/blog/wp-content/uploads/2011/03/Help-Button.jpg");
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("value", "SELF");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                postParams.putString("privacy",  jsonObject.toString());
-
-                Request.Callback callback= new Request.Callback() {
-                    public void onCompleted(Response response) {
-                        JSONObject graphResponse = response
-                                .getGraphObject()
-                                .getInnerJSONObject();
-                        String postId = null;
-                        try {
-                            postId = graphResponse.getString("id");
-                        } catch (JSONException e) {
-
-                        }
-                    }
-                };
 
                 Request request = new Request(session, "me/feed", postParams,
-                        HttpMethod.POST, callback);
+                        HttpMethod.POST);
 
                 RequestAsyncTask task = new RequestAsyncTask(request);
                 task.execute();
