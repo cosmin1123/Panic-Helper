@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.util.Log;
 import ninja.PanicHelper.MainActivity;
 /**
  * The class that gets the current latitude and longitude and also, it can provide
@@ -159,6 +160,7 @@ public class GPSTracker extends Service implements LocationListener {
     }
 
     public static String getLocationLink() {
+        Log.d("HAHAHA", "https://maps.google.ro/maps?q=" + getLatitude() + "," + getLongitude() + "&z=16");
         return  "https://maps.google.ro/maps?q=" + getLatitude() + "," + getLongitude() + "&z=16";
     }
 

@@ -146,6 +146,7 @@ public class MainAlarm extends Activity {
         Light.stopWarningLight();
         Sound.stop();
         HomeFragment.holdCounterTextView.setText("");
+        HomeFragment.buttonHold = false;
     }
 
     public void startPanicMeasures() {
