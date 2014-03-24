@@ -16,6 +16,7 @@ public class VoiceMessage{
     static int currentContact = 1;
 
     public static Intent leaveMessage(String telephoneNumber) {
+
         Intent intent = new Intent(Intent.ACTION_CALL);
         intent.setData(Uri.parse("tel:"+telephoneNumber));
         callFinished = false;
@@ -46,4 +47,6 @@ public class VoiceMessage{
 
         return  intent;
     }
+
+
 }
