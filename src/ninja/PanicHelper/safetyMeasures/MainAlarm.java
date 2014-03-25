@@ -4,28 +4,29 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.speech.RecognizerIntent;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.facebook.*;
-import ninja.PanicHelper.fragments.HomeFragment;
+import com.facebook.HttpMethod;
+import com.facebook.Request;
+import com.facebook.RequestAsyncTask;
+import com.facebook.Session;
 import ninja.PanicHelper.MainActivity;
 import ninja.PanicHelper.R;
 import ninja.PanicHelper.configurations.Configurations;
 import ninja.PanicHelper.detectors.Accelerometer;
+import ninja.PanicHelper.fragments.HomeFragment;
 import ninja.PanicHelper.voiceControl.VoiceSay;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 
 /**
  *  The activity that represents the Main Alarm when the Help Button has been pressed
@@ -125,7 +126,7 @@ public class MainAlarm extends Activity {
                 voiceRecognitionStart();
             }
         }
-        else{
+        else if(requestCode == 1){
             finishActivity(1);
             voiceRecognitionStart();
         }
@@ -185,18 +186,22 @@ public class MainAlarm extends Activity {
         }
 
         /* Send sms */
-        if(Configurations.getSmsContactTelephoneNumbers().length >= 1) {
+        if(Configurations.getSmsContactTelephoneNumbers().length >= 1 && isTelephonyAvaible()) {
             Sms.sendSMS(Configurations.getSmsContactTelephoneNumbers()[0]);
         }
 
         /* Start calling */
-        if(Configurations.getCallContactTelephoneNumbers().length >= 1) {
+        if(Configurations.getCallContactTelephoneNumbers().length >= 1 && isTelephonyAvaible()) {
             startActivityForResult(
                     VoiceMessage.leaveMessage(Configurations.getCallContactTelephoneNumbers()[0]), 2);
         }
     }
 
     private void sendFbMessages(String[] userNames){
+        if(!isNetworkAvailable()) {
+            return;
+        }
+
         if (Configurations.isLoggedIn()){
             Session session = Session.getActiveSession();
             if(session==null){
@@ -220,6 +225,9 @@ public class MainAlarm extends Activity {
     }
 
     private void postToWall() {
+        if(!isNetworkAvailable()) {
+            return;
+        }
         if (Configurations.isLoggedIn()){
             Session session = Session.getActiveSession();
             if(session==null){
@@ -240,7 +248,8 @@ public class MainAlarm extends Activity {
                     postParams.putString("description", Configurations.getButtonMessage());
                 }
                 postParams.putString("link", GPSTracker.getLocationLink());
-                postParams.putString("picture", "https://awareofyourcare.com/blog/wp-content/uploads/2011/03/Help-Button.jpg");
+                postParams.putString("picture",
+                        "https://awareofyourcare.com/blog/wp-content/uploads/2011/03/Help-Button.jpg");
 
                 Request request = new Request(session, "me/feed", postParams,
                         HttpMethod.POST);
@@ -255,5 +264,30 @@ public class MainAlarm extends Activity {
     private void vibratePhone(){
         Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
         v.vibrate(2000);
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        boolean networkStatus = activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        if(!networkStatus)
+            Toast.makeText(this, "No internet connection.",
+                    Toast.LENGTH_LONG).show();
+        return networkStatus;
+    }
+
+    private static boolean isTelephonyAvaible() {
+         TelephonyManager tel = (TelephonyManager) MainActivity.getAppContext().
+                 getSystemService(Context.TELEPHONY_SERVICE);
+         boolean telephonyStatus = ((tel.getNetworkOperator() != null &&
+                 tel.getNetworkOperator().equals("")) ? false : true);
+
+        if(!telephonyStatus){
+            Toast.makeText(MainAlarm.alarmInstance.getBaseContext(),
+                    "No Mobile Network Connection.", Toast.LENGTH_LONG).show();
+        }
+
+        return telephonyStatus;
     }
 }

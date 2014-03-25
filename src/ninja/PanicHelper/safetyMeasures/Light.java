@@ -3,8 +3,11 @@ package ninja.PanicHelper.safetyMeasures;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.os.CountDownTimer;
+import android.widget.Toast;
+import ninja.PanicHelper.MainActivity;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * The class for starting the light service.
@@ -40,6 +43,15 @@ public class Light {
         }
         else {
             stopWarningLight();
+            return;
+        }
+        if(!hasFlash()) {
+            if(MainAlarm.alarmInstance == null)
+                Toast.makeText(MainActivity.getAppContext(),
+                        "Can not start flash, no flash detected.", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(MainAlarm.alarmInstance.getBaseContext(),
+                        "Can not start flash, no flash detected.", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -78,5 +90,25 @@ public class Light {
         p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
         camera.setParameters(p);
         cameraOn = false;
+    }
+
+
+    private static boolean hasFlash() {
+        if (camera == null) {
+            return false;
+        }
+
+        if (p.getFlashMode() == null) {
+            return false;
+        }
+
+        List<String> supportedFlashModes = p.getSupportedFlashModes();
+        if (supportedFlashModes == null || supportedFlashModes.isEmpty() ||
+                supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(
+                        Camera.Parameters.FLASH_MODE_OFF)) {
+            return false;
+        }
+
+        return true;
     }
 }

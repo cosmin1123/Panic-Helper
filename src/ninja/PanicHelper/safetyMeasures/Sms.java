@@ -45,11 +45,11 @@ public class Sms extends Activity{
                                 Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                        Toast.makeText(MainAlarm.alarmInstance.getBaseContext(), "Generic failure",
+                        Toast.makeText(MainAlarm.alarmInstance.getBaseContext(), "Generic sms failure",
                                 Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_NO_SERVICE:
-                        Toast.makeText(MainAlarm.alarmInstance.getBaseContext(), "No service",
+                        Toast.makeText(MainAlarm.alarmInstance.getBaseContext(), "No network service",
                                 Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_NULL_PDU:
@@ -89,4 +89,5 @@ public class Sms extends Activity{
             sms.sendTextMessage(phoneNumber, null, Configurations.getButtonMessage(), sentPI, deliveredPI);
 
     }
+
 }
