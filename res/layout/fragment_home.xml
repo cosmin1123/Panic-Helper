@@ -57,11 +57,13 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="0dp" android:layout_weight="3">
+            android:layout_height="0dp" android:layout_weight="3" android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/border_table" android:layout_marginBottom="5dp">
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="0dp" android:layout_weight=".15" android:background="#B6B0B0"
+                android:layout_height="0dp" android:layout_weight=".15" android:background="#BABEBE"
                 android:baselineAligned="false">
             <TextView android:layout_width="0dp" android:layout_height="fill_parent" android:text="No."
                       android:id="@+id/textView13" android:layout_weight="1" android:gravity="center_vertical"
@@ -79,7 +81,7 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="0dp" android:layout_weight=".15" android:background="@drawable/border_table">
+                android:layout_height="0dp" android:layout_weight=".15" android:background="#E2E5E5">
             <TextView android:layout_width="0dp" android:layout_height="fill_parent" android:text="#1"
                       android:id="@+id/textView5" android:layout_weight="1" android:gravity="center_vertical"
                       android:textSize="17sp" android:textColor="#0E23C4"/>
@@ -101,7 +103,7 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="0dp" android:layout_weight=".15" android:background="@drawable/border_table">
+                android:layout_height="0dp" android:layout_weight=".15" android:background="#E2E5E5">
             <TextView android:layout_width="0dp" android:layout_height="fill_parent" android:text="#2"
                       android:id="@+id/textView7" android:layout_weight="1" android:gravity="center_vertical"
                       android:textSize="17sp" android:textColor="#0E23C4"/>
@@ -119,7 +121,7 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="0dp" android:layout_weight=".15" android:background="@drawable/border_table">
+                android:layout_height="0dp" android:layout_weight=".15" android:background="#E2E5E5">
             <TextView
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
@@ -143,7 +145,7 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="0dp" android:layout_weight=".15" android:background="@drawable/border_table">
+                android:layout_height="0dp" android:layout_weight=".15" android:background="#E2E5E5">
             <TextView android:layout_width="0dp" android:layout_height="fill_parent" android:text="#4"
                       android:id="@+id/textView9" android:layout_weight="1" android:gravity="center_vertical"
                       android:textSize="17sp" android:textColor="#0E23C4"/>
@@ -161,7 +163,7 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="0dp" android:layout_weight=".15" android:background="@drawable/border_table">
+                android:layout_height="0dp" android:layout_weight=".15" android:background="#E2E5E5">
             <TextView android:layout_width="0dp" android:layout_height="fill_parent" android:text="#5"
                       android:id="@+id/textView11" android:layout_weight="1" android:gravity="center_vertical"
                       android:textSize="17sp" android:textColor="#0E23C4" android:singleLine="false"/>
